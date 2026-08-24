@@ -1,0 +1,15 @@
+**/.*
+**/.*/
+
+# ####
+# KEEP
+# ####
+
+!.git-crypt/
+!.git-crypt/**
+!.obsidian/
+!.obsidian/**
+
+!**/.gitattributes
+!**/.gitignore
+!**/.gitkeep

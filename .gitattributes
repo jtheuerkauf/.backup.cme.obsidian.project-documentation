@@ -1,0 +1,69 @@
+# ----------------------------------------------------------------------
+# 1. Global / Default Settings
+# ----------------------------------------------------------------------
+# Handle line endings automatically for text files. 
+# Forces all text files to use LF (Linux) endings in the Git index, 
+# but normalizes them to native platform line endings on checkout.
+* text=auto eol=lf
+
+# ----------------------------------------------------------------------
+# 2. Linux / Unix Shell Scripts (Always force LF)
+# ----------------------------------------------------------------------
+*.sh            text eol=lf
+*.bash          text eol=lf
+*.zsh           text eol=lf
+
+# ----------------------------------------------------------------------
+# 3. Windows Batch / PowerShell Scripts (Always force CRLF)
+# ----------------------------------------------------------------------
+*.bat           text eol=crlf
+*.cmd           text eol=crlf
+*.ps1           text eol=crlf
+
+# ----------------------------------------------------------------------
+# 4. Common Code & Documentation Formats (Normalized to LF)
+# ----------------------------------------------------------------------
+*.html          text diff=html
+*.css           text diff=css
+*.scss          text
+*.js            text
+*.jsx           text
+*.ts            text
+*.tsx           text
+*.json          text
+*.yaml          text
+*.yml           text
+*.md            text
+*.txt           text
+*.xml           text
+*.sql           text
+
+# ----------------------------------------------------------------------
+# 5. Binaries & Media Assets (Strictly treat as binary, do not touch)
+# ----------------------------------------------------------------------
+*.png           binary
+*.jpg           binary
+*.jpeg          binary
+*.gif           binary
+*.ico           binary
+*.pdf           binary
+*.zip           binary
+*.gz            binary
+*.tar           binary
+*.mp4           binary
+*.mov           binary
+
+# ----------------------------------------------------------------------
+# 6. Archive / Export Exclusions
+# ----------------------------------------------------------------------
+# Exclude repo-specific development files when doing a 'git archive'
+.gitattributes  export-ignore
+.gitignore      export-ignore
+.editorconfig   export-ignore
+
+# ----------------------------------------------------------------------
+# 7. Files managed by git-crypt
+# ----------------------------------------------------------------------
+# Matches files are likely to contain secrets, but can't be ignored.
+#*.key    
+.obsidian/plugins/**/data.json      diff=git-crypt filter=git-crypt
