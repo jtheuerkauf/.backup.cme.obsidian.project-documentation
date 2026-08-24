@@ -1,0 +1,281 @@
+{
+  "editor:table-col-before": [
+    {
+      "modifiers": [
+        "Mod",
+        "Meta"
+      ],
+      "key": "Numpad4"
+    }
+  ],
+  "editor:table-col-after": [
+    {
+      "modifiers": [
+        "Mod",
+        "Meta"
+      ],
+      "key": "Numpad6"
+    }
+  ],
+  "editor:table-row-before": [
+    {
+      "modifiers": [
+        "Mod",
+        "Meta"
+      ],
+      "key": "Numpad8"
+    }
+  ],
+  "editor:table-row-after": [
+    {
+      "modifiers": [
+        "Mod",
+        "Meta"
+      ],
+      "key": "Numpad2"
+    }
+  ],
+  "editor:table-col-align-center": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod"
+      ],
+      "key": "E"
+    }
+  ],
+  "editor:table-col-align-left": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod"
+      ],
+      "key": "L"
+    }
+  ],
+  "editor:table-col-align-right": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod"
+      ],
+      "key": "R"
+    }
+  ],
+  "editor:table-col-copy": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod",
+        "Meta"
+      ],
+      "key": "Numpad3"
+    }
+  ],
+  "editor:table-row-copy": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod",
+        "Meta"
+      ],
+      "key": "Numpad1"
+    }
+  ],
+  "editor:table-row-delete": [
+    {
+      "modifiers": [
+        "Alt",
+        "Meta"
+      ],
+      "key": "Numpad7"
+    }
+  ],
+  "editor:table-col-delete": [
+    {
+      "modifiers": [
+        "Alt",
+        "Meta"
+      ],
+      "key": "Numpad9"
+    }
+  ],
+  "editor:table-col-left": [
+    {
+      "modifiers": [
+        "Alt",
+        "Meta"
+      ],
+      "key": "Numpad4"
+    }
+  ],
+  "editor:table-col-right": [
+    {
+      "modifiers": [
+        "Alt",
+        "Meta"
+      ],
+      "key": "Numpad6"
+    }
+  ],
+  "editor:table-row-down": [
+    {
+      "modifiers": [
+        "Alt",
+        "Meta"
+      ],
+      "key": "Numpad2"
+    }
+  ],
+  "editor:table-row-up": [
+    {
+      "modifiers": [
+        "Alt",
+        "Meta"
+      ],
+      "key": "Numpad8"
+    }
+  ],
+  "editor:toggle-code": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "/"
+    }
+  ],
+  "editor:set-heading-1": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "1"
+    }
+  ],
+  "editor:set-heading-2": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "2"
+    }
+  ],
+  "editor:set-heading-3": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "3"
+    }
+  ],
+  "editor:set-heading-4": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "4"
+    }
+  ],
+  "editor:set-heading-5": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "5"
+    }
+  ],
+  "editor:set-heading-6": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "6"
+    }
+  ],
+  "command-palette:open": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "/"
+    }
+  ],
+  "editor:toggle-blockquote": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "."
+    }
+  ],
+  "editor:toggle-bullet-list": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "8"
+    }
+  ],
+  "editor:toggle-numbered-list": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "7"
+    }
+  ],
+  "editor:insert-table": [
+    {
+      "modifiers": [
+        "Mod",
+        "Meta"
+      ],
+      "key": "\\"
+    }
+  ],
+  "editor:insert-codeblock": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "`"
+    }
+  ],
+  "editor:insert-callout": [
+    {
+      "modifiers": [
+        "Mod",
+        "Meta"
+      ],
+      "key": "Numpad0"
+    }
+  ],
+  "editor:indent-list": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "]"
+    }
+  ],
+  "editor:unindent-list": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "["
+    }
+  ],
+  "editor:toggle-strikethrough": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "-"
+    }
+  ]
+}

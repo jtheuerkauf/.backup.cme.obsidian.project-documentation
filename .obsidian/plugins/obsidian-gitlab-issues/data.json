@@ -1,0 +1,13 @@
+{
+  "gitlabUrl": "https://gitlab.com",
+  "gitlabToken": "glpat-qODmljyTrL6xCDQ6_ku-fGM6MQpvOjEKdTptZ2s2bg8.01.170dgfi5g",
+  "gitlabIssuesLevel": "group",
+  "gitlabAppId": "76041422",
+  "templateFile": "",
+  "outputDir": "/Gitlab Issues/",
+  "filter": "state=opened&assignee_username=jtheuerkauf.cme",
+  "showIcon": true,
+  "purgeIssues": true,
+  "refreshOnStartup": true,
+  "intervalOfRefresh": "30"
+}
