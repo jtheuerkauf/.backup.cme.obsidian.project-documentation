@@ -4,9 +4,9 @@
     "modifiedAt": "2026-08-22T00:15:10.998Z"
   },
   "profileUpdate": true,
-  "profileUpdateDelay": 800,
+  "profileUpdateDelay": 5000,
   "uiUpdate": true,
-  "uiUpdateInterval": 1000,
+  "uiUpdateInterval": 5000,
   "devices": {
     "60c1632656376f0d8d7ad90f1e7229455c32bb4d7ad11acd39bf0803d051493b": "C:\\Users\\jtheuerkauf\\.local\\store\\obsidian\\Profiles"
   },
