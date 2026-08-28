@@ -1,0 +1,4 @@
+{
+  "types": "note, info, tip, warn, fixme, hack",
+  "metaTypes": "no-icon, no-title"
+}
