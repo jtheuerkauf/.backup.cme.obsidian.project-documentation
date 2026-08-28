@@ -30,23 +30,8 @@
               "icon": "lucide-file",
               "title": "Meeting Questions"
             }
-          },
-          {
-            "id": "a85c28dc2b217814",
-            "type": "leaf",
-            "state": {
-              "type": "split-diff-view",
-              "state": {
-                "aFile": ".obsidian/plugins/callout-menu/data.json",
-                "bFile": ".obsidian/plugins/callout-menu/data.json",
-                "aRef": ""
-              },
-              "icon": "diff",
-              "title": "Diff: data.json  (Working Tree)"
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -193,16 +178,6 @@
             }
           },
           {
-            "id": "f162901f64b79902",
-            "type": "leaf",
-            "state": {
-              "type": "git-view",
-              "state": {},
-              "icon": "git-pull-request",
-              "title": "Source Control"
-            }
-          },
-          {
             "id": "3f70c6ea0986d482",
             "type": "leaf",
             "state": {
@@ -217,7 +192,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 561.5
+    "width": 529.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -232,7 +207,7 @@
       "obsidian-gitlab-issues:Gitlab Issues": false
     }
   },
-  "active": "f162901f64b79902",
+  "active": "fc0b21bf5c786bff",
   "lastOpenFiles": [
     "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Sean's Toolset Notes.md",
     "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Meetings/2026-08-27 BCD Contact Visibility in Project Object.md",
