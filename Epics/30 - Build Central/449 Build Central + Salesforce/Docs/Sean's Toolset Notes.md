@@ -12,15 +12,15 @@ Two primary user-facing tools for now:
 
 ### Data Properties
 #### =={term}Linking==
-- A BC Project =={data}is linked== to SF Account/Project
-- Includes contingent SFA/SFP =={functional}creation== for the =={data}link==
+- A BC Project =={data}is linked== to SF Account/Project (existing or created), which must be approved.
 #### =={term}Assigning==
-- Project =={data}is assigned== to AM by Director
+- Project =={data}is assigned== to AM by Director, which must be approved.
 #### =={term}Claiming==
-- Account Manager =={data}self-assigns== a Project
+- Account Manager =={data}self-assigns== a Project, which must be approved.
 #### =={term}Approving==
+- Sales Director *approves* SF Account/Project links
 - Sales Director *approves* Account Manager claims
-- Sales Director *approves*
+- Sales VP *approves* Projects to move forward and Sales Directors' assignments
 
 ### Qualifying Criteria 
 #### Workflow Criteria ^workflow-inclusion-criteria
@@ -39,7 +39,7 @@ Data points that permit a BC Project to be viewed for automatic workflow inclusi
 ##### 1. =={view}Needs Account Link==
 - Shows BuildCentral projects that meet the [ standard CME criteria](#^workflow-inclusion-criteria) but are not yet linked to a SFA.
 	- This should be a constant working queue, ***not*** something that only appears quarterly.
-- A set of [matching criteria](#^matching-criteria) determines =={functional}automatic matches==, the remaining are left to be manually paired with existing or new SFA.
+- A set of [matching criteria](#^matching-criteria) determines =={functional}automatic matches==, the remaining are left to be =={functional}manually paired with existing or new SFA==.
 - As new qualifying projects come in, they should appear here automatically.
 - **Once =={data}linked to a SF Account==, =={rule}BCP leaves this queue==.**  
 
@@ -93,9 +93,9 @@ Use different views and permissions rather than building two separate tools.
 - BuildCentral projects should exist in the system continuously.
 - The quarterly process should not control whether the project exists.
 - The quarterly process should determine when eligible linked projects are sent through Sales Director and VP review.
-- At the start of each quarter, Sales Directors should be notified that projects are ready for assignment.
+- At the start of each quarter, Sales Directors should be =={functional}notified that projects are ready== for assignment.
 - After assignment, the projects should automatically become available to the appropriate VP.
-- User selected projects should go through the same review process.
+- Claimed projects should go through the same review process.
 - Once approved by the VP, the project can move to Salesforce opportunity creation or update.
 
 ### Salesforce completion
@@ -139,54 +139,42 @@ Use different views and permissions rather than building two separate tools.
 - Most of this functionality already exists but the dataset and workflow may need adjustment.
 - Store the account association in CME records so it does not need to be determined again later.
 
-General direction:
-
-Search, linking, claiming, and history are different states and actions around the same BuildCentral project, so they should remain in one tool.  
-Sales Director assignment and VP approval are different stages of the same sales review process, so they should remain in one tool.  
-Avoid creating separate tools for every step in the workflow.  
-The user should primarily think of this as a Project Workbench and a Sales Review Workbench.
-
-Lets talk this through after standup and we can hopefully get the core outline done and your tickets laid out.
-
-Nothing here is too declarative if you already have some better ideas we can walk what you have but if not I've got a throughline now at least.
+## General direction
+- Search, linking, claiming, and history are different states and actions around the same BuildCentral project, so they should remain in one tool.
+- Sales Director assignment and VP approval are different stages of the same sales review process, so they should remain in one tool.
+- Avoid creating separate tools for every step in the workflow.
+- The user should primarily think of this as a Project Workbench and a Sales Review Workbench.
 
 ---
 ## Supplemental Notes
 
-Ryan may create accounts but many times he will simply be linking them. For account creation we will want to understand what fields he uses to create them, things like how does he know what AM will own it etc.
+He does not create or assign projects really. =={rule}The VP authorizes creating the SF Project once they approve of the assignment suggested by the Director.==
 
-He does not create or assign projects really, that is what the VP step will be, once they approve of the assignment suggested by the director, we create the project.
-
-This flow write up is better than what I said above. 
-
-Basic BuildCentral Flow:
-
+### Basic BuildCentral Flow
 - We sync BuildCentral project data into our system.
-- Ryan / Assignment Tool:
+### Ryan / Assignment Tool
 - Ryan reviews new qualifying BuildCentral projects.
 - Ryan links each BuildCentral project to the appropriate Salesforce account.
-- If the correct Salesforce account does not exist, a new account can be created as part of the process.
-- Quarterly Sales Director Assignment:
+	- If the correct Salesforce account does not exist, a new account can be created as part of the process.
+### Quarterly Sales Director Assignment
 - Sales Directors are notified quarterly when BuildCentral projects are ready for assignment.
-- Sales Directors are presented with projects that clearly fall within their territory based on project address.
+- Sales Directors are presented with projects that =={rule}clearly fall within their territory== based on project address.
 - Sales Directors assign an Account Manager under them to each BuildCentral project.
-- Projects that cannot be clearly assigned by territory can be reviewed and assigned manually.
-- VP Approval:
+- Projects that cannot be =={rule}clearly assigned by territory== can be =={functional}reviewed and assigned manually==. =={question}**By whom?**==
+### VP Approval
 - Once a Sales Director has completed their assignments, the appropriate VP is notified that projects are ready for approval.
 - The VP reviews the proposed project, account, and Account Manager assignments.
 - The VP approves or rejects the projects.
-- Salesforce Creation:
-- Once approved by the VP, the BuildCentral project is created as an opportunity in Salesforce.
+### Salesforce Creation
+- Once approved by the VP, the BuildCentral project is created as an Opportunity in Salesforce.
 - The Salesforce account, Account Manager, Sales Director, VP, and other required project information are linked to the opportunity.
 - The Salesforce opportunity ID and completed assignment information are stored back in our records.
 - Completed projects no longer appear in the active assignment tools but remain available for historical review.
-
-Self-Service Project Assignment:
-
-- Users can search BuildCentral for smaller or otherwise non-qualifying projects that were not automatically brought into the normal assignment queue.
+### Self-Service Project Assignment
+- Users =={question}(Account Managers?)== can search BuildCentral for smaller or otherwise non-qualifying projects that were not automatically brought into the normal assignment queue.
 - A user can select and claim one of these projects for themselves.
-- Self-assigned projects are allowed as long as the user does not exceed a defined project threshold, with the threshold still TBD.
-- The project must still be linked to the appropriate Salesforce account.
+- Self-assigned projects are allowed as long as the user =={rule}does not exceed a defined project threshold==, with the threshold still TBD.
+- The project =={rule}must still be linked== to the appropriate Salesforce account.
 - Once claimed, the project is placed onto the appropriate Sales Director's board.
 - From that point forward, it follows the normal process.
 - Sales Director reviews the assignment.
