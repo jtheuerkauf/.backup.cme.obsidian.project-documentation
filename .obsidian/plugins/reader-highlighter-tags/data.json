@@ -1,0 +1,88 @@
+{
+  "toolbarPosition": "top",
+  "enableColorHighlighting": true,
+  "highlightColor": "#d1c4e9",
+  "defaultTagPrefix": "",
+  "enableHaptics": true,
+  "showTagButton": true,
+  "showRemoveButton": true,
+  "showQuoteButton": true,
+  "enableColorPalette": true,
+  "showOnlyAssignedColors": true,
+  "semanticColors": [
+    {
+      "color": "#FFCDD2",
+      "meaning": "Important"
+    },
+    {
+      "color": "#F8BBD0",
+      "meaning": "Question/Clarification"
+    },
+    {
+      "color": "#E1BEE7",
+      "meaning": ""
+    },
+    {
+      "color": "#D1C4E9",
+      "meaning": ""
+    },
+    {
+      "color": "#C5CAE9",
+      "meaning": ""
+    },
+    {
+      "color": "#BBDEFB",
+      "meaning": "Vocabulary"
+    },
+    {
+      "color": "#B3E5FC",
+      "meaning": ""
+    },
+    {
+      "color": "#B2EBF2",
+      "meaning": ""
+    },
+    {
+      "color": "#B2DFDB",
+      "meaning": ""
+    },
+    {
+      "color": "#C8E6C9",
+      "meaning": "Key Concept"
+    },
+    {
+      "color": "#DCEDC8",
+      "meaning": ""
+    },
+    {
+      "color": "#F0F4C0",
+      "meaning": ""
+    },
+    {
+      "color": "#FFF9C4",
+      "meaning": "General"
+    },
+    {
+      "color": "#FFECB3",
+      "meaning": ""
+    },
+    {
+      "color": "#FFE0B2",
+      "meaning": ""
+    }
+  ],
+  "quoteTemplate": "> {{text}}\n>\n> — [[{{file}}]]",
+  "enableAnnotations": true,
+  "showAnnotationButton": true,
+  "enableReadingProgress": true,
+  "readingPositions": {},
+  "enableSmartTagSuggestions": true,
+  "recentTags": [],
+  "maxRecentTags": 10,
+  "showNavigatorButton": true,
+  "showTooltips": true,
+  "enableFrontmatterTag": true,
+  "frontmatterTag": "highlights",
+  "enableSmartParagraphSelection": false,
+  "learnedNormRules": []
+}

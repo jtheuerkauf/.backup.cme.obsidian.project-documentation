@@ -7,7 +7,7 @@ Two primary user-facing tools for now:
 ### BuildCentral Project Workbench
 
 - This should be the main place to work with BuildCentral projects.
-- The <mark class="hltr-blue">linking</mark>, searching, <mark class="hltr-blue">claiming</mark>, and historical review should all live in the same tool.  
+- The linking, searching, claiming, and historical review should all live in the same tool.  
 - The core item is always a BuildCentral project, so these should be different views or filters rather than separate tools.
 
 ### Data Properties
@@ -15,20 +15,20 @@ Two primary user-facing tools for now:
 - Associating a BC Project with SF Account/Project
 - Includes contingent SFA/SFP creation
 #### Claiming
-- ***(?)*** Account Manager self-assigns a Project
+- Account Manager self-assigns a Project
 #### Assigning
-- ***(?)*** Project is assigned to AM by Director
+- Project is assigned to AM by Director
 
 
 #### Qualifying Criteria
 #### Primary views:
 
-##### <mark class="hltr-pink">*Define View Criteria*</mark>
+##### Define View Criteria
 
 *The separation of these views is based on "standard" parameters that automatically qualify for project workflow, and the ability to search outside those parameters for projects to bring into the workflow.*
 
 ##### 1. Needs Account Link
-- Shows BuildCentral projects that meet the <mark class="hltr-orange">standard</mark> CME criteria but are not yet linked to a SFA.
+- Shows BuildCentral projects that meet the standard CME criteria but are not yet linked to a SFA.
 	- This should be a constant working queue, ***not*** something that only appears quarterly.
 - A set of <mark class="hltr-pink">matching criteria determine automatic matches</mark>, the remaining are left to be manually paired with existing or new SFA.
 - As new <mark class="hltr-orange">qualifying</mark> projects come in, they should appear here automatically.
@@ -54,19 +54,18 @@ Two primary user-facing tools for now:
 - Allows users to search projects that already went through the process.
 - Completed projects should not continue appearing in active work queues. They should remain available here for future review.
 
-Project detail:
+##### 6. Project detail:
+- All views should use the same project detail page.
+- Show the BuildCentral project information.
+- Show why the project qualified for CME review.
+- Show whether it was automatically selected or manually selected.
+- Show Salesforce account association.
+- Show assigned Account Manager if one exists.
+- Show Sales Director and VP review information.
+- Show Salesforce opportunity information once created.
+- Show a history of actions taken on the project.
 
-All views should use the same project detail page.  
-Show the BuildCentral project information.  
-Show why the project qualified for CME review.  
-Show whether it was automatically selected or manually selected.  
-Show Salesforce account association.  
-Show assigned Account Manager if one exists.  
-Show Sales Director and VP review information.  
-Show Salesforce opportunity information once created.  
-Show a history of actions taken on the project.
-
-Account association:
+##### 7. Account association:
 
 Search Salesforce accounts from the project.  
 Link the BuildCentral project to an existing account.  

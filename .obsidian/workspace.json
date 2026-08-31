@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Meeting Questions.md",
+                "file": "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Sean's Toolset Notes.md",
                 "mode": "source",
                 "source": false,
                 "backlinks": true,
@@ -28,7 +28,7 @@
                 }
               },
               "icon": "lucide-file",
-              "title": "Meeting Questions"
+              "title": "Sean's Toolset Notes"
             }
           }
         ]
@@ -178,16 +178,6 @@
             }
           },
           {
-            "id": "3f70c6ea0986d482",
-            "type": "leaf",
-            "state": {
-              "type": "highlightr-notes-view",
-              "state": {},
-              "icon": "sticky-note",
-              "title": "Highlights & Notes"
-            }
-          },
-          {
             "id": "294dd2e05dc6e37d",
             "type": "leaf",
             "state": {
@@ -196,9 +186,19 @@
               "icon": "git-pull-request",
               "title": "Source Control"
             }
+          },
+          {
+            "id": "d49c64c46b5d5177",
+            "type": "leaf",
+            "state": {
+              "type": "highlight-navigator",
+              "state": {},
+              "icon": "lamp",
+              "title": "Highlights"
+            }
           }
         ],
-        "currentTab": 6
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
@@ -214,11 +214,13 @@
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
       "bases:Create new base": false,
-      "obsidian-gitlab-issues:Gitlab Issues": false
+      "obsidian-gitlab-issues:Gitlab Issues": false,
+      "reader-highlighter-tags:Highlight navigator": false
     }
   },
-  "active": "3f70c6ea0986d482",
+  "active": "294dd2e05dc6e37d",
   "lastOpenFiles": [
+    "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Meeting Questions.md",
     "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Sean's Toolset Notes.md",
     "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Meetings/2026-08-27 BCD Contact Visibility in Project Object.md",
     "Epics/30 - Build Central/nr-449-part-2 (ticket ID tbd)/UI Concerns/UI will require overhaul.md",
@@ -229,7 +231,6 @@
     "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Meetings/20260827 BCD Contact Visibility in Project Object.md",
     "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Meetings/20260819-transcript.md",
     "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Meetings",
-    "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Meeting Questions.md",
     "Gitlab Issues/In-team demo feedback.md",
     "Gitlab Issues/Replace -sail- user with -cruise-.md",
     "Gitlab Issues/Refactor Build Central Toolset.md",
