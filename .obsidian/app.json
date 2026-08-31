@@ -5,5 +5,12 @@
   "showUnsupportedFiles": true,
   "useMarkdownLinks": true,
   "deleteUnlinkedAttachments": "never",
-  "trashOption": "local"
+  "trashOption": "local",
+  "pdfExportSettings": {
+    "includeName": false,
+    "pageSize": "Letter",
+    "landscape": false,
+    "margin": "0",
+    "downscalePercent": 100
+  }
 }
