@@ -7,28 +7,31 @@ Two primary user-facing tools for now:
 ### BuildCentral Project Workbench
 
 - This should be the main place to work with BuildCentral projects.
-- The linking, searching, claiming, and historical review should all live in the same tool.  
+	- The =={requirement}linking==, =={requirement}searching==, =={requirement}claiming==, and =={requirement}historical review== should all live in the same tool.  
 - The core item is always a BuildCentral project, so these should be different views or filters rather than separate tools.
 
 ### Data Properties
-#### Linking
-- Associating a BC Project with SF Account/Project
-- Includes contingent SFA/SFP creation
-#### Claiming
-- Account Manager self-assigns a Project
-#### Assigning
-- Project is assigned to AM by Director
+#### =={functional}Linking==
+- A BC Project =={data}is linked== to SF Account/Project
+- Includes contingent SFA/SFP =={functional}creation== for the =={data}link==
+#### =={functional}Assigning==
+- Project =={data}is assigned== to AM by Director
+#### =={functional}Claiming==
+- Account Manager =={data}self-assigns== a Project
 
 
 #### Qualifying Criteria
+Data points that permit a BC Project to be viewed for automatic workflow inclusion:
+=={question}Currently Unknown==
+
 #### Primary views:
 
 ##### Define View Criteria
 
 *The separation of these views is based on "standard" parameters that automatically qualify for project workflow, and the ability to search outside those parameters for projects to bring into the workflow.*
 
-##### 1. Needs Account Link
-- Shows BuildCentral projects that meet the standard CME criteria but are not yet linked to a SFA.
+##### 1. =={view}Needs Account Link==
+- Shows BuildCentral projects that meet the [[standard CME criteria|]] but are not yet linked to a SFA.
 	- This should be a constant working queue, ***not*** something that only appears quarterly.
 - A set of <mark class="hltr-pink">matching criteria determine automatic matches</mark>, the remaining are left to be manually paired with existing or new SFA.
 - As new <mark class="hltr-orange">qualifying</mark> projects come in, they should appear here automatically.

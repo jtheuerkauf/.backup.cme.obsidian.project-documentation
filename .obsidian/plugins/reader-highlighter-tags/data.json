@@ -1,7 +1,7 @@
 {
-  "toolbarPosition": "top",
+  "toolbarPosition": "text",
   "enableColorHighlighting": true,
-  "highlightColor": "#d1c4e9",
+  "highlightColor": "#fffda2",
   "defaultTagPrefix": "",
   "enableHaptics": true,
   "showTagButton": true,
