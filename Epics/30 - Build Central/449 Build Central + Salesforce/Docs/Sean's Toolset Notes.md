@@ -18,6 +18,9 @@ Two primary user-facing tools for now:
 - Project =={data}is assigned== to AM by Director
 #### =={term}Claiming==
 - Account Manager =={data}self-assigns== a Project
+#### =={term}Approving==
+- Sales Director *approves* Account Manager claims
+- Sales Director *approves*
 
 ### Qualifying Criteria 
 #### Workflow Criteria ^workflow-inclusion-criteria
@@ -60,8 +63,66 @@ Data points that permit a BC Project to be viewed for automatic workflow inclusi
 - Allows users to search =={data}projects that completed the process==.
 - =={rule}Completed projects should not continue appearing in active work queues==. They should remain available here for future review.
 
+#### Executive Review Workbench
+Sales Director assignment and VP approval should be the same core tool.  
+They are both working with the same project and the same review process.  
+The main difference is the user's role and which projects require their action.  
+Use different views and permissions rather than building two separate tools.
+
+##### =={question}Questions==
+1. Should Director be expected to create SF Account/Project or should that already be handled before this point?
+2. If the latter, should the Director's queue exclude BCP with missing SF links? Or show but prevent forward progress (kick back to peons)?
+
+##### 1. =={view}Sales Director view==
+- Shows projects that are =={rule}ready for Account Manager assignment==.
+- These projects =={rule}should already be linked to Salesforce accounts==.
+- Include both =={data}automatically and manually selected projects==.
+- =={rule}Sales Directors assign== the appropriate Account Manager.
+- =={functional}Allow reassignment== where necessary.
+- =={rule}Project moves out of the Director's active queue when AM is assigned==.
+- Bulk assignment may be helpful depending on the number of projects.
+
+##### 2. =={view}VP view==
+- Shows projects that have =={rule}completed the Sales Director assignment== step.
+- Show the =={data}BC Project==, =={data}SF Account==, assigned =={data}Account Manager==, =={data}Sales Director==, =={data}project value==, =={data}dates==, and whether the project was =={data}automatic or user selected==.
+- VP can =={data}approve / reject== the project.
+- VP should have the ability to =={functional}return the project== to the Sales Director for changes.
+- =={functional}Bulk approval== will likely be important because there may be hundreds of projects in a quarterly cycle.
+
+### =={rule}Quarterly process==
+- BuildCentral projects should exist in the system continuously.
+- The quarterly process should not control whether the project exists.
+- The quarterly process should determine when eligible linked projects are sent through Sales Director and VP review.
+- At the start of each quarter, Sales Directors should be notified that projects are ready for assignment.
+- After assignment, the projects should automatically become available to the appropriate VP.
+- User selected projects should go through the same review process.
+- Once approved by the VP, the project can move to Salesforce opportunity creation or update.
+
+### Salesforce completion
+- Approved projects should create a new Salesforce opportunity when one does not already exist.
+- Existing BuildCentral opportunities in Salesforce should be updated rather than duplicated.
+- The approved Account Manager should be used for the Salesforce ownership or assignment.
+- Store the Salesforce opportunity ID back against the BuildCentral project.
+- Once successfully created or updated in Salesforce, the project should be considered complete for that review.
+- It should leave the active workbenches but remain available in Project Workbench history.
+
+### Overall tool breakdown
+#### BuildCentral Salesforce Workbench
+- Find projects
+- Review qualifying projects
+- Link Salesforce accounts
+- Create accounts when needed
+- Claim additional projects
+- View current status
+- View historical projects
+#### Executive Review Workbench  
+- Sales Director Account Manager assignment
+- VP approval
+- Quarterly review queues
+- Review status and progress
+
 #### =={view}Project detail==
-- All views should use the =={requirement}same project detail page==.
+- All views should provide the =={requirement}same project detail page==.
 - Show the =={data}BuildCentral project information==.
 - Show =={rule}why the project qualified== for CME review.
 - Show whether it was =={data}automatically or manually selected==.
@@ -71,72 +132,12 @@ Data points that permit a BC Project to be viewed for automatic workflow inclusi
 - Show =={question}Salesforce Opportunity information== once created.
 - Show a =={data}history of actions== taken on the project.
 
-##### 1. SF Account association
+##### 1. =={view}SF Account association== (see [newrivers#489](https://gitlab.com/cme-corp/newrivers/-/work_items/489))
 - =={functional}Search Salesforce Accounts== from the project.
-- Link the BuildCentral project to an existing Account.
-- Allow creation of a new Salesforce account where needed.
+- =={functional}Link existing SF Account== to the BuildCentral project.
+- =={functional}Create new SF Account== when needed.
 - Most of this functionality already exists but the dataset and workflow may need adjustment.
 - Store the account association in CME records so it does not need to be determined again later.
-
-##### BuildCentral Sales Review Workbench:
-Sales Director assignment and VP approval should be the same core tool.  
-They are both working with the same project and the same review process.  
-The main difference is the user's role and which projects require their action.  
-Use different views and permissions rather than building two separate tools.
-
-Sales Director view:
-
-Shows projects that are ready for Account Manager assignment.  
-These projects should already be linked to Salesforce accounts.  
-Include both automatically selected projects and manually selected projects.  
-Sales Directors assign the appropriate Account Manager.  
-Allow reassignment where necessary.  
-Once the Account Manager has been assigned, the project should move out of the Director's active queue and into the VP review stage.  
-Bulk assignment may be helpful depending on the number of projects.
-
-VP view:
-
-Shows projects that have completed the Sales Director assignment step.  
-Show the BuildCentral project information, Salesforce account, assigned Account Manager, Sales Director, project value, dates, and whether the project was automatic or user selected.  
-VP can approve the project.  
-VP can reject the project.  
-VP may need the ability to return the project to the Sales Director for changes.  
-Bulk approval will likely be important because there may be hundreds of projects in a quarterly cycle.
-
-Quarterly process:
-
-BuildCentral projects should exist in the system continuously.  
-The quarterly process should not control whether the project exists.  
-The quarterly process should determine when eligible linked projects are sent through Sales Director and VP review.  
-At the start of each quarter, Sales Directors should be notified that projects are ready for assignment.  
-After assignment, the projects should automatically become available to the appropriate VP.  
-User selected projects should go through the same review process.  
-Once approved by the VP, the project can move to Salesforce opportunity creation or update.
-
-Salesforce completion:
-
-Approved projects should create a new Salesforce opportunity when one does not already exist.  
-Existing BuildCentral opportunities in Salesforce should be updated rather than duplicated.  
-The approved Account Manager should be used for the Salesforce ownership or assignment.  
-Store the Salesforce opportunity ID back against the BuildCentral project.  
-Once successfully created or updated in Salesforce, the project should be considered complete for that review.  
-It should leave the active workbenches but remain available in Project Workbench history.
-
-Overall tool breakdown:
-
-BuildCentral Project Workbench:  
-Find projects  
-Review qualifying projects  
-Link Salesforce accounts  
-Create accounts when needed  
-Claim additional projects  
-View current status  
-View historical projects  
-BuildCentral Sales Review Workbench:  
-Sales Director Account Manager assignment  
-VP approval  
-Quarterly review queues  
-Review status and progress
 
 General direction:
 
