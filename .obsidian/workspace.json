@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Sean's Toolset Notes.md",
+                "file": "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Meeting Questions.md",
                 "mode": "source",
                 "source": false,
                 "backlinks": true,
@@ -28,7 +28,7 @@
                 }
               },
               "icon": "lucide-file",
-              "title": "Sean's Toolset Notes"
+              "title": "Meeting Questions"
             }
           }
         ]
@@ -192,7 +192,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 529.5
+    "width": 394.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -210,13 +210,14 @@
   },
   "active": "fc0b21bf5c786bff",
   "lastOpenFiles": [
+    "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Clarifications to Unresolved Requirements.md",
+    "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Sean's Toolset Notes.md",
     "Epics/30 - Build Central/build-central-contacts.xlsx",
     "Epics/30 - Build Central/build-central-contacts-with-ids.csv",
     "Epics/30 - Build Central/build-central-contacts.csv",
     "Epics/30 - Build Central/BC Workbench Workflow and UX Outline.pdf",
     "Gitlab Issues/BuildCentral Project - Salesforce Account link Redux.md",
     "^Qualifying.md",
-    "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Sean's Toolset Notes.md",
     "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Meeting Questions.md",
     "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Meetings/2026-08-27 BCD Contact Visibility in Project Object.md",
     "Epics/30 - Build Central/nr-449-part-2 (ticket ID tbd)/UI Concerns/UI will require overhaul.md",
@@ -245,7 +246,6 @@
     "Gitlab Issues/Untitled/desktop.ini",
     "Gitlab Issues/Done",
     "Epics/30 - Build Central/449 Build Central + Salesforce/Docs",
-    "Epics/30 - Build Central/449 Build Central + Salesforce/Issues",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-11-9e8450d4.png",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-10-ac58843a.png",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-9-cbadf77f.png",
