@@ -3,7 +3,7 @@
   "autoCommitMessage": "auto vault backup: {{date}} ({{hostname}})\n\n{{numFiles}} Files\n{{files}}",
   "commitMessageScript": "",
   "commitDateFormat": "YYYY-MM-DD HH:mm",
-  "autoSaveInterval": 30,
+  "autoSaveInterval": 60,
   "autoPushInterval": 120,
   "autoPullInterval": 0,
   "autoPullOnBoot": false,
