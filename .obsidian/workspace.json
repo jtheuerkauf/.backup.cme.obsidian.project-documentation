@@ -90,7 +90,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 347.5
+    "width": 514.5
   },
   "right": {
     "id": "bc30929d0bbcdc6c",
@@ -208,8 +208,12 @@
       "reader-highlighter-tags:Highlight navigator": false
     }
   },
-  "active": "fc0b21bf5c786bff",
+  "active": "69bef66036e116dd",
   "lastOpenFiles": [
+    "Gitlab Issues/Preset criteria for BCP that need SFA links.md",
+    "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/sf-opportunity-linked-to-project.png",
+    "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/sf-project-with-attached-opportunity.png",
+    "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/CD Project Filtering and Process_Updated 8.21.26 BC Edits.pdf",
     "Gitlab Issues/Provide open-search parameters to AMs for broader BCP Claims.md",
     "Gitlab Issues/Email Notification to Sales Directors.md",
     "Gitlab Issues/Modify BCP main view for Sales Directors.md",
@@ -243,9 +247,7 @@
     "Epics/30 - Build Central/616",
     "Epics/30 - Build Central/New folder",
     "Epics/30 - Build Central/UI Concerns/UI will require overhaul.md",
-    "Epics/30 - Build Central/UI Concerns",
     "Epics/30 - Build Central/BuildCentral + Salesforce Toolset Phase 1.5.md",
-    "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Meeting Questions.md",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-11-9e8450d4.png",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-10-ac58843a.png",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-9-cbadf77f.png",
@@ -253,8 +255,6 @@
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-7-5d6485bc.png",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-6-027ff654.png",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-5-1e83ba76.png",
-    "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-4-7752b4ae.png",
-    "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-3-570a3ed7.png",
-    "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-2-f047c80d.png"
+    "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-4-7752b4ae.png"
   ]
 }
