@@ -76,6 +76,7 @@ Use different views and permissions rather than building two separate tools.
 ##### 1. =={view}Sales Director view==
 - Shows projects that are =={rule}ready for Account Manager assignment==.
 - These projects =={rule}should already be linked to Salesforce accounts==.
+- Determine Projects by linking `bcp.state = portal.amTerritory.short_state`
 - Include both =={data}automatically and manually selected projects==.
 - =={rule}Sales Directors assign== the appropriate Account Manager.
 - =={functional}Allow reassignment== where necessary.

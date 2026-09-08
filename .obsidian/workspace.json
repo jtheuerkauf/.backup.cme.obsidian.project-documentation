@@ -11,24 +11,10 @@
             "id": "fc0b21bf5c786bff",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Clarifications to Unresolved Requirements.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": true,
-                "backlinkOpts": {
-                  "collapseAll": false,
-                  "extraContext": false,
-                  "sortOrder": "alphabetical",
-                  "showSearch": false,
-                  "searchQuery": "",
-                  "backlinkCollapsed": false,
-                  "unlinkedCollapsed": true
-                }
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "Clarifications to Unresolved Requirements"
+              "title": "New tab"
             }
           }
         ]
@@ -210,6 +196,11 @@
   },
   "active": "fc0b21bf5c786bff",
   "lastOpenFiles": [
+    "Epics/30 - Build Central/build_central_projects.md",
+    "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Sean's Toolset Notes.md",
+    "Epics/30 - Build Central/BC Workbench Workflow and UX Outline.pdf",
+    "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Clarifications to Unresolved Requirements.md",
+    "Epics/30 - Build Central/newrivers_build_central_projects_sample.csv",
     "Gitlab Issues/Reconsider what should be extracted from raw_payload as first-class data.md",
     "Epics/30 - Build Central/build-central-categories.csv",
     "Epics/30 - Build Central/~$build-central-history-contacts-with-locations.tmp",
@@ -241,13 +232,7 @@
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Meetings/20260827 BCD Contact Visibility in Project Object.md",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Issues/20260825-2030_memory-allowance-exceeded.md",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Issues/20260723-2211_449-stripped-down-api-pull.md",
-    "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Sean's Toolset Notes.md",
-    "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Meeting Questions.md",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Meetings",
-    "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Clarifications to Unresolved Requirements.md",
-    "Epics/30 - Build Central/489 Build Central + Salesforce/Issues",
-    "Epics/30 - Build Central/489 Build Central + Salesforce/Docs",
-    "Epics/30 - Build Central/UI Concerns/UI will require overhaul.md",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-11-9e8450d4.png",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-10-ac58843a.png",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-9-cbadf77f.png",
