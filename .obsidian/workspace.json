@@ -196,8 +196,10 @@
       "reader-highlighter-tags:Highlight navigator": false
     }
   },
-  "active": "fc0b21bf5c786bff",
+  "active": "294dd2e05dc6e37d",
   "lastOpenFiles": [
+    "Epics/30 - Build Central/Sample Directors Export.csv",
+    "Epics/30 - Build Central/Sample Directors Export.xlsx",
     "Untitled.canvas",
     "Gitlab Issues/Extract all list data as enums.md",
     "Gitlab Issues/Add -format- JSON column to BC Projects and related tables.md",
@@ -215,7 +217,6 @@
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Clarifications to Unresolved Requirements.md",
     "Epics/30 - Build Central/newrivers_build_central_projects_sample.csv",
     "Gitlab Issues/Reconsider what should be extracted from raw_payload as first-class data.md",
-    "Epics/30 - Build Central/~$build-central-history-contacts-with-locations.tmp",
     "Gitlab Issues/Preset criteria for BCP that need SFA links.md",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/sf-opportunity-linked-to-project.png",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/sf-project-with-attached-opportunity.png",
