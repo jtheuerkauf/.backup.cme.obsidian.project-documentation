@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Clarifications to Unresolved Requirements.md",
+                "file": "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Meetings/20260819 Toolset Roadmap.md",
                 "mode": "source",
                 "source": false,
                 "backlinks": true,
@@ -28,7 +28,7 @@
                 }
               },
               "icon": "lucide-file",
-              "title": "Clarifications to Unresolved Requirements"
+              "title": "20260819 Toolset Roadmap"
             }
           }
         ]
@@ -65,7 +65,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "PORTAL",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -86,7 +86,8 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -210,6 +211,8 @@
   },
   "active": "fc0b21bf5c786bff",
   "lastOpenFiles": [
+    "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Sean's Toolset Notes.md",
+    "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Clarifications to Unresolved Requirements.md",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/CD Project Filtering and Process_Updated 8.21.26 BC Edits.pdf",
     "Epics/30 - Build Central/BC Workbench Workflow and UX Outline.pdf",
     "Epics/30 - Build Central/Sample Directors Export.csv",
@@ -224,10 +227,7 @@
     "Epics/30 - Build Central.zip",
     "Epics/build-central-history-contacts-with-locations.xlsx",
     "Epics/build-central-history-contacts-with-locations.csv",
-    "Epics/build-central-categories.csv",
     "Epics/30 - Build Central/build_central_projects.md",
-    "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Sean's Toolset Notes.md",
-    "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Clarifications to Unresolved Requirements.md",
     "Gitlab Issues/Reconsider what should be extracted from raw_payload as first-class data.md",
     "Gitlab Issues/Preset criteria for BCP that need SFA links.md",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/sf-opportunity-linked-to-project.png",
