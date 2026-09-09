@@ -11,12 +11,24 @@
             "id": "fc0b21bf5c786bff",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "markdown",
               "state": {
-                "file": "Epics/30 - Build Central/BC Workbench Workflow and UX Outline.pdf"
+                "file": "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Clarifications to Unresolved Requirements.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
               },
-              "icon": "lucide-file-text",
-              "title": "BC Workbench Workflow and UX Outline"
+              "icon": "lucide-file",
+              "title": "Clarifications to Unresolved Requirements"
             }
           }
         ]
@@ -78,7 +90,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 242.5
+    "width": 423.5
   },
   "right": {
     "id": "bc30929d0bbcdc6c",
@@ -196,8 +208,10 @@
       "reader-highlighter-tags:Highlight navigator": false
     }
   },
-  "active": "294dd2e05dc6e37d",
+  "active": "fc0b21bf5c786bff",
   "lastOpenFiles": [
+    "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/CD Project Filtering and Process_Updated 8.21.26 BC Edits.pdf",
+    "Epics/30 - Build Central/BC Workbench Workflow and UX Outline.pdf",
     "Epics/30 - Build Central/Sample Directors Export.csv",
     "Epics/30 - Build Central/Sample Directors Export.xlsx",
     "Untitled.canvas",
@@ -213,9 +227,7 @@
     "Epics/build-central-categories.csv",
     "Epics/30 - Build Central/build_central_projects.md",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Sean's Toolset Notes.md",
-    "Epics/30 - Build Central/BC Workbench Workflow and UX Outline.pdf",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Clarifications to Unresolved Requirements.md",
-    "Epics/30 - Build Central/newrivers_build_central_projects_sample.csv",
     "Gitlab Issues/Reconsider what should be extracted from raw_payload as first-class data.md",
     "Gitlab Issues/Preset criteria for BCP that need SFA links.md",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/sf-opportunity-linked-to-project.png",
