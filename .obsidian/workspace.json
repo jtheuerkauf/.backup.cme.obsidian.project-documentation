@@ -23,24 +23,12 @@
             "id": "8a6804f1708242d3",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "pdf",
               "state": {
-                "file": "Contacts Data.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": true,
-                "backlinkOpts": {
-                  "collapseAll": false,
-                  "extraContext": false,
-                  "sortOrder": "alphabetical",
-                  "showSearch": false,
-                  "searchQuery": "",
-                  "backlinkCollapsed": false,
-                  "unlinkedCollapsed": true
-                }
+                "file": "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/CD Project Filtering and Process_Updated 8.21.26 BC Edits.pdf"
               },
-              "icon": "lucide-file",
-              "title": "Contacts Data"
+              "icon": "lucide-file-text",
+              "title": "CD Project Filtering and Process_Updated 8.21.26 BC Edits"
             }
           }
         ],
@@ -103,7 +91,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 423.5
+    "width": 423.5,
+    "collapsed": true
   },
   "right": {
     "id": "bc30929d0bbcdc6c",
@@ -205,7 +194,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 374.5
+    "width": 374.5,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -223,8 +213,8 @@
   },
   "active": "8a6804f1708242d3",
   "lastOpenFiles": [
-    "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/CD Project Filtering and Process_Updated 8.21.26 BC Edits.pdf",
     "Contacts Data.md",
+    "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/CD Project Filtering and Process_Updated 8.21.26 BC Edits.pdf",
     "Epics/30 - Build Central/BC Workbench Workflow and UX Outline.pdf",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Meetings/20260819 Toolset Roadmap.md",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Sean's Toolset Notes.md",
