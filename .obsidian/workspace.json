@@ -11,24 +11,12 @@
             "id": "fc0b21bf5c786bff",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "pdf",
               "state": {
-                "file": "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Meetings/20260819 Toolset Roadmap.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": true,
-                "backlinkOpts": {
-                  "collapseAll": false,
-                  "extraContext": false,
-                  "sortOrder": "alphabetical",
-                  "showSearch": false,
-                  "searchQuery": "",
-                  "backlinkCollapsed": false,
-                  "unlinkedCollapsed": true
-                }
+                "file": "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/CD Project Filtering and Process_Updated 8.21.26 BC Edits.pdf"
               },
-              "icon": "lucide-file",
-              "title": "20260819 Toolset Roadmap"
+              "icon": "lucide-file-text",
+              "title": "CD Project Filtering and Process_Updated 8.21.26 BC Edits"
             }
           }
         ]
@@ -65,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "PORTAL",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -86,8 +74,7 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -211,10 +198,11 @@
   },
   "active": "fc0b21bf5c786bff",
   "lastOpenFiles": [
+    "Epics/30 - Build Central/BC Workbench Workflow and UX Outline.pdf",
+    "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Meetings/20260819 Toolset Roadmap.md",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Sean's Toolset Notes.md",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Clarifications to Unresolved Requirements.md",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/CD Project Filtering and Process_Updated 8.21.26 BC Edits.pdf",
-    "Epics/30 - Build Central/BC Workbench Workflow and UX Outline.pdf",
     "Epics/30 - Build Central/Sample Directors Export.csv",
     "Epics/30 - Build Central/Sample Directors Export.xlsx",
     "Untitled.canvas",
@@ -248,7 +236,6 @@
     "Epics/30 - Build Central/616 - 489 Redux - Link BCP+SFA/BuildCentral + Salesforce Toolset Phase 1.5.md",
     "Epics/30 - Build Central/616 - 489 Redux/BuildCentral + Salesforce Toolset Phase 1.5.md",
     "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Clarifications to Unresolved Requirements.md",
-    "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Meetings/20260819 Toolset Roadmap.md",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-11-9e8450d4.png",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-10-ac58843a.png",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-9-cbadf77f.png",
