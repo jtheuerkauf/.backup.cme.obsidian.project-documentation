@@ -4,35 +4,34 @@
     "type": "split",
     "children": [
       {
-        "id": "278a1f8b97d711c7",
+        "id": "08c661f15d4d2225",
         "type": "tabs",
         "children": [
           {
-            "id": "fc0b21bf5c786bff",
+            "id": "940cc94577bec27d",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "markdown",
               "state": {
-                "file": "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/CD Project Filtering and Process_Updated 8.21.26 BC Edits.pdf"
+                "file": "Epics/10 - Alerting/PIP/Work Schedule.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
               },
-              "icon": "lucide-file-text",
-              "title": "CD Project Filtering and Process_Updated 8.21.26 BC Edits"
-            }
-          },
-          {
-            "id": "8a6804f1708242d3",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/CD Project Filtering and Process_Updated 8.21.26 BC Edits.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "CD Project Filtering and Process_Updated 8.21.26 BC Edits"
+              "icon": "lucide-file",
+              "title": "Work Schedule"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -91,8 +90,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 423.5,
-    "collapsed": true
+    "width": 423.5
   },
   "right": {
     "id": "bc30929d0bbcdc6c",
@@ -211,8 +209,14 @@
       "reader-highlighter-tags:Highlight navigator": false
     }
   },
-  "active": "8a6804f1708242d3",
+  "active": "940cc94577bec27d",
   "lastOpenFiles": [
+    "Epics/10 - Alerting/PIP/CME PIP Joe Theuerkauf(SMSigned).pdf",
+    "Epics/10 - Alerting/PIP/Work Schedule.md",
+    "Epics/10 - Alerting/PIP/676 DTS Over 20K",
+    "Epics/10 - Alerting/PIP",
+    "Epics/10 - Alerting",
+    "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/CD Project Filtering and Process_Updated 8.21.26 BC Edits.pdf",
     "Gitlab Issues/Migrate Allrivers  DTS Over 20K to NewRivers.md",
     "Gitlab Issues/Export CSV layout.md",
     "Gitlab Issues/Sync SF Account IDs to BC Project records.md",
@@ -226,7 +230,6 @@
     "Epics/30 - Build Central/New folder",
     "Gitlab Issues/v1 Provide spreadsheet export for VP-Director quarterly review.md",
     "Contacts Data.md",
-    "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/CD Project Filtering and Process_Updated 8.21.26 BC Edits.pdf",
     "Epics/30 - Build Central/BC Workbench Workflow and UX Outline.pdf",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Meetings/20260819 Toolset Roadmap.md",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Sean's Toolset Notes.md",
@@ -237,10 +240,6 @@
     "Gitlab Issues/Extract all list data as enums.md",
     "Gitlab Issues/Add -format- JSON column to BC Projects and related tables.md",
     "Epics/30 - Build Central/20260908 SF Account Creation.md",
-    "Epics/30 - Build Central/build-central-history-contacts-with-locations.xlsx",
-    "Epics/30 - Build Central/build-central-history-contacts-with-locations.csv",
-    "Epics/30 - Build Central/build-central-categories.csv",
-    "Epics/30 - Build Central.zip",
     "Epics/30 - Build Central/build_central_projects.md",
     "Gitlab Issues/Reconsider what should be extracted from raw_payload as first-class data.md",
     "Gitlab Issues/Preset criteria for BCP that need SFA links.md",
@@ -250,8 +249,6 @@
     "Gitlab Issues/Email Notification to Sales Directors.md",
     "Gitlab Issues/Modify BCP main view for Sales Directors.md",
     "Gitlab Issues/Modify BCP single view for Sales Directors.md",
-    "Gitlab Issues/Email Notification for Sales VP.md",
-    "Gitlab Issues/Modify BCP main view for Sales VP.md",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-11-9e8450d4.png",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-10-ac58843a.png",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-9-cbadf77f.png",
