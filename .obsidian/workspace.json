@@ -11,12 +11,24 @@
             "id": "940cc94577bec27d",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "markdown",
               "state": {
-                "file": "Epics/10 - Alerting/PIP/CME PIP Joe Theuerkauf(SMSigned).pdf"
+                "file": "Epics/10 - Alerting/PIP/epic-10-ms-0.2.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
               },
-              "icon": "lucide-file-text",
-              "title": "CME PIP Joe Theuerkauf(SMSigned)"
+              "icon": "lucide-file",
+              "title": "epic-10-ms-0.2"
             }
           }
         ]
@@ -199,9 +211,9 @@
   },
   "active": "940cc94577bec27d",
   "lastOpenFiles": [
+    "Epics/10 - Alerting/PIP/CME PIP Joe Theuerkauf(SMSigned).pdf",
     "Epics/10 - Alerting/PIP/Work Schedule.md",
     "Epics/10 - Alerting/PIP/epic-10-ms-0.2.md",
-    "Epics/10 - Alerting/PIP/CME PIP Joe Theuerkauf(SMSigned).pdf",
     "Epics/10 - Alerting/PIP/676 DTS Over 20K",
     "Epics/10 - Alerting/PIP",
     "Epics/10 - Alerting",
@@ -237,7 +249,6 @@
     "Gitlab Issues/Provide open-search parameters to AMs for broader BCP Claims.md",
     "Gitlab Issues/Email Notification to Sales Directors.md",
     "Gitlab Issues/Modify BCP main view for Sales Directors.md",
-    "Gitlab Issues/Modify BCP single view for Sales Directors.md",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-11-9e8450d4.png",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-10-ac58843a.png",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-9-cbadf77f.png",
