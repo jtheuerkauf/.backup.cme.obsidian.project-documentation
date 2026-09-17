@@ -119,3 +119,22 @@ compatibility consumer.
 - Specialized mailables remain only where they contain domain-specific behavior.
 - Existing subjects, views, recipients, attachments, queue behavior, permissions,
   audit records, and Graph transport outcomes are preserved by tests.
+
+## Addenda
+
+### Additional tasks
+
+#### Apply a concrete Loggable type to the "loggable" models in `emails` table
+
+- Create `Loggable` interface
+- Determine if there's a common thread between these models (do they all have a `log()` method?)
+- Update the polymorph relations to `Loggable` so a predictable type can be accessed.
+
+#### *(low-priority)* Fix Email Attachment support to allow > 1 file
+
+- Refactor how `emails` and `form_rivers_files` connect, possibly through a pivot table
+- Give new Mail Manager the actual ability to attach multiple files
+
+#### Extract `Parseable`, `Sluggable`, etc. from BuildCentral
+
+- There's a lot of useful utility code in BC that should be extracted for Alerts / Mail
