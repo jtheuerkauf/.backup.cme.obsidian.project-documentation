@@ -11,24 +11,12 @@
             "id": "940cc94577bec27d",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "pdf",
               "state": {
-                "file": "Epics/10 - Alerting/PIP/Work Schedule.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": true,
-                "backlinkOpts": {
-                  "collapseAll": false,
-                  "extraContext": false,
-                  "sortOrder": "alphabetical",
-                  "showSearch": false,
-                  "searchQuery": "",
-                  "backlinkCollapsed": false,
-                  "unlinkedCollapsed": true
-                }
+                "file": "Epics/10 - Alerting/PIP/CME PIP Joe Theuerkauf(SMSigned).pdf"
               },
-              "icon": "lucide-file",
-              "title": "Work Schedule"
+              "icon": "lucide-file-text",
+              "title": "CME PIP Joe Theuerkauf(SMSigned)"
             }
           }
         ]
@@ -211,9 +199,9 @@
   },
   "active": "940cc94577bec27d",
   "lastOpenFiles": [
+    "Epics/10 - Alerting/PIP/Work Schedule.md",
     "Epics/10 - Alerting/PIP/epic-10-ms-0.2.md",
     "Epics/10 - Alerting/PIP/CME PIP Joe Theuerkauf(SMSigned).pdf",
-    "Epics/10 - Alerting/PIP/Work Schedule.md",
     "Epics/10 - Alerting/PIP/676 DTS Over 20K",
     "Epics/10 - Alerting/PIP",
     "Epics/10 - Alerting",
