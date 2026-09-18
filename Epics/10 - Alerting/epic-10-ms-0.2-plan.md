@@ -1,8 +1,8 @@
-# Epic 10, milestone 0.2: mailable consolidation
+# Epic 10, milestone 0.2: Mailable consolidation
 
 ## Objective
 
-Reduce duplicate `App\\Mail` implementations without changing delivery, email-audit,
+Reduce duplicate `App\Mail` implementations without changing delivery, email-audit,
 permission, or queueing behavior. Preserve dedicated mailables where their type conveys
 meaningful behavior rather than merely selecting a subject and view.
 
@@ -42,9 +42,42 @@ ambiguously between the Job, mailable, listeners, and Graph transport.
 
 ## Plan
 
-### 1. Create a complete delivery matrix
+### 1. Establish alert administration requirements and UX
 
-For every class in `App\\Mail`, record:
+The alert architecture must support authorized users administering alerts for their
+own operational needs without granting unrestricted access to every alert, recipient,
+or schedule. Define the permission and configuration model before building the
+administrative UI.
+
+The administration experience must support:
+
+- creating, viewing, modifying, and deleting an alert configuration, with the
+  configuration owner, permission requirement, and audit history visible;
+- immediately disabling an alert and optionally setting an expiration time after which
+  it is disabled automatically. Document how disable/expiration affects already queued
+  work and any in-flight event;
+- managing recipients with explicit Role and Department constraints. The UI must show
+  the effective recipient set and prevent an administrator from selecting users or
+  groups outside their permitted organizational scope;
+- configuring recurring schedule frequency for polling-style alerts. Scheduling
+  granularity is intentionally TBD and must remain a documented product decision, not
+  an incidental cron implementation detail; and
+- defining alert trigger criteria in a way that can later support event-driven,
+  near-real-time alerts without requiring the administrator-facing configuration
+  contract to be replaced.
+
+Keep configuration state, authorization, recipient-resolution rules, and delivery
+history separate. A user who can administer an alert is not automatically entitled to
+view unrelated recipient data or delivery/audit records.
+
+Add UX and authorization tests for every lifecycle action, scoped-recipient selection,
+immediate disable, scheduled expiration, and attempts to bypass Role/Department
+constraints. Document the initial scheduling granularity decision and the future
+event-driven extension point.
+
+### 2. Create a complete delivery matrix
+
+For every class in `App\Mail`, record:
 
 - direct caller(s), including jobs, services, commands, listeners, and notifications;
 - envelope, recipients, queue, view and view-data contract;
@@ -61,7 +94,7 @@ the stable categories only after establishing their consumers, serialization nee
 queue-routing semantics; do not replace queue names or Job class identity with an enum
 where Laravel's serialized payload contract depends on them.
 
-### 2. Add characterization coverage before refactoring
+### 3. Add characterization coverage before refactoring
 
 Add focused mailable tests that assert the externally observable contract:
 
@@ -73,7 +106,7 @@ Add focused mailable tests that assert the externally observable contract:
 Add transport-level coverage for both paths: an existing email intent identified by
 headers and a mail without an intent that follows the fallback creation behavior.
 
-### 3. Extract email-intent lifecycle behavior
+### 4. Extract email-intent lifecycle behavior
 
 Introduce a narrowly scoped trait, for example `InteractsWithEmailIntent`, that owns:
 
@@ -85,7 +118,7 @@ and intent. Keep envelope and content methods in the concrete mailable. Apply th
 trait first to the Billing Hold, DTS Tracker Assignment, and Item Type digest
 mailables, with their characterization tests protecting the refactor.
 
-### 4. Generalize template-only delivery
+### 5. Generalize template-only delivery
 
 Evolve the generic template-mail contract (or introduce a small factory/value object
 beside it) to accept only the genuine variation points:
@@ -106,7 +139,7 @@ mail-control abstraction own the complete intent-to-send transition. Graph must 
 an adapter that updates a supplied intent or creates an explicit fallback record, not a
 second competing source of intent creation.
 
-### 5. Keep meaningful specializations separate
+### 6. Keep meaningful specializations separate
 
 Do not fold mailables into the generic path when they build attachments, calculate
 recipients, create signed/portal links, render reports, or transform domain data.
@@ -114,7 +147,7 @@ For these, extract a trait only when there is a verified shared behavior with a 
 stable contract (for example, shared attachment construction). Avoid a broad mailable
 inheritance tree.
 
-### 6. Migrate and remove in safe increments
+### 7. Migrate and remove in safe increments
 
 Migrate one category at a time, beginning with intent-aware mailables, then
 template-only adapters. After each group:
@@ -128,7 +161,7 @@ template-only adapters. After each group:
 Delete a specialized mailable only when it has no remaining semantic behavior and no
 compatibility consumer.
 
-### 7. Make dynamic email contracts source-assistable
+### 8. Make dynamic email contracts source-assistable
 
 Use PHPDoc annotations wherever a value names code or a template dynamically. In
 particular, annotate class references as `class-string` (or a bounded
@@ -138,10 +171,10 @@ annotations for email context, headers, recipients, and intent data when those v
 cross Job, mailable, listener, or transport boundaries. This is a source-assistance
 requirement, not merely a static-analysis cleanup.
 
-## Addendum: formalize the typed email-object system
+## _Addendum:_ formalize the typed email-object system
 
-Revision ovpvkluw started the right direction with immutable EmailAddress,
-Recipient, and Recipients objects. Expand that work deliberately into a small typed
+Revision ovpvkluw started the right direction with immutable `EmailAddress`,
+`Recipient`, and `Recipients` objects. Expand that work deliberately into a small typed
 object system for email construction, rather than allowing each Job, mailable, and
 transport adapter to keep inventing array shapes.
 
@@ -153,8 +186,8 @@ transport adapter to keep inventing array shapes.
   canonicalization policy (trim, case handling, internationalized domains, and display
   preservation) before it replaces existing string inputs.
 - Define a recipient collection contract that preserves order, rejects or documents
-  duplicates, and distinguishes To, CC, and BCC at the message boundary. Do not make a
-  plain string array the de facto API again after introducing Recipients.
+  duplicates, and distinguishes `To`, `CC`, and `BCC` at the message boundary.
+  Do not make a plain string array the de facto API again after introducing `Recipients`.
 - Introduce an immutable message/composite object only for stable message data:
   envelope addresses, subject, HTML body or view contract, headers, attachments, and
   email-intent identity. It must describe a message, not send it or mutate an Email
@@ -187,13 +220,13 @@ rule when Laravel must mutate their dispatch metadata.
 
 Before migrating callers, add a short typed-email contract document that includes:
 
-- a class diagram or concise ownership map for value objects, the message composite,
+- A class diagram or concise ownership map for value objects, the message composite,
   mailables, Jobs, Email, and Graph;
-- constructor/property invariants, serialization form, and adapter methods for every
+- Constructor/property invariants, serialization form, and adapter methods for every
   public typed object;
-- a table mapping each legacy array field to its typed replacement and identifying the
+- A table mapping each legacy array field to its typed replacement and identifying the
   compatibility adapter that still accepts the legacy form;
-- the staged migration order, rollback boundary, and the point at which compatibility
+- The staged migration order, rollback boundary, and the point at which compatibility
   adapters can be removed.
 
 Migrate one caller category at a time behind these adapters. Preserve serialized queue
@@ -202,16 +235,49 @@ has moved to the typed contract.
 
 ## Acceptance criteria
 
-- Every `App\\Mail` class has a documented caller and classification.
+- Authorized users can create, modify, delete, disable, and set expiration for alert
+  configurations only within their allowed administrative scope.
+- Recipient selection and display enforce the configured Role/Department constraints,
+  and tests cover both permitted and rejected selections.
+- Polling schedule frequency is configurable with documented TBD granularity, while
+  the trigger configuration has a documented event-driven extension path.
+- Alert lifecycle, authorization, recipient-resolution, and delivery history have
+  distinct ownership and auditable behavior.
+
+- Every `App\Mail` class has a documented caller and classification.
 - Repeated email-intent headers and failed-intent handling have one tested owner.
 - Template-only mail delivery uses a shared, explicit contract.
 - Specialized mailables remain only where they contain domain-specific behavior.
 - Existing subjects, views, recipients, attachments, queue behavior, permissions,
   audit records, and Graph transport outcomes are preserved by tests.
-- Stable Job/mail-queue categories and their enum boundaries are documented before
-  implementation.
-- Dynamic class, view/Blade, and view-data contracts are annotated for IDE assistance.
-- The owning email control center and its intent/transport responsibilities are decided
-  and covered by the delivery matrix and tests.
-- Typed email values, recipient collections, message composites, architecture tests,
-  and adapter/documentation boundaries are defined before broad caller migration.
+
+## _Addendum:_ Additional tasks
+
+### Apply a concrete Loggable type to the "loggable" models in `emails` table
+
+- Create `Loggable` interface
+- Determine if there is a common thread between these models (do they all have a `log()` method?)
+- Update the polymorph relations to `Loggable` so a predictable type can be accessed.
+- One possible log entry approach:
+  - `Loggable::log()` implemented by a trait, used by the implementing models
+  - The trait defines an abstract `loggedAttributes()` or something similar that the model must implement
+  - `loggedAttributes()` is called by `log()`
+  - The model provides the attributes to the trait
+  - `log()` assembles the attributes into a normalized log entry and calls the `Logger`
+
+### *(low-priority)* Fix Email Attachment support to allow > 1 file
+
+- Refactor how `emails` and `form_rivers_files` connect, possibly through a pivot table.
+- Enable the Mail Manager to attach multiple files.
+- This change is _specifically_ to provide the **data support** for an `emails` record to find multiple attachments.
+  - Enabling multiple attachments in UI components that currently expect only one is beyond this scope.
+  - Implementing functionality to attach multiple files in existing operations is beyond this scope.
+
+### Extract `Parseable`, `Sluggable`, etc. from BuildCentral
+
+- A lot of useful utility code exists in BC that should be extracted for Alerts / Mail
+
+### _Addendum:_ Look into RabbitMQ as the Queue system
+
+#### https://www.rabbitmq.com
+#### https://github.com/vyuldashev/laravel-queue-rabbitmq
