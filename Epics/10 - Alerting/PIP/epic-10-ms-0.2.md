@@ -138,3 +138,5 @@ compatibility consumer.
 #### Extract `Parseable`, `Sluggable`, etc. from BuildCentral
 
 - There's a lot of useful utility code in BC that should be extracted for Alerts / Mail
+#### Look into RabbitMQ as the Queue system
+
