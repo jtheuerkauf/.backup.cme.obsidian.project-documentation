@@ -8,30 +8,35 @@
         "type": "tabs",
         "children": [
           {
-            "id": "940cc94577bec27d",
+            "id": "eb5cef231616cc18",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "split-diff-view",
               "state": {
-                "file": "Epics/10 - Alerting/PIP/epic-10-ms-0.2.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": true,
-                "backlinkOpts": {
-                  "collapseAll": false,
-                  "extraContext": false,
-                  "sortOrder": "alphabetical",
-                  "showSearch": false,
-                  "searchQuery": "",
-                  "backlinkCollapsed": false,
-                  "unlinkedCollapsed": true
-                }
+                "aFile": "Epics/10 - Alerting/PIP/epic-10-ms-0.2-v1.md",
+                "bFile": "Epics/10 - Alerting/PIP/epic-10-ms-0.2-v1.md",
+                "aRef": ""
               },
-              "icon": "lucide-file",
-              "title": "epic-10-ms-0.2"
+              "icon": "diff",
+              "title": "Diff: epic-10-ms-0.2-v1  (Working Tree)"
+            }
+          },
+          {
+            "id": "3a3f937701e73bed",
+            "type": "leaf",
+            "state": {
+              "type": "split-diff-view",
+              "state": {
+                "aFile": "Epics/10 - Alerting/PIP/epic-10-ms-0.2-v2.md",
+                "bFile": "Epics/10 - Alerting/PIP/epic-10-ms-0.2-v2.md",
+                "aRef": ""
+              },
+              "icon": "diff",
+              "title": "Diff: epic-10-ms-0.2-v2  (Working Tree)"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -208,11 +213,16 @@
       "reader-highlighter-tags:Highlight navigator": false
     }
   },
-  "active": "69bef66036e116dd",
+  "active": "294dd2e05dc6e37d",
   "lastOpenFiles": [
+    "Epics/10 - Alerting/epic-10-ms-0.2-plan.md",
+    "Epics/10 - Alerting/epic-10-ms-0.2.md",
+    "Epics/10 - Alerting/epic-10-ms-0.2-handoff.md",
+    "Epics/10 - Alerting/PIP/epic-10-ms-0.2-v1.md",
+    "Epics/10 - Alerting/PIP/epic-10-ms-0.2-v2.md",
+    "Epics/10 - Alerting/PIP/epic-10-ms-0.2.md",
     "Epics/10 - Alerting/PIP/epic-10-ms-0.2.md1",
     "Epics/10 - Alerting/PIP/epic-10-ms-0.2 1.md",
-    "Epics/10 - Alerting/PIP/epic-10-ms-0.2.md",
     "Epics/10 - Alerting/PIP/CME PIP Joe Theuerkauf(SMSigned).pdf",
     "Epics/10 - Alerting/PIP/Work Schedule.md",
     "Epics/10 - Alerting/PIP/676 DTS Over 20K",
@@ -237,18 +247,13 @@
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Sean's Toolset Notes.md",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Clarifications to Unresolved Requirements.md",
     "Epics/30 - Build Central/Sample Directors Export.csv",
-    "Epics/30 - Build Central/Sample Directors Export.xlsx",
     "Untitled.canvas",
     "Gitlab Issues/Extract all list data as enums.md",
     "Gitlab Issues/Add -format- JSON column to BC Projects and related tables.md",
     "Epics/30 - Build Central/20260908 SF Account Creation.md",
     "Epics/30 - Build Central/build_central_projects.md",
-    "Gitlab Issues/Reconsider what should be extracted from raw_payload as first-class data.md",
-    "Gitlab Issues/Preset criteria for BCP that need SFA links.md",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/sf-opportunity-linked-to-project.png",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/sf-project-with-attached-opportunity.png",
-    "Gitlab Issues/Provide open-search parameters to AMs for broader BCP Claims.md",
-    "Gitlab Issues/Email Notification to Sales Directors.md",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-11-9e8450d4.png",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-10-ac58843a.png",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-9-cbadf77f.png",
