@@ -10,5 +10,41 @@ Provide a neutral centerpiece for migrating AllRivers Alerts into NewRivers.
 
 ### Simplified
 
-- Create `alerts`, `alert_schedules` and `alert_runs` tables
-- Each Alert is registered with execution schedule, active status, data service, mail builder, recipients by Role/Department/both
+#### Requirements
+
+- Create `alerts`, `alert_schedules`, `alert_role_recipients` and `alert_runs` tables
+- Each Alert is registered with execution schedule, active status, data service, mail builder, recipients by Role.
+- Every Alert run is recorded with its start and finish timestamps, completion status (new enum seems appropriate if one doesn't exist), JSON for arbitrary extra data (in particular, when a job fails mid-stream, store a list of the successful "sends" so they can be omitted from retry).
+	- Not sure how best to do the data relationship. Most common usage will be last-run for a given Alert, meaning the Alert holds FK to the Run ID, but that leaves the Runs would a link to the Alert they were for. On the other side, if the Runs hold FK to Alert, code/query logic has to look for `MAX(run_timestamp)` 99% of the time, which is inefficient. Is a cross-FK appropriate here?
+
+#### Specifications
+
+**`alerts`** 
+
+| Column              | Type                  | Modifiers                                | Key/Index           | Note/ `Comment` |
+| ------------------- | --------------------- | ---------------------------------------- | ------------------- | --------------- |
+| `id`                | `id()`                |                                          | PK                  |                 |
+| `service`           | `string()`            |                                          | UIDX                |                 |
+| `mailer`            | `enum(EmailMailable)` |                                          |                     |                 |
+| `active`            | `bool()`              | `default(true)`                          |                     |                 |
+| `last_alert_run_id` | `unsignedBigInt()`    | `nullable()`                             | FK `alert_runs(id)` |                 |
+| `created_at`        | `timestamp()`         | `useCurrent()`                           |                     |                 |
+| `updated_at`        | `timestamp()`         | `useCurrent()`<br>`useCurrentOnUpdate()` |                     |                 |
+
+**`alert_runs`**
+
+| Column              | Type                     | Modifiers              | Key/Index | Note/ `Comment`                                         |
+| ------------------- | ------------------------ | ---------------------- | --------- | ------------------------------------------------------- |
+| `id`                | `id()`                   | PK                     |           |                                                         |
+| `started_at`        | `timestamp()`            | `useCurrent()`         |           |                                                         |
+| `finished_at`       | `timestamp()`            | `useCurrentOnUpdate()` |           |                                                         |
+| `completion_status` | `enum(CompletionStatus)` | `nullable()`           | IDX       |                                                         |
+| `data`              | `json()`                 | `nullable()`           |           | Error info, list of partially complete recipients, etc. |
+
+**`alert_role_recipients`** (model extends `Pivot`)
+
+| Column     | Type               | Modifiers | Key/Index       | Note/ `Comment` |
+| ---------- | ------------------ | --------- | --------------- | --------------- |
+| `alert_id` | `unsignedBigInt()` |           | FK `alerts(id)` |                 |
+| `role_id`  | `unsignedBigInt()` |           | FK `roles(id)`  |                 |
+| `active`   | `bool()`           |           | `default(true)` |                 |
