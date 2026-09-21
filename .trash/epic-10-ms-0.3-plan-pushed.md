@@ -150,7 +150,7 @@ is not included.
 
 - Remove the DTS job's placeholder `POSubmission::class` relation. It is invalid when
   `related_id` is null and is not derived from the alert data.
-- Evaluate a tracker relation using the existing `App\Models\Datasync\PMHubTracker`
+- Evaluate a tracker relation using the existing `App\\Models\\Datasync\\PMHubTracker`
   model and its non-integer key contract. Adopt it only if one durable tracker record
   can represent a multi-tracker alert; otherwise leave both `related_type` and
   `related_id` null and use the alert/tracker list in typed `context` data.
@@ -162,7 +162,7 @@ is not included.
 
 ### Mail hierarchy assessment and migration
 
-- Complete the all-`App\Mail` delivery matrix before choosing the final base class.
+- Complete the all-`App\\Mail` delivery matrix before choosing the final base class.
   The existing classes span template-only mail, intent-aware notifications,
   attachment/report mail, FormRivers mail, and portal mail; a single constructor or
   inheritance contract must not erase those distinctions.
