@@ -128,3 +128,53 @@ Evaluate a data-model change, potentially a pivot between `emails` and
 data support only; extending existing UI or operations that assume a single attachment
 is not included.
 
+## Addendum: Concrete alert identity and mail hierarchy - milestone 0.3
+
+### DTS alert identity
+
+- Make the generic alert base abstract. The target name is `AbstractMail`; retain a
+  deliberately compatible adapter only if persisted enum values, queued payloads, or
+  external callers still name `GenericAlertMail`.
+- Introduce `DtsOver20KAlertMail` as the concrete DTS mailable. It owns the DTS
+  subject, Blade/view name, and documented view-data shape; shared envelope, queue,
+  and attachment behavior remains in the abstract base.
+- Replace DTS construction of `GenericAlertMail` with the concrete DTS mailable.
+  Persist the concrete `EmailMailable::DtsOver20KAlertMail` identifier rather than a
+  generic template identifier.
+- Characterize and migrate the existing `EmailMailable::GenericAlert` persisted value
+  before removal. The enum's backed class-string values, generated `PermissionCode`
+  cases, existing `emails.mailable` records, and serialized jobs are compatibility
+  boundaries.
+
+### Related-record metadata
+
+- Remove the DTS job's placeholder `POSubmission::class` relation. It is invalid when
+  `related_id` is null and is not derived from the alert data.
+- Evaluate a tracker relation using the existing `App\\Models\\Datasync\\PMHubTracker`
+  model and its non-integer key contract. Adopt it only if one durable tracker record
+  can represent a multi-tracker alert; otherwise leave both `related_type` and
+  `related_id` null and use the alert/tracker list in typed `context` data.
+- Persist the configured active mailer for a newly queued intent (`msgraph`, `smtp`,
+  and so on), rather than hard-coding `msgraph`. This preserves local MailPit audit
+  truth when the default mailer is SMTP. Where a failover/round-robin mailer selects a
+  child transport after intent creation, update the value from the transport that
+  actually succeeds.
+
+### Mail hierarchy assessment and migration
+
+- Complete the all-`App\\Mail` delivery matrix before choosing the final base class.
+  The existing classes span template-only mail, intent-aware notifications,
+  attachment/report mail, FormRivers mail, and portal mail; a single constructor or
+  inheritance contract must not erase those distinctions.
+- If common behavior is only envelope/content/queue plumbing, keep it in
+  `AbstractMail`. If independently specialized classes share only narrow behavior,
+  extract typed traits with explicit contracts instead of forcing them into a broad
+  base class. Keep concrete children for every distinct construction or handling
+  pattern.
+- Assess converting `EmailMailable` to a `UnitEnum` only after the delivery matrix and
+  persisted-data migration are complete. A `UnitEnum` cannot directly replace the
+  current class-string-backed database cast, dynamic permission derivation, or Graph
+  header/transport mapping; provide explicit class and persistence adapters first.
+- Add characterization, persistence round-trip, queue-serialization, permission,
+  Graph intent/fallback, and concrete-DTS-mailable tests before migrating values or
+  deleting compatibility classes.
