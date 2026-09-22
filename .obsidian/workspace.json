@@ -298,8 +298,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 374.5,
-    "collapsed": true
+    "width": 374.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -315,7 +314,7 @@
       "reader-highlighter-tags:Highlight navigator": false
     }
   },
-  "active": "8883b175f85083c2",
+  "active": "294dd2e05dc6e37d",
   "lastOpenFiles": [
     "Epics/10 - Alerting/MS 2 - Alerts Architecture/extracts/A01 — Persist alert definitions and alert runs.md",
     "Epics/10 - Alerting/Milestones 2 and 3 Rescope from GPT Doc.md",
