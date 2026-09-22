@@ -310,8 +310,7 @@
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
       "bases:Create new base": false,
-      "obsidian-gitlab-issues:Gitlab Issues": false,
-      "reader-highlighter-tags:Highlight navigator": false
+      "obsidian-gitlab-issues:Gitlab Issues": false
     }
   },
   "active": "294dd2e05dc6e37d",
