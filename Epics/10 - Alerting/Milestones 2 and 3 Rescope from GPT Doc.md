@@ -88,8 +88,37 @@ That's the most "table-ized" way, but we could also compact all the schedule val
 
 ---
 
-## 2. Registry, Scheduler, Runner, Jobs, Command
+## 2. , , Runner, Jobs, Command
 ###### aka Tinker Tailor Soldier Spy
+
+## 2.1 Registry
+
+### Simplified
+
+#### Requirements
+
+- Add `config/alerts.php`
+- Entries are `AlertCatalog keys => AlertType`
+- `AlertType`:
+	- `Collector`: Class that builds the Alert's data
+	- `Mailer`: Class that builds the Email with the data
+	- `Config`: Configuration for Collector and Mailer
+	- `version`: `int` that matches against DB `alerts` record
+- 
+
+##### Console command `alert:create`
+
+- Look for `App\Alerts` classes that aren't in the Alerts enum
+- When selected, make sure data records don't already exist
+	- Bail if data is found for it
+- TODO: Revise `alerts` definition:
+	- `id`
+	- `alert_type` (enum)
+	- `name`
+	- `enabled`
+	- ``
+
+## 2.2 Scheduler
 
 ### Simplified
 
@@ -106,9 +135,9 @@ That's the most "table-ized" way, but we could also compact all the schedule val
 
    Matched date conditions: (*)
 
-   [X] Active
+   [X] Expires: ____
    ```
- - 
+	 - Only one schedule type can be used
 
 
 
@@ -117,7 +146,25 @@ That's the most "table-ized" way, but we could also compact all the schedule val
 
 ---
 
-## 3. 
+## 2.3 Runner
+
+### Simplified
+
+#### Requirements
+
+
+#### Specifications
+
+## 2.4 Jobs
+
+### Simplified
+
+#### Requirements
+
+
+#### Specifications
+
+## 2.5 Command
 
 ### Simplified
 
