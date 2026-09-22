@@ -10,141 +10,25 @@ Every issue deliberately keeps its implementation and verification scope bounded
 identified as an addendum is included so it can be submitted and prioritized, but is
 not a prerequisite for the PIP-scoped MS 0.2 framework unless explicitly promoted.
 
-| Sequence | Issue | Weight | Depends on |
-| --- | --- | ---: | --- |
-| 1 | A01, A02, A04, A05 | 5, 3, 3, 5 | — |
-| 2 | A03, A06 | 5, 5 | A01–A05 as applicable |
-| 3 | A07, A08 | 5, 3 | A03–A06 |
-| 4 | M01, M02 | 5, 5 | MS 0.2 delivery behavior stable |
-| 5 | M03, M04, M09, M15, M16 | 5, 5, 3, 3, 3 | M01 and/or M02 |
-| 6 | M05, M06, M07, M08 | 5, 5, 5, 5 | M01–M04 |
-| Later | A09–A14, M10–M14 | see issue | stated dependencies |
+| Sequence | Issue                   |        Weight | Depends on                      |
+| -------- | ----------------------- | ------------: | ------------------------------- |
+| 1        | A01, A02, A04, A05      |    5, 3, 3, 5 | —                               |
+| 2        | A03, A06                |          5, 5 | A01–A05 as applicable           |
+| 3        | A07, A08                |          5, 3 | A03–A06                         |
+| 4        | M01, M02                |          5, 5 | MS 0.2 delivery behavior stable |
+| 5        | M03, M04, M09, M15, M16 | 5, 5, 3, 3, 3 | M01 and/or M02                  |
+| 6        | M05, M06, M07, M08      |    5, 5, 5, 5 | M01–M04                         |
+| Later    | A09–A14, M10–M14        |     see issue | stated dependencies             |
 
 ---
 
 # Milestone 0.2 — Alerts / Work Item 664
 
-[A01 — Persist alert definitions and alert runs](A01%20—%20Persist%20alert%20definitions%20and%20alert%20runs.md)
----
+## [A01 — Persist alert definitions and alert runs](A01%20—%20Persist%20alert%20definitions%20and%20alert%20runs.md)
 
-## A02 — Define alert run outcomes and idempotency rules
+## [A02 — Define alert run outcomes and idempotency rules](A02%20—%20Define%20alert%20run%20outcomes%20and%20idempotency%20rules.md)
 
-**Suggested labels:** `Epic 10`, `MS 0.2`, `type::task`, `area::alerts`  
-**Weight:** 3  
-**Depends on:** A01
-
-### Feature brief
-
-Define one outcome model for alert execution and the idempotency/duplicate-prevention
-rules that the runner and email-intent path will follow.
-
----
-
-### Access control and users
-
-Not user-facing.
-
----
-
-### Data collection
-
-Specify how successful, empty-result, failed, and partial runs are recorded, including
-the error/partial-result data that is safe and useful to retain.
-
----
-
-### Implementation scope
-
-- Define run-status values and permitted transitions.
-- Define the idempotency key or equivalence rule for a run and for a delivery attempt.
-- Document retry behavior and the point at which duplicate sends are prevented.
-- Add unit tests for state transitions and repeated execution inputs.
-
-**Not included:** scheduling implementation or user-visible run-history screens.
-
----
-
-### Release strategy
-
-Land this contract before runner, job, and delivery work. Later tickets consume it
-rather than introducing status fields ad hoc.
-
----
-
-### Sign-off
-
-- The four required outcome classes are distinguishable and persisted consistently.
-- A repeated eligible execution follows a documented, tested duplicate rule.
-- Retry behavior cannot silently convert a partial/failure outcome into success.
-
----
-
-### Screenshots, design & docs
-
-Add a short state-transition table to the issue.
-
----
-
-## A03 — Build the alert registry, scheduler, runner, jobs, and command
-
-**Suggested labels:** `Epic 10`, `MS 0.2`, `type::feature`, `area::alerts`  
-**Weight:** 5  
-**Depends on:** A01, A02
-
-### Feature brief
-
-Provide the common execution path that registers alerts and invokes them through the
-application scheduler, runner, queued jobs, and a command entry point.
-
----
-
-### Access control and users
-
-Operational/developer users invoke the command. Application scheduling invokes the
-same runner; no administration UI is included.
-
----
-
-### Data collection
-
-Create and update `alert_runs` through the shared execution path, not in individual
-legacy alert implementations.
-
----
-
-### Implementation scope
-
-- Define the alert registry contract and registration mechanism.
-- Implement the runner and the scheduler/job/command adapters around it.
-- Use the A02 outcome and idempotency contract.
-- Ensure a legacy alert supplies alert-specific logic while the runner owns common
-  execution plumbing.
-- Add runner, job, and command tests.
-
-**Not included:** configurable self-service schedules or event-driven UI configuration.
-
----
-
-### Release strategy
-
-Deploy the common execution path before moving the DTS alert to it. Retain a safe
-command path for operator verification.
-
----
-
-### Sign-off
-
-- A registered test alert can run from scheduler, job, and command entry points.
-- Each invocation creates/updates a correctly classified run record.
-- Individual alert implementations do not recreate common scheduling or run recording.
-
----
-
-### Screenshots, design & docs
-
-Document the registry and execution sequence, including retry/duplicate behavior.
-
----
+## [A03 — Build the alert registry, scheduler, runner, jobs, and command](A03%20—%20Build%20the%20alert%20registry,%20scheduler,%20runner,%20jobs,%20and%20command.md)
 
 ## A04 — Implement shared Role-based recipient resolution
 

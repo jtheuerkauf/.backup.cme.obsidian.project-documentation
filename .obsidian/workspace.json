@@ -4,30 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "08c661f15d4d2225",
+        "id": "6a096ab728f3115c",
         "type": "tabs",
         "children": [
           {
-            "id": "eb5cef231616cc18",
-            "type": "leaf",
-            "state": {
-              "type": "split-diff-view",
-              "state": {
-                "aFile": "Epics/10 - Alerting/PIP/epic-10-ms-0.2-v1.md",
-                "bFile": "Epics/10 - Alerting/PIP/epic-10-ms-0.2-v1.md",
-                "aRef": ""
-              },
-              "icon": "diff",
-              "title": "Diff: epic-10-ms-0.2-v1  (Working Tree)"
-            }
-          },
-          {
-            "id": "3a3f937701e73bed",
+            "id": "ffeeb41aa2ef4348",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Epics/10 - Alerting/MS 3 - Mailables Refactoring/epic-10-ms-0.3-plan.md",
+                "file": "Epics/10 - Alerting/Milestones 2 and 3 Rescope from GPT Doc.md",
                 "mode": "source",
                 "source": false,
                 "backlinks": true,
@@ -42,9 +28,39 @@
                 }
               },
               "icon": "lucide-file",
-              "title": "epic-10-ms-0.3-plan"
+              "title": "Milestones 2 and 3 Rescope from GPT Doc"
             }
           },
+          {
+            "id": "9add8b5f0f84bf38",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "~templates/Simplified Ticket.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "Simplified Ticket"
+            }
+          }
+        ]
+      },
+      {
+        "id": "08c661f15d4d2225",
+        "type": "tabs",
+        "children": [
           {
             "id": "a53bc394d9223aff",
             "type": "leaf",
@@ -70,55 +86,12 @@
             }
           },
           {
-            "id": "790b4f25d0ac0804",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Epics/10 - Alerting/MS 2 - Alerts Architecture/epic-10-ms-0.2-plan.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": true,
-                "backlinkOpts": {
-                  "collapseAll": false,
-                  "extraContext": false,
-                  "sortOrder": "alphabetical",
-                  "showSearch": false,
-                  "searchQuery": "",
-                  "backlinkCollapsed": false,
-                  "unlinkedCollapsed": true
-                }
-              },
-              "icon": "lucide-file",
-              "title": "epic-10-ms-0.2-plan"
-            }
-          },
-          {
-            "id": "3c47a3c35228ad4a",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Epics/10 - Alerting/PIP/CME PIP Joe Theuerkauf(SMSigned).pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "CME PIP Joe Theuerkauf(SMSigned)"
-            }
-          }
-        ],
-        "currentTab": 2
-      },
-      {
-        "id": "09be18f01595dd6b",
-        "type": "tabs",
-        "children": [
-          {
             "id": "8883b175f85083c2",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Epics/10 - Alerting/Milestones 2 and 3 Rescope from GPT Doc.md",
+                "file": "Epics/10 - Alerting/Epic 10 MS 2-3 GitLab Issues Breakdown.md",
                 "mode": "source",
                 "source": false,
                 "backlinks": true,
@@ -133,10 +106,11 @@
                 }
               },
               "icon": "lucide-file",
-              "title": "Milestones 2 and 3 Rescope from GPT Doc"
+              "title": "Epic 10 MS 2-3 GitLab Issues Breakdown"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -195,8 +169,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 361.5,
-    "collapsed": true
+    "width": 361.5
   },
   "right": {
     "id": "bc30929d0bbcdc6c",
@@ -298,7 +271,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 374.5
+    "width": 374.5,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -313,11 +287,18 @@
       "obsidian-gitlab-issues:Gitlab Issues": false
     }
   },
-  "active": "294dd2e05dc6e37d",
+  "active": "69bef66036e116dd",
   "lastOpenFiles": [
-    "Epics/10 - Alerting/MS 2 - Alerts Architecture/extracts/A01 — Persist alert definitions and alert runs.md",
-    "Epics/10 - Alerting/Milestones 2 and 3 Rescope from GPT Doc.md",
+    "Gitlab Issues/Fixes for ports, composer.json, vite, etc..md",
     "Epics/10 - Alerting/Epic 10 MS 2-3 GitLab Issues Breakdown.md",
+    "Epics/10 - Alerting/MS 2 - Alerts Architecture/extracts/A03 — Build the alert registry, scheduler, runner, jobs, and command.md",
+    "Epics/10 - Alerting/Milestones 2 and 3 Rescope from GPT Doc.md",
+    "~templates/Simplified Ticket.md",
+    "~templates",
+    "_templates",
+    "$templates",
+    "Epics/10 - Alerting/MS 2 - Alerts Architecture/extracts/A02 — Define alert run outcomes and idempotency rules.md",
+    "Epics/10 - Alerting/MS 2 - Alerts Architecture/extracts/A01 — Persist alert definitions and alert runs.md",
     "Epics/10 - Alerting/MS 3 - Mailables Refactoring/extracts",
     "Epics/10 - Alerting/MS 2 - Alerts Architecture/extracts",
     "Epics/10 - Alerting/MS 3 - Mailables Refactoring",
@@ -328,9 +309,6 @@
     "Epics/10 - Alerting/PIP/CME PIP Joe Theuerkauf(SMSigned).pdf",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Meeting Questions.md~RF775e7777.TMP",
     "Gitlab Issues/Done/Create sync that creates-updates-deletes the projects from BuildCentral.md~RF775e63b1.TMP",
-    "Epics/30 - Build Central/Region Map with Regional Directors.pdf~RF775e5876.TMP",
-    "Gitlab Issues/Add Migration-Seeding procedure for table and data maintenance.md~RF775e4f5e.TMP",
-    "Gitlab Issues/Consolidate Dockerfiles.md~RF775e4e16.TMP",
     "Epics/10 - Alerting/epic-10-ms-0.2.md",
     "Epics/10 - Alerting/epic-10-ms-0.2-handoff.md",
     "Epics/10 - Alerting/PIP/epic-10-ms-0.2-v1.md",
@@ -347,9 +325,6 @@
     "Epics/30 - Build Central/Agent Specs & Prompts/20260910-1240_bcp-to-csv-map.md",
     "Epics/30 - Build Central/Agent Specs & Prompts/20260909-2200_extract-relation-data.md",
     "Epics/30 - Build Central/Agent Specs & Prompts/20260909-2000_extract-formatted-json.md",
-    "Gitlab Issues/v1 Provide spreadsheet export for VP-Director quarterly review.md",
-    "Contacts Data.md",
-    "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Meetings/20260819 Toolset Roadmap.md",
     "Untitled.canvas",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/sf-opportunity-linked-to-project.png",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/sf-project-with-attached-opportunity.png",

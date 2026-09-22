@@ -7,6 +7,7 @@ Provide a neutral centerpiece for migrating AllRivers Alerts into NewRivers.
 ## 1. Alert Definition and Run History
 
 [A01 — Persist alert definitions and alert runs](A01%20—%20Persist%20alert%20definitions%20and%20alert%20runs.md)
+[A02 — Define alert run outcomes and idempotency rules](A02%20—%20Define%20alert%20run%20outcomes%20and%20idempotency%20rules.md)
 
 ### Simplified
 
@@ -16,6 +17,17 @@ Provide a neutral centerpiece for migrating AllRivers Alerts into NewRivers.
 - Each Alert is registered with execution schedule, active status, data service, mail builder, recipients by Role.
 - Every Alert run is recorded with its start and finish timestamps, completion status (new enum seems appropriate if one doesn't exist), JSON for arbitrary extra data (in particular, when a job fails mid-stream, store a list of the successful "sends" so they can be omitted from retry).
 	- Not sure how best to do the data relationship. Most common usage will be last-run for a given Alert, meaning the Alert holds FK to the Run ID, but that leaves the Runs would a link to the Alert they were for. On the other side, if the Runs hold FK to Alert, code/query logic has to look for `MAX(run_timestamp)` 99% of the time, which is inefficient. Is a cross-FK appropriate here?
+- Add `CompletionStatus` UnitEnum to standardize process result terminology
+	  
+| Case              | Usage                                                                  |
+| ----------------- | ---------------------------------------------------------------------- |
+| `Complete`        | Process finished without incident                                      |
+| `Incomplete`      | Process was interrupted in some way                                    |
+| `Success`         | Process finished, results were verified                                |
+| `Partial`         | Process was interrupted but some information was successfully verified |
+| `Canceled`        | Process was interrupted by a termsig or other detectable stoppage      |
+| `Fail`            | Process completely failed, no information was processed or verified    |
+| `CompletionError` | Process completed but recorded error that may have affected results    |
 
 #### Specifications
 
@@ -73,3 +85,43 @@ Provide a neutral centerpiece for migrating AllRivers Alerts into NewRivers.
 | `minutes_of_hour`  | `json()`             | `nullable()`                             |           | `0-59`                                                               |
 
 That's the most "table-ized" way, but we could also compact all the schedule values into a JSON schema and use one `schedule<JSON>` column.
+
+---
+
+## 2. Registry, Scheduler, Runner, Jobs, Command
+###### aka Tinker Tailor Soldier Spy
+
+### Simplified
+
+#### Requirements
+
+##### Console command `alert:schedule`
+
+ - Class receives Alert name from Alerts Enum (?)
+ - Present existing or new Schedule interface:
+   ```
+   $ php artisan alert:schedule DtsOver20K
+
+   Fixed periodic cycle: (*)
+
+   Matched date conditions: (*)
+
+   [X] Active
+   ```
+ - 
+
+
+
+- Processor class receives 
+#### Specifications
+
+---
+
+## 3. 
+
+### Simplified
+
+#### Requirements
+
+
+#### Specifications
