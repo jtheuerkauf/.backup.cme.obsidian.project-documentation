@@ -287,8 +287,12 @@
       "obsidian-gitlab-issues:Gitlab Issues": false
     }
   },
-  "active": "8883b175f85083c2",
+  "active": "69bef66036e116dd",
   "lastOpenFiles": [
+    "Gitlab Issues/Alerts Registry System.md",
+    "Gitlab Issues/Alert Run History.md",
+    "Gitlab Issues/Alert Role-based Recipients.md",
+    "Gitlab Issues/Alert Job Migrations.md",
     "Epics/10 - Alerting/MS 2 - Alerts Architecture/extracts/A03 — Build the alert registry, scheduler, runner, jobs, and command.md",
     "Epics/10 - Alerting/Milestones 2 and 3 Rescope from GPT Doc.md",
     "Epics/10 - Alerting/Epic 10 MS 2-3 GitLab Issues Breakdown.md",
@@ -321,10 +325,6 @@
     "Gitlab Issues/Sync SF Account IDs to BC Project records.md",
     "Epics/30 - Build Central/Agent Specs & Prompts/20260911-1150_project-tier-criteria.md",
     "Epics/30 - Build Central/Agent Specs & Prompts/20260911-1030_csv-export-where-the-hell-is-kevin.md",
-    "Epics/30 - Build Central/Agent Specs & Prompts/20260911-0930_sync-bcp-sfa-after-pull.md",
-    "Epics/30 - Build Central/Agent Specs & Prompts/20260910-1240_bcp-to-csv-map.md",
-    "Epics/30 - Build Central/Agent Specs & Prompts/20260909-2200_extract-relation-data.md",
-    "Epics/30 - Build Central/Agent Specs & Prompts/20260909-2000_extract-formatted-json.md",
     "Untitled.canvas",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/sf-opportunity-linked-to-project.png",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/sf-project-with-attached-opportunity.png",
