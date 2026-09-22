@@ -287,15 +287,15 @@
       "obsidian-gitlab-issues:Gitlab Issues": false
     }
   },
-  "active": "69bef66036e116dd",
+  "active": "ffeeb41aa2ef4348",
   "lastOpenFiles": [
+    "Epics/10 - Alerting/Epic 10 MS 2-3 GitLab Issues Breakdown.md",
     "Gitlab Issues/Alerts Registry System.md",
     "Gitlab Issues/Alert Run History.md",
     "Gitlab Issues/Alert Role-based Recipients.md",
     "Gitlab Issues/Alert Job Migrations.md",
     "Epics/10 - Alerting/MS 2 - Alerts Architecture/extracts/A03 — Build the alert registry, scheduler, runner, jobs, and command.md",
     "Epics/10 - Alerting/Milestones 2 and 3 Rescope from GPT Doc.md",
-    "Epics/10 - Alerting/Epic 10 MS 2-3 GitLab Issues Breakdown.md",
     "Gitlab Issues/Fixes for ports, composer.json, vite, etc..md",
     "~templates/Simplified Ticket.md",
     "~templates",

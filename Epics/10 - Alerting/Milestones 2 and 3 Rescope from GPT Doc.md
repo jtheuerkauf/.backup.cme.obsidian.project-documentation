@@ -28,6 +28,8 @@ Provide a neutral centerpiece for migrating AllRivers Alerts into NewRivers.
 | `Canceled`        | Process was interrupted by a termsig or other detectable stoppage      |
 | `Fail`            | Process completely failed, no information was processed or verified    |
 | `CompletionError` | Process completed but recorded error that may have affected results    |
+| `Pending`         | The data's entity/process is waiting in line to be run                 |
+| `Running`         | The process is currently running                                       |
 
 #### Specifications
 
