@@ -3,6 +3,7 @@
 **Suggested labels:** `Epic 10`, `MS 0.2`, `type::feature`, `area::alerts`  
 **Weight:** 5  
 **Depends on:** A01, A02
+#epic-10 #alerts #pip #ms_0-2 
 
 ### Feature brief
 

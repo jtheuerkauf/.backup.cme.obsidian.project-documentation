@@ -215,7 +215,7 @@ Document the alert-run/email-intent relationship and delivery handoff.
 **Suggested labels:** `Epic 10`, `MS 0.2`, `type::feature`, `area::alerts`  
 **Weight:** 5  
 **Depends on:** A03, A04, A05, A06
-
+#epic-10 #alerts #pip #ms_0-2
 ### Feature brief
 
 Move the Week 1 DTS Over $20K alert onto the reusable registry/runner/services while
