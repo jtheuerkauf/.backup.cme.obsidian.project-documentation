@@ -312,6 +312,7 @@
   },
   "active": "8883b175f85083c2",
   "lastOpenFiles": [
+    "Gitlab Issues/Reduce legacy SQL to Builder pattern.md",
     "Gitlab Issues/Alert Seeder Template validates code points-of-contact.md",
     "Gitlab Issues/-To- should be a no-reply account, recipients all in -Bcc-.md",
     "Gitlab Issues/Seed template for migrating AllRivers Alerts.md",
@@ -347,7 +348,6 @@
     "Gitlab Issues/Done/Create sync that creates-updates-deletes the projects from BuildCentral.md~RF775e63b1.TMP",
     "Epics/10 - Alerting/epic-10-ms-0.2.md",
     "Epics/10 - Alerting/epic-10-ms-0.2-handoff.md",
-    "Epics/10 - Alerting/PIP/epic-10-ms-0.2-v1.md",
     "Untitled.canvas",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/sf-opportunity-linked-to-project.png",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/sf-project-with-attached-opportunity.png",
