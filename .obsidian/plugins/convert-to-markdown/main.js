@@ -1446,6 +1446,27 @@ function imageExtensionOf(partPath) {
   return extension === "emf" || extension === "wmf" ? null : extension;
 }
 
+// src/attachments.ts
+var DEFAULT_ATTACHMENT_FOLDER = "{{note}} attachments";
+function attachmentFolderFor(template, noteFolder, noteBasename) {
+  const filled = (template.trim() || DEFAULT_ATTACHMENT_FOLDER).split("{{note}}").join(noteBasename);
+  const normalized = filled.replace(/\\/g, "/");
+  const segments = normalized.startsWith("/") ? [] : noteFolder.split("/").filter((part) => part !== "");
+  for (const part of normalized.split("/")) {
+    if (part === "" || part === ".")
+      continue;
+    if (part === "..") {
+      if (segments.length === 0) {
+        throw new Error(`attachment folder "${template}" points outside the vault \u2014 check the setting`);
+      }
+      segments.pop();
+      continue;
+    }
+    segments.push(part);
+  }
+  return segments.join("/");
+}
+
 // src/markdown.ts
 function escapeInline(text) {
   return text.replace(/([\\`*_[\]{}<>])/g, "\\$1");
@@ -1519,20 +1540,27 @@ var BOMS = [
   { bytes: [254, 255], encoding: "utf-16be" }
 ];
 function decodeText(data, declaredCharset2) {
+  return decodeTextWithEncoding(data, declaredCharset2).text;
+}
+function decodeTextWithEncoding(data, declaredCharset2) {
   var _a2, _b;
   for (const { bytes, encoding } of BOMS) {
-    if (startsWith(data, bytes))
-      return (_a2 = decodeWith(data.subarray(bytes.length), encoding)) != null ? _a2 : "";
+    if (startsWith(data, bytes)) {
+      return { text: (_a2 = decodeWith(data.subarray(bytes.length), encoding)) != null ? _a2 : "", encoding, guessed: false };
+    }
   }
   if (declaredCharset2) {
     const decoded = decodeWith(data, declaredCharset2);
-    if (decoded !== null)
-      return isWindows1252(declaredCharset2) ? repairC1(decoded) : decoded;
+    if (decoded !== null) {
+      const text2 = isWindows1252(declaredCharset2) ? repairC1(decoded) : decoded;
+      return { text: text2, encoding: declaredCharset2.trim().toLowerCase(), guessed: false };
+    }
   }
   const utf8 = decodeWith(data, "utf-8", true);
   if (utf8 !== null)
-    return utf8;
-  return repairC1((_b = decodeWith(data, "windows-1252")) != null ? _b : data.toString("latin1"));
+    return { text: utf8, encoding: "utf-8", guessed: false };
+  const text = repairC1((_b = decodeWith(data, "windows-1252")) != null ? _b : data.toString("latin1"));
+  return { text, encoding: "windows-1252", guessed: true };
 }
 function isWindows1252(charset) {
   return /^(x-)?(windows|cp|ansi)[-_]?1252$|^iso[-_]?8859[-_]?1$|^latin1$|^us[-_]?ascii$|^ascii$/i.test(
@@ -2870,6 +2898,58 @@ function partText(part) {
   return decodeText(part.body, (_a2 = part.parameters.charset) != null ? _a2 : null);
 }
 
+// src/plaintext.ts
+function renderPlainText(text) {
+  const out = [];
+  let inList = false;
+  for (const raw of splitLines(text)) {
+    const line = raw.replace(/[ \t]+$/, "");
+    if (line === "") {
+      inList = false;
+      out.push("");
+      continue;
+    }
+    if (/^[ \t]*>/.test(line)) {
+      inList = false;
+      out.push(line);
+      continue;
+    }
+    const [, indent, body] = /^([ \t]*)(.*)$/.exec(line);
+    if (/^[-=_*+](?:[ \t]*[-=_*+])*$/.test(body)) {
+      inList = false;
+      out.push(`${pinIndent(indent)}\\${body[0]}${escapeInline(body.slice(1))}`);
+      continue;
+    }
+    const item = /^([-*+]|\d{1,9}[.)])([ \t]+)(.*)$/.exec(body);
+    if (item) {
+      inList = true;
+      out.push(`${indent}${item[1]}${item[2]}${escapeInline(item[3])}`);
+      continue;
+    }
+    if (inList && indent !== "") {
+      out.push(`${indent}${escapeBlockStart(body)}`);
+      continue;
+    }
+    inList = false;
+    out.push(`${pinIndent(indent)}${escapeBlockStart(body)}`);
+  }
+  return [out.join("\n").trim()];
+}
+function escapeBlockStart(body) {
+  const escaped = escapeInline(body);
+  if (/^#/.test(escaped))
+    return `\\${escaped}`;
+  if (/^~~~/.test(escaped))
+    return `\\${escaped}`;
+  const bareNumber = /^(\d{1,9})([.)])$/.exec(escaped);
+  if (bareNumber)
+    return `${bareNumber[1]}\\${bareNumber[2]}`;
+  return escaped;
+}
+function pinIndent(indent) {
+  return indent.replace(/\t/g, "    ").replace(/ /g, "\xA0");
+}
+
 // src/extractors/email.ts
 async function extractEml(data, assets) {
   const message = parseMime(data);
@@ -3020,13 +3100,6 @@ async function renderPage(html, parts, assets, options) {
   });
   const placedCids = [...images.keys()].filter((src) => src.toLowerCase().startsWith("cid:")).map((src) => src.slice(4));
   return { lines: renderHtml(root, { images }), dropped, placedCids };
-}
-function renderPlainText(text) {
-  const lines = [];
-  for (const line of text.replace(/\r\n?/g, "\n").split("\n")) {
-    lines.push(/^\s*>/.test(line) ? line : escapeInline(line));
-  }
-  return [lines.join("\n").trim()];
 }
 async function renderAttachments(parts, bodyParts, placedCids, assets, warnings, depth) {
   var _a2;
@@ -3405,17 +3478,28 @@ var LANGUAGE_FILE_NAMES = ["eng.traineddata", "eng.traineddata.gz"];
 var import_tesseract = __toESM(require_src());
 var workerUrl = null;
 var MIN_PARAGRAPH_CONFIDENCE = 60;
+var OcrEngineError = class extends Error {
+  constructor(cause) {
+    super(cause instanceof Error ? cause.message : String(cause));
+    this.name = "OcrEngineError";
+  }
+};
 async function recognize(data, ocr) {
   var _a2, _b;
-  const engine = await ocr.resolve();
-  const worker = await (0, import_tesseract.createWorker)("eng", void 0, {
-    ...workerOptions(),
-    ...engineOptions(engine),
-    logger: ({ status, progress }) => {
-      var _a3;
-      return (_a3 = ocr.report) == null ? void 0 : _a3.call(ocr, status, progress);
-    }
-  });
+  let worker;
+  try {
+    const engine = await ocr.resolve();
+    worker = await (0, import_tesseract.createWorker)("eng", void 0, {
+      ...workerOptions(),
+      ...engineOptions(engine),
+      logger: ({ status, progress }) => {
+        var _a3;
+        return (_a3 = ocr.report) == null ? void 0 : _a3.call(ocr, status, progress);
+      }
+    });
+  } catch (error) {
+    throw new OcrEngineError(error);
+  }
   try {
     await worker.setParameters({ tessedit_pageseg_mode: import_tesseract.PSM.AUTO });
     const { data: result } = await worker.recognize(data, {}, { blocks: true, text: true });
@@ -3620,7 +3704,7 @@ async function extractImage(data, assets, ocr = CDN_OCR) {
     );
   }
   if (!embed)
-    warnings.push("The image itself was not copied into the vault (image extraction is off).");
+    warnings.push("The image itself isn't embedded (image extraction is off).");
   return {
     markdown: joinBlocks([
       ...embed ? [embed, ""] : [],
@@ -26779,10 +26863,12 @@ async function extractPdf(data, assets, ocr = CDN_OCR) {
         page.cleanup();
       }
     }
-    const scanned = await readScannedPages(document2, imageOnly, ocr);
+    const { scanned, failed, engineError } = await readScannedPages(document2, imageOnly, ocr);
     const repeated = repeatedEdgeText(pageRows.map((rows) => rows.map(toLine)));
     const pages = pageRows.map((rows) => buildPage(withoutFurniture(rows, repeated)));
     const allLines = pages.flat();
+    if (allLines.length === 0 && engineError)
+      throw engineError;
     if (allLines.length === 0 && scanned.size === 0) {
       throw new Error(
         "this PDF has no text at all \u2014 no text layer, and no page image that OCR could read either"
@@ -26803,7 +26889,7 @@ async function extractPdf(data, assets, ocr = CDN_OCR) {
     });
     return {
       markdown: joinBlocks(lines),
-      warnings: pdfWarnings(document2.numPages, pages, scanned, skippedImages),
+      warnings: pdfWarnings(document2.numPages, pages, { scanned, failed, engineError }, skippedImages),
       frontmatter: coverageOf(document2.numPages, pages, scanned)
     };
   } finally {
@@ -26820,7 +26906,7 @@ function coverageOf(pageCount, pages, scanned) {
 function hasText(recognition) {
   return recognition !== void 0 && recognition.paragraphs.length > 0;
 }
-function pdfWarnings(pageCount, pages, scanned, skippedImages) {
+function pdfWarnings(pageCount, pages, { scanned, failed, engineError }, skippedImages) {
   const warnings = ["Vector graphics and charts drawn as line art are not extracted."];
   if (skippedImages > 0) {
     warnings.push(
@@ -26841,7 +26927,15 @@ function pdfWarnings(pageCount, pages, scanned, skippedImages) {
       );
     }
   }
-  const blank = pages.map((page, index) => page.length === 0 && !hasText(scanned.get(index + 1)) ? index + 1 : 0).filter((page) => page > 0);
+  if (failed.length > 0) {
+    const pagesText = `${failed.length} of ${pageCount} pages (${listPages(failed)})`;
+    warnings.push(
+      engineError ? `${pagesText} had no text layer and could not be read, because the OCR engine didn't load: ${engineError.message}. Fix that and convert again to get ${failed.length === 1 ? "it" : "them"}.` : `${pagesText} had no text layer, and OCR failed on ${failed.length === 1 ? "it" : "them"}.`
+    );
+  }
+  const blank = pages.map(
+    (page, index) => page.length === 0 && !hasText(scanned.get(index + 1)) && !failed.includes(index + 1) ? index + 1 : 0
+  ).filter((page) => page > 0);
   if (blank.length > 0) {
     warnings.push(
       `${blank.length} of ${pageCount} pages produced nothing \u2014 no text layer, and nothing OCR could read (${listPages(blank)}). They may be blank, or artwork with no lettering.`
@@ -26855,7 +26949,13 @@ function listPages(pages) {
 }
 async function readScannedPages(document2, pageNumbers, ocr) {
   const results = /* @__PURE__ */ new Map();
+  const failed = [];
+  let engineError = null;
   for (const [index, pageNumber] of pageNumbers.entries()) {
+    if (engineError) {
+      failed.push(pageNumber);
+      continue;
+    }
     const page = await document2.getPage(pageNumber);
     try {
       const rasters = await pageRasters(page);
@@ -26870,12 +26970,15 @@ async function readScannedPages(document2, pageNumbers, ocr) {
         confidence: Math.min(...recognitions.map((recognition) => recognition.confidence)),
         discarded: recognitions.reduce((total, recognition) => total + recognition.discarded, 0)
       });
-    } catch (e) {
+    } catch (error) {
+      if (error instanceof OcrEngineError)
+        engineError = error;
+      failed.push(pageNumber);
     } finally {
       page.cleanup();
     }
   }
-  return results;
+  return { scanned: results, failed, engineError };
 }
 async function pageRasters(page) {
   var _a2, _b;
@@ -27902,6 +28005,31 @@ function truncate(line) {
   return text.length > 60 ? `${text.slice(0, 60)}\u2026` : text;
 }
 
+// src/extractors/txt.ts
+async function extractTxt(data) {
+  const { text, encoding, guessed } = decodeTextWithEncoding(data);
+  if (text.trim() === "")
+    throw new Error("the file is empty");
+  if (text.includes("\0")) {
+    throw new Error("the file contains NUL bytes, so it isn't plain text (or is UTF-16 without a byte-order mark)");
+  }
+  const warnings = [];
+  if (guessed) {
+    warnings.push(
+      "The file isn't valid UTF-8 and doesn't declare an encoding, so it was read as windows-1252. If accented letters look wrong, the file is in some other legacy encoding."
+    );
+  }
+  const lineCount = splitLines(text.replace(/(\r\n|\r|\n)$/, "")).length;
+  return {
+    markdown: renderPlainText(text).join("\n"),
+    warnings,
+    frontmatter: {
+      lines_converted: `${lineCount}/${lineCount}`,
+      encoding: yamlValue(guessed ? `${encoding} (assumed)` : encoding)
+    }
+  };
+}
+
 // src/extractors/types.ts
 var DEFAULT_EXTRACT_OPTIONS = {
   includeHiddenSheets: true
@@ -28355,6 +28483,7 @@ var EXTRACTORS = {
   ipynb: extractIpynb,
   csv: extractCsv,
   tsv: extractTsv,
+  txt: extractTxt,
   png: extractImage,
   jpg: extractImage,
   jpeg: extractImage,
@@ -28365,6 +28494,9 @@ var EXTRACTORS = {
   tiff: extractImage
 };
 var SUPPORTED_EXTENSIONS = Object.keys(EXTRACTORS);
+function isImage(extension) {
+  return EXTRACTORS[extension.toLowerCase()] === extractImage;
+}
 function extractorFor(extension) {
   var _a2;
   return (_a2 = EXTRACTORS[extension.toLowerCase()]) != null ? _a2 : null;
@@ -28379,6 +28511,8 @@ var DEFAULT_SETTINGS = {
   outputLocation: "sameFolder",
   outputFolder: "Converted",
   extractImages: true,
+  attachmentLocation: "plugin",
+  attachmentFolder: DEFAULT_ATTACHMENT_FOLDER,
   ocrDataFolder: "",
   includeHiddenSheets: true,
   addFrontmatter: true,
@@ -28419,13 +28553,39 @@ var ConvertToMarkdownSettingTab = class extends import_obsidian.PluginSettingTab
       );
     }
     new import_obsidian.Setting(containerEl).setName("Extract images").setDesc(
-      "Copy images out of the document into an attachments folder beside the note and embed them. Turn off for text-only notes."
+      "Copy images out of the document into an attachments folder and embed them. An image file being converted is moved there itself. Turn off for text-only notes."
     ).addToggle(
       (toggle) => toggle.setValue(this.plugin.settings.extractImages).onChange(async (value) => {
         this.plugin.settings.extractImages = value;
         await this.plugin.saveSettings();
+        this.display();
       })
     );
+    if (this.plugin.settings.extractImages) {
+      new import_obsidian.Setting(containerEl).setName("Save images").setDesc(
+        "Where extracted images are written. Obsidian's choice follows Files and links \u2192 Default location for new attachments, the same place pasted images go."
+      ).addDropdown(
+        (dropdown) => dropdown.addOption("plugin", "In the folder set below").addOption("obsidian", "Where Obsidian puts attachments").setValue(this.plugin.settings.attachmentLocation).onChange(async (value) => {
+          this.plugin.settings.attachmentLocation = value === "obsidian" ? "obsidian" : "plugin";
+          await this.plugin.saveSettings();
+          this.display();
+        })
+      );
+      if (this.plugin.settings.attachmentLocation === "plugin") {
+        const desc = createFragment((fragment) => {
+          fragment.appendText("Relative to the converted note. {{note}} is replaced by the note's name.");
+          fragment.createEl("br");
+          fragment.appendText("XAttachment \u2192 a folder beside the note \xB7 ../assets \u2192 up one level \xB7 ");
+          fragment.appendText("/Assets/{{note}} \u2192 from the vault root.");
+        });
+        new import_obsidian.Setting(containerEl).setName("Image folder").setDesc(desc).addText(
+          (text) => text.setPlaceholder(DEFAULT_ATTACHMENT_FOLDER).setValue(this.plugin.settings.attachmentFolder).onChange(async (value) => {
+            this.plugin.settings.attachmentFolder = value.trim() || DEFAULT_ATTACHMENT_FOLDER;
+            await this.plugin.saveSettings();
+          })
+        );
+      }
+    }
     new import_obsidian.Setting(containerEl).setName("Convert hidden sheets").setDesc(
       "Spreadsheets only (.xlsx and .ods). A hidden sheet is often the raw data a visible pivot table summarises, so hidden sheets are converted like any other. Turn off to leave them out \u2014 they're then listed by name in the conversion notes, and any sheet a visible formula, pivot table or chart reads from is converted regardless."
     ).addToggle(
@@ -28505,18 +28665,25 @@ var ConvertToMarkdownPlugin = class extends import_obsidian2.Plugin {
       return;
     }
     const notice = new import_obsidian2.Notice(`Converting ${file.name}\u2026`, 0);
+    const writes = new ConversionWrites(this.app);
     try {
       const data = Buffer.from(await this.app.vault.readBinary(file));
-      const folder = await this.resolveOutputFolder(file);
+      const folder = writes.folder(await this.resolveOutputFolder(file));
       const notePath = this.availablePath(folder, file.basename);
-      const noteBasename = notePath.slice(notePath.lastIndexOf("/") + 1, -".md".length);
+      const attachments = this.attachmentFolderSetting(folder, notePath);
+      const note = await this.app.vault.create(notePath, "");
+      writes.created(note);
+      const imageMove = isImage(file.extension) ? await this.planImageMove(file, attachments, notePath, writes) : null;
+      const assets = imageMove ? imageMove.sink : this.assetSink(attachments, notePath, writes);
       const result = await extract(
         data,
-        this.assetSink(folder, noteBasename),
+        assets,
         this.ocrProvider(progressReporter(notice, file.name)),
         { includeHiddenSheets: this.settings.includeHiddenSheets }
       );
-      const note = await this.app.vault.create(notePath, this.composeNote(file, result));
+      if (imageMove)
+        await imageMove.apply(result);
+      await this.app.vault.modify(note, this.composeNote(file, result));
       notice.hide();
       new import_obsidian2.Notice(`Converted ${file.name} \u2192 ${note.basename}`);
       if (this.settings.openAfterConvert) {
@@ -28524,6 +28691,7 @@ var ConvertToMarkdownPlugin = class extends import_obsidian2.Plugin {
       }
     } catch (error) {
       notice.hide();
+      await writes.undo();
       const message = error instanceof Error ? error.message : String(error);
       new import_obsidian2.Notice(`Couldn't convert ${file.name}: ${message}`, 1e4);
       console.error(`Convert to Markdown: failed to convert ${file.path}`, error);
@@ -28610,7 +28778,20 @@ var ConvertToMarkdownPlugin = class extends import_obsidian2.Plugin {
     };
   }
   /**
-   * Writes extracted images into `<note name> attachments/` beside the note.
+   * The plugin's own attachments folder for the note at `notePath`, or null
+   * when Obsidian's attachment setting decides instead.
+   *
+   * Resolved before the note is written, so a setting that points outside
+   * the vault fails before anything is.
+   */
+  attachmentFolderSetting(folder, notePath) {
+    if (this.settings.attachmentLocation === "obsidian")
+      return null;
+    const noteBasename = notePath.slice(notePath.lastIndexOf("/") + 1, -".md".length);
+    return attachmentFolderFor(this.settings.attachmentFolder, folder, noteBasename);
+  }
+  /**
+   * Writes extracted images into the note's attachments folder.
    *
    * The folder is created on the first image rather than up front, so a
    * document with no images doesn't leave an empty folder behind. The file
@@ -28623,43 +28804,148 @@ var ConvertToMarkdownPlugin = class extends import_obsidian2.Plugin {
    * vault-unique name — a bare `![[image-1.png]]` would be ambiguous the
    * moment two converted notes existed.
    */
-  assetSink(folder, noteBasename) {
+  assetSink(configured, notePath, writes) {
     if (!this.settings.extractImages)
       return NO_ASSETS;
-    const prefix = folder === "" || folder === "/" ? "" : `${folder}/`;
-    const attachments = `${prefix}${noteBasename} attachments`;
-    let created = false;
+    let attachments = null;
     return createAssetSink(async (data, name) => {
-      if (!created) {
-        if (!(this.app.vault.getAbstractFileByPath(attachments) instanceof import_obsidian2.TFolder)) {
-          await this.app.vault.createFolder(attachments);
-        }
-        created = true;
+      if (attachments === null)
+        attachments = writes.folder(await this.attachmentFolder(configured, name, notePath));
+      const path = attachments === "" ? name : `${attachments}/${name}`;
+      if (!(this.findPath(path) instanceof import_obsidian2.TFile)) {
+        writes.created(
+          await this.app.vault.createBinary(path, data.buffer.slice(data.byteOffset, data.byteOffset + data.length))
+        );
       }
-      const path = `${attachments}/${name}`;
-      await this.app.vault.createBinary(path, data.buffer.slice(data.byteOffset, data.byteOffset + data.length));
       return `![[${name}]]`;
     });
   }
+  /**
+   * Converting an image file moves that file into the attachments folder
+   * rather than copying it there. It's already in the vault, and a copy
+   * would leave two identical images for every one converted — the note
+   * embeds the original, in the place the attachments setting says images
+   * belong.
+   *
+   * The move happens only once extraction has succeeded, and it's made
+   * through Obsidian's file manager, so anything else already linking to
+   * the image follows it. If a different file already has the image's name
+   * in that folder, the image stays where it is and the conversion notes say
+   * why.
+   *
+   * With image extraction off, nothing moves and nothing is embedded — the
+   * setting asks for text-only notes.
+   */
+  async planImageMove(source, configured, notePath, writes) {
+    if (!this.settings.extractImages)
+      return null;
+    const folder = writes.folder(await this.attachmentFolder(configured, source.name, notePath));
+    const target = folder === "" ? source.name : `${folder}/${source.name}`;
+    const blocked = target !== source.path && this.findPath(target) !== null;
+    const destination = blocked ? source.path : target;
+    const shared = this.app.vault.getFiles().some((file) => file !== source && file.name === source.name);
+    const embed = `![[${shared ? destination : source.name}]]`;
+    return {
+      sink: { enabled: true, save: async () => embed },
+      apply: async (result) => {
+        if (blocked) {
+          result.warnings.push(`${source.name} was left where it is: ${target} already exists.`);
+          return;
+        }
+        if (target === source.path)
+          return;
+        const from = source.path;
+        await this.app.fileManager.renameFile(source, target);
+        writes.moved(source, from);
+      }
+    };
+  }
+  /** Creates, if need be, and returns the folder a note's images go in. */
+  async attachmentFolder(configured, firstName, notePath) {
+    if (configured === null) {
+      const path = await this.app.fileManager.getAvailablePathForAttachment(firstName, notePath);
+      return path.includes("/") ? path.slice(0, path.lastIndexOf("/")) : "";
+    }
+    return configured === "" ? "" : this.ensureFolder(configured);
+  }
+  /**
+   * Where the note goes.
+   *
+   * "Next to the original" has one exception. Converting an image moves it
+   * into the attachments folder, so converting it *again* would put the new
+   * note in there with it — and, with a per-note folder, move the image one
+   * level deeper. An image a converted note already names as its source goes
+   * next to that note instead, the most recent one if there are several.
+   */
   async resolveOutputFolder(source) {
     var _a2, _b;
-    if (this.settings.outputLocation === "sameFolder")
-      return (_b = (_a2 = source.parent) == null ? void 0 : _a2.path) != null ? _b : "";
-    const folder = (0, import_obsidian2.normalizePath)(this.settings.outputFolder || "Converted");
-    const existing = this.app.vault.getAbstractFileByPath(folder);
+    if (this.settings.outputLocation === "sameFolder") {
+      const previous = isImage(source.extension) ? this.latestNoteFrom(source) : null;
+      return (_b = (_a2 = (previous != null ? previous : source).parent) == null ? void 0 : _a2.path) != null ? _b : "";
+    }
+    return this.ensureFolder((0, import_obsidian2.normalizePath)(this.settings.outputFolder || "Converted"));
+  }
+  /** The most recently changed note whose frontmatter `source` links to `source`. */
+  latestNoteFrom(source) {
+    var _a2, _b;
+    const { metadataCache } = this.app;
+    let latest = null;
+    for (const note of this.app.vault.getMarkdownFiles()) {
+      const links = (_b = (_a2 = metadataCache.getFileCache(note)) == null ? void 0 : _a2.frontmatterLinks) != null ? _b : [];
+      const fromSource = links.some(
+        (link) => link.key === "source" && metadataCache.getFirstLinkpathDest(link.link, note.path) === source
+      );
+      if (fromSource && (!latest || note.stat.mtime > latest.stat.mtime))
+        latest = note;
+    }
+    return latest;
+  }
+  /**
+   * Creates the folder at `path` unless it's already there, and returns the
+   * path to use for it.
+   *
+   * The returned path can differ from `path` in case. macOS and Windows file
+   * systems ignore case, so a setting of `XAttachment` in a vault that already
+   * has `xattachment/` means that folder — and asking Obsidian to create it
+   * fails with "already exists". Existing folders keep the case they have.
+   */
+  async ensureFolder(path) {
+    const existing = this.findPath(path);
     if (existing instanceof import_obsidian2.TFolder)
-      return folder;
+      return existing.path;
     if (existing)
-      throw new Error(`"${folder}" is a file, not a folder`);
-    await this.app.vault.createFolder(folder);
-    return folder;
+      throw new Error(`"${existing.path}" is a file, not a folder`);
+    const actual = this.caseOfExisting(path);
+    await this.app.vault.createFolder(actual);
+    return actual;
+  }
+  /** The file or folder at `path`, ignoring case, as Obsidian itself does for attachments. */
+  findPath(path) {
+    const exact = this.app.vault.getAbstractFileByPath(path);
+    if (exact)
+      return exact;
+    const found = this.app.vault.getAbstractFileByPath(this.caseOfExisting(path));
+    return found && found.path.toLowerCase() === path.toLowerCase() ? found : null;
+  }
+  /** `path` with each leading part that already exists spelled the way the vault spells it. */
+  caseOfExisting(path) {
+    let folder = this.app.vault.getRoot();
+    const parts = [];
+    for (const part of path.split("/").filter((segment) => segment !== "")) {
+      const match = folder == null ? void 0 : folder.children.find(
+        (child) => child.name.toLowerCase() === part.toLowerCase()
+      );
+      parts.push(match ? match.name : part);
+      folder = match instanceof import_obsidian2.TFolder ? match : null;
+    }
+    return parts.join("/");
   }
   /** Never overwrites: a re-conversion lands beside the previous note. */
   availablePath(folder, basename) {
     const prefix = folder === "" || folder === "/" ? "" : `${folder}/`;
     let candidate = `${prefix}${basename}.md`;
     let counter = 1;
-    while (this.app.vault.getAbstractFileByPath(candidate)) {
+    while (this.findPath(candidate)) {
       candidate = `${prefix}${basename} ${++counter}.md`;
     }
     return candidate;
@@ -28672,6 +28958,52 @@ var ConvertToMarkdownPlugin = class extends import_obsidian2.Plugin {
     await this.saveData(this.settings);
   }
 };
+var ConversionWrites = class {
+  constructor(app) {
+    this.app = app;
+    this.files = [];
+    this.moves = [];
+    this.folders = /* @__PURE__ */ new Set();
+    this.foldersBefore = new Set(
+      app.vault.getAllLoadedFiles().filter((file) => file instanceof import_obsidian2.TFolder).map((folder) => folder.path.toLowerCase())
+    );
+  }
+  created(file) {
+    this.files.push(file);
+  }
+  moved(file, from) {
+    this.moves.push({ file, from });
+  }
+  /** Notes a folder the conversion is about to use, and passes its path through. */
+  folder(path) {
+    const parts = path.split("/").filter((part) => part !== "");
+    for (let depth = 1; depth <= parts.length; depth++) {
+      const prefix = parts.slice(0, depth).join("/");
+      if (!this.foldersBefore.has(prefix.toLowerCase()))
+        this.folders.add(prefix);
+    }
+    return path;
+  }
+  async undo() {
+    const { vault, fileManager } = this.app;
+    for (const { file, from } of this.moves.reverse()) {
+      await fileManager.renameFile(file, from).catch((error) => warnUndo(`move ${file.path} back`, error));
+    }
+    for (const file of this.files.reverse()) {
+      await fileManager.trashFile(file).catch((error) => warnUndo(`delete ${file.path}`, error));
+    }
+    const deepestFirst = [...this.folders].sort((a, b) => b.split("/").length - a.split("/").length);
+    for (const path of deepestFirst) {
+      const listing = await vault.adapter.list(path).catch(() => null);
+      if (!listing || listing.files.length > 0 || listing.folders.length > 0)
+        continue;
+      await vault.adapter.rmdir(path, true).catch((error) => warnUndo(`remove ${path}`, error));
+    }
+  }
+};
+function warnUndo(action, error) {
+  console.warn(`Convert to Markdown: couldn't ${action} while undoing a failed conversion`, error);
+}
 function progressReporter(notice, fileName) {
   let last = "";
   return (status, progress) => {
