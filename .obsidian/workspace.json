@@ -41,24 +41,12 @@
             "id": "8883b175f85083c2",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "pdf",
               "state": {
-                "file": "Epics/10 - Alerting/Epic 10 MS 2-3 GitLab Issues Breakdown.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": true,
-                "backlinkOpts": {
-                  "collapseAll": false,
-                  "extraContext": false,
-                  "sortOrder": "alphabetical",
-                  "showSearch": false,
-                  "searchQuery": "",
-                  "backlinkCollapsed": false,
-                  "unlinkedCollapsed": true
-                }
+                "file": "Epics/10 - Alerting/PIP/CME PIP Joe Theuerkauf(SMSigned).pdf"
               },
-              "icon": "lucide-file",
-              "title": "Epic 10 MS 2-3 GitLab Issues Breakdown"
+              "icon": "lucide-file-text",
+              "title": "CME PIP Joe Theuerkauf(SMSigned)"
             }
           },
           {
@@ -309,8 +297,9 @@
       "obsidian-gitlab-issues:Gitlab Issues": false
     }
   },
-  "active": "69bef66036e116dd",
+  "active": "8883b175f85083c2",
   "lastOpenFiles": [
+    "Epics/10 - Alerting/Epic 10 MS 2-3 GitLab Issues Breakdown.md",
     "Gitlab Issues/Provide --test and --dry-run options to restrict to local environment.md",
     "Gitlab Issues/Partial run retries reuse original payload snapshot.md",
     "Gitlab Issues/Refactor App-Mail classes into EmailBuilder.md",
@@ -321,7 +310,6 @@
     "Gitlab Issues/-To- should be a no-reply account, recipients all in -Bcc-.md",
     "Gitlab Issues/Seed template for migrating AllRivers Alerts.md",
     "Epics/10 - Alerting/MS 2 - Alerts Architecture/extracts/A03 — Build the alert registry, scheduler, runner, jobs, and command.md",
-    "Epics/10 - Alerting/Epic 10 MS 2-3 GitLab Issues Breakdown.md",
     "Epics/10 - Alerting/MS 2 - Alerts Architecture/extracts/A02 — Define alert run outcomes and idempotency rules.md",
     "Epics/10 - Alerting/MS 2 - Alerts Architecture/extracts/A01 — Persist alert definitions and alert runs.md",
     "~templates/Simplified Ticket.md",
