@@ -299,6 +299,7 @@
   },
   "active": "8883b175f85083c2",
   "lastOpenFiles": [
+    "Gitlab Issues/Add seeder templates for sidebar menu operations.md",
     "Epics/10 - Alerting/Epic 10 MS 2-3 GitLab Issues Breakdown.md",
     "Gitlab Issues/Provide --test and --dry-run options to restrict to local environment.md",
     "Gitlab Issues/Partial run retries reuse original payload snapshot.md",
@@ -325,7 +326,6 @@
     "Gitlab Issues/Alert Run History.md",
     "Gitlab Issues/Alert Role-based Recipients.md",
     "Gitlab Issues/Alert Job Migrations.md",
-    "Gitlab Issues/Fixes for ports, composer.json, vite, etc..md",
     "~templates",
     "_templates",
     "$templates",
