@@ -1,11 +1,10 @@
 ---
 id: 204121701
-title: "To" should be a no-reply account, recipients all in "Bcc"
-dueDate: 
+title: '"To" should be a no-reply account, recipients all in "Bcc"'
+dueDate:
 webUrl: https://gitlab.com/cme-corp/newrivers/-/work_items/721
 project: cme-corp/newrivers#721
 ---
-
 ### "To" should be a no-reply account, recipients all in "Bcc"
 ##### Due on 
 

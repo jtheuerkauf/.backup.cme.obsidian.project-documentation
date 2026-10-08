@@ -1,8 +1,11 @@
-## #. Ticket Title
+---
+id: {{id}}
+title: '{{title}'
+dueDate: {{due_date}}
+link: {{web_url}}
+---
 
-### Simplified
+# #{{id}}. {{title}}
 
-#### Requirements
+{{description}}
 
-
-#### Specifications

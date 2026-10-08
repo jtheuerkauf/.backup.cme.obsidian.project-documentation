@@ -352,21 +352,21 @@ var require_runtime = __commonJS({
         return "[object Generator]";
       });
       function pushTryEntry(locs) {
-        var entry = { tryLoc: locs[0] };
+        var entry2 = { tryLoc: locs[0] };
         if (1 in locs) {
-          entry.catchLoc = locs[1];
+          entry2.catchLoc = locs[1];
         }
         if (2 in locs) {
-          entry.finallyLoc = locs[2];
-          entry.afterLoc = locs[3];
+          entry2.finallyLoc = locs[2];
+          entry2.afterLoc = locs[3];
         }
-        this.tryEntries.push(entry);
+        this.tryEntries.push(entry2);
       }
-      function resetTryEntry(entry) {
-        var record2 = entry.completion || {};
+      function resetTryEntry(entry2) {
+        var record2 = entry2.completion || {};
         record2.type = "normal";
         delete record2.arg;
-        entry.completion = record2;
+        entry2.completion = record2;
       }
       function Context(tryLocsList) {
         this.tryEntries = [{ tryLoc: "root" }];
@@ -468,27 +468,27 @@ var require_runtime = __commonJS({
             return !!caught;
           }
           for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-            var entry = this.tryEntries[i];
-            var record2 = entry.completion;
-            if (entry.tryLoc === "root") {
+            var entry2 = this.tryEntries[i];
+            var record2 = entry2.completion;
+            if (entry2.tryLoc === "root") {
               return handle("end");
             }
-            if (entry.tryLoc <= this.prev) {
-              var hasCatch = hasOwn.call(entry, "catchLoc");
-              var hasFinally = hasOwn.call(entry, "finallyLoc");
+            if (entry2.tryLoc <= this.prev) {
+              var hasCatch = hasOwn.call(entry2, "catchLoc");
+              var hasFinally = hasOwn.call(entry2, "finallyLoc");
               if (hasCatch && hasFinally) {
-                if (this.prev < entry.catchLoc) {
-                  return handle(entry.catchLoc, true);
-                } else if (this.prev < entry.finallyLoc) {
-                  return handle(entry.finallyLoc);
+                if (this.prev < entry2.catchLoc) {
+                  return handle(entry2.catchLoc, true);
+                } else if (this.prev < entry2.finallyLoc) {
+                  return handle(entry2.finallyLoc);
                 }
               } else if (hasCatch) {
-                if (this.prev < entry.catchLoc) {
-                  return handle(entry.catchLoc, true);
+                if (this.prev < entry2.catchLoc) {
+                  return handle(entry2.catchLoc, true);
                 }
               } else if (hasFinally) {
-                if (this.prev < entry.finallyLoc) {
-                  return handle(entry.finallyLoc);
+                if (this.prev < entry2.finallyLoc) {
+                  return handle(entry2.finallyLoc);
                 }
               } else {
                 throw new Error("try statement without catch or finally");
@@ -498,9 +498,9 @@ var require_runtime = __commonJS({
         },
         abrupt: function(type, arg) {
           for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-            var entry = this.tryEntries[i];
-            if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) {
-              var finallyEntry = entry;
+            var entry2 = this.tryEntries[i];
+            if (entry2.tryLoc <= this.prev && hasOwn.call(entry2, "finallyLoc") && this.prev < entry2.finallyLoc) {
+              var finallyEntry = entry2;
               break;
             }
           }
@@ -534,22 +534,22 @@ var require_runtime = __commonJS({
         },
         finish: function(finallyLoc) {
           for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-            var entry = this.tryEntries[i];
-            if (entry.finallyLoc === finallyLoc) {
-              this.complete(entry.completion, entry.afterLoc);
-              resetTryEntry(entry);
+            var entry2 = this.tryEntries[i];
+            if (entry2.finallyLoc === finallyLoc) {
+              this.complete(entry2.completion, entry2.afterLoc);
+              resetTryEntry(entry2);
               return ContinueSentinel;
             }
           }
         },
         "catch": function(tryLoc) {
           for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-            var entry = this.tryEntries[i];
-            if (entry.tryLoc === tryLoc) {
-              var record2 = entry.completion;
+            var entry2 = this.tryEntries[i];
+            if (entry2.tryLoc === tryLoc) {
+              var record2 = entry2.completion;
               if (record2.type === "throw") {
                 var thrown = record2.arg;
-                resetTryEntry(entry);
+                resetTryEntry(entry2);
               }
               return thrown;
             }
@@ -1393,7 +1393,7 @@ __export(main_exports, {
   default: () => ConvertToMarkdownPlugin
 });
 module.exports = __toCommonJS(main_exports);
-var import_obsidian2 = require("obsidian");
+var import_obsidian3 = require("obsidian");
 
 // src/assets.ts
 var crypto2 = __toESM(require("crypto"));
@@ -1421,7 +1421,7 @@ function createAssetSink(write) {
 }
 function droppedImagesWarning(count, extractionEnabled) {
   const images = count === 1 ? "1 image" : `${count} images`;
-  return extractionEnabled ? `${images} could not be extracted \u2014 usually Windows metafiles (EMF/WMF), which nothing here can render.` : `${images} left out (image extraction is off in settings).`;
+  return extractionEnabled ? `${images} could not be extracted. These are usually Windows metafiles (EMF/WMF), which nothing here can render.` : `${images} left out (image extraction is off in settings).`;
 }
 var IMAGE_MIME_EXTENSIONS = {
   "image/png": "png",
@@ -1457,7 +1457,7 @@ function attachmentFolderFor(template, noteFolder, noteBasename) {
       continue;
     if (part === "..") {
       if (segments.length === 0) {
-        throw new Error(`attachment folder "${template}" points outside the vault \u2014 check the setting`);
+        throw new Error(`attachment folder "${template}" points outside the vault. Check the setting`);
       }
       segments.pop();
       continue;
@@ -1484,7 +1484,7 @@ function bullet(depth, text) {
 function numbered(depth, text) {
   return `${"  ".repeat(Math.max(depth, 0))}1. ${text}`;
 }
-function table(rows) {
+function table(rows, rightAligned = []) {
   if (rows.length === 0)
     return [];
   const width = Math.max(...rows.map((row) => row.length));
@@ -1495,7 +1495,8 @@ function table(rows) {
     return `| ${cells.join(" | ")} |`;
   };
   const [header2, ...body] = rows;
-  return [pad(header2), `| ${Array(width).fill("---").join(" | ")} |`, ...body.map(pad)];
+  const rule = Array.from({ length: width }, (_, column) => rightAligned[column] ? "---:" : "---");
+  return [pad(header2), `| ${rule.join(" | ")} |`, ...body.map(pad)];
 }
 function joinBlocks(lines) {
   const out = [];
@@ -1523,12 +1524,15 @@ function yamlValue(text) {
   const value = text.replace(/[\r\n]+/g, " ").trim();
   if (value === "")
     return '""';
+  if (LOOKS_TYPED.test(value))
+    return `"${value}"`;
   if (/^[A-Za-z0-9][A-Za-z0-9 ._/@+()–—-]*[A-Za-z0-9._/@+()]$/.test(value))
     return value;
   if (/^[A-Za-z0-9]$/.test(value))
     return value;
   return `"${value.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
 }
+var LOOKS_TYPED = /^(?:true|false|yes|no|on|off|y|n|null|~|[-+]?(?:\d[\d_]*(?:\.[\d_]*)?|\.\d[\d_]*)(?:[eE][-+]?\d+)?|0x[\da-f_]+|0o[0-7_]+|0b[01_]+)$/i;
 function squashSpaces(text) {
   return text.replace(/[ \t\u00A0]+/g, " ").trim();
 }
@@ -1676,7 +1680,7 @@ async function convert(data, forced) {
   if (ragged.length > 0) {
     const shown = ragged.slice(0, 10).join(", ");
     warnings.push(
-      `${ragged.length} row${ragged.length === 1 ? "" : "s"} had fewer than ${width} fields and ${ragged.length === 1 ? "was" : "were"} padded with empty cells \u2014 row${ragged.length === 1 ? "" : "s"} ${shown}${ragged.length > 10 ? ", \u2026" : ""}.`
+      `${ragged.length} row${ragged.length === 1 ? "" : "s"} had fewer than ${width} fields and ${ragged.length === 1 ? "was" : "were"} padded with empty cells: row${ragged.length === 1 ? "" : "s"} ${shown}${ragged.length > 10 ? ", \u2026" : ""}.`
     );
   }
   if (rows.length > 1 && looksLikeData(rows[0])) {
@@ -1814,19 +1818,19 @@ var ZipArchive = class {
   }
   /** Decompressed entry as raw bytes, or null if it isn't in the archive. */
   bytes(path) {
-    const entry = this.entries.get(path);
-    if (!entry)
+    const entry2 = this.entries.get(path);
+    if (!entry2)
       return null;
     const { buffer } = this;
-    if (buffer.readUInt32LE(entry.localHeaderOffset) !== LOCAL_HEADER_SIGNATURE)
+    if (buffer.readUInt32LE(entry2.localHeaderOffset) !== LOCAL_HEADER_SIGNATURE)
       return null;
-    const nameLength = buffer.readUInt16LE(entry.localHeaderOffset + 26);
-    const extraLength = buffer.readUInt16LE(entry.localHeaderOffset + 28);
-    const dataStart = entry.localHeaderOffset + 30 + nameLength + extraLength;
-    const data = buffer.subarray(dataStart, dataStart + entry.compressedSize);
-    if (entry.compressionMethod === 0)
+    const nameLength = buffer.readUInt16LE(entry2.localHeaderOffset + 26);
+    const extraLength = buffer.readUInt16LE(entry2.localHeaderOffset + 28);
+    const dataStart = entry2.localHeaderOffset + 30 + nameLength + extraLength;
+    const data = buffer.subarray(dataStart, dataStart + entry2.compressedSize);
+    if (entry2.compressionMethod === 0)
       return Buffer.from(data);
-    if (entry.compressionMethod === 8)
+    if (entry2.compressionMethod === 8)
       return zlib.inflateRawSync(data);
     return null;
   }
@@ -2167,9 +2171,9 @@ function readNumbering(zip) {
       continue;
     for (const level of children(abstractNum, "w:lvl")) {
       const index = (_b = level.getAttribute("w:ilvl")) != null ? _b : "0";
-      const format = (_c = children(level, "w:numFmt")[0]) == null ? void 0 : _c.getAttribute("w:val");
-      if (format)
-        formats.set(`${abstractId}:${index}`, format);
+      const format2 = (_c = children(level, "w:numFmt")[0]) == null ? void 0 : _c.getAttribute("w:val");
+      if (format2)
+        formats.set(`${abstractId}:${index}`, format2);
     }
   }
   return {
@@ -2177,8 +2181,8 @@ function readNumbering(zip) {
       const abstractId = numIdToAbstract.get(numId);
       if (!abstractId)
         return false;
-      const format = formats.get(`${abstractId}:${level}`);
-      return format !== void 0 && format !== "bullet" && format !== "none";
+      const format2 = formats.get(`${abstractId}:${level}`);
+      return format2 !== void 0 && format2 !== "bullet" && format2 !== "none";
     }
   };
 }
@@ -2980,7 +2984,7 @@ async function extractMhtml(data, assets) {
   const parts = flattenParts(archive);
   const page = parts.find((part) => part.contentType === "text/html");
   if (!page)
-    throw new Error("no HTML part in this archive \u2014 it may be a plain email rather than a saved page");
+    throw new Error("no HTML part in this archive; it may be a plain email rather than a saved page");
   const warnings = [];
   const { lines, dropped } = await renderPage(partText(page), parts, assets, { stripFurniture: true });
   if (dropped.length > 0) {
@@ -3031,7 +3035,7 @@ async function renderMessage(message, assets, warnings, depth) {
   }
   const placed = /* @__PURE__ */ new Set();
   if (!body) {
-    warnings.push("This message has no text body \u2014 it may be attachments only.");
+    warnings.push("This message has no text body. It may be attachments only.");
   } else if (body.chosen.contentType === "text/html") {
     const page = await renderPage(partText(body.chosen), parts, assets, { stripFurniture: false });
     lines.push(...page.lines);
@@ -3134,7 +3138,7 @@ async function renderAttachments(parts, bodyParts, placedCids, assets, warnings,
   }
   if (named.length > 0) {
     warnings.push(
-      `${named.length} attachment${named.length === 1 ? "" : "s"} not converted \u2014 open the original message for ${named.length === 1 ? "it" : "them"}: ${named.join(", ")}.`
+      `${named.length} attachment${named.length === 1 ? "" : "s"} not converted. Open the original message for ${named.length === 1 ? "it" : "them"}: ${named.join(", ")}.`
     );
   }
   return lines;
@@ -3153,7 +3157,7 @@ async function extractEpub(data, assets) {
   const zip = ZipArchive.open(data);
   if (zip.has("META-INF/encryption.xml")) {
     throw new Error(
-      "this EPUB is encrypted (DRM) \u2014 its text can't be read without the reader app it was bought from"
+      "this EPUB is encrypted (DRM), so its text can't be read without the reader app it was bought from"
     );
   }
   const packagePath = findPackage(zip);
@@ -3164,7 +3168,7 @@ async function extractEpub(data, assets) {
   const manifest = readManifest(opf, packagePath);
   const spine = readSpine(opf, manifest);
   if (spine.length === 0)
-    throw new Error("this EPUB's spine is empty \u2014 there is no reading order to follow");
+    throw new Error("this EPUB's spine is empty, so there is no reading order to follow");
   const titles = readContents(zip, opf, manifest);
   const warnings = [];
   const unreadable = [];
@@ -3372,7 +3376,7 @@ async function extractHtml(data, assets) {
   const document2 = parseHtml(source);
   const { root, dropped } = findMainContent(document2);
   if (!root)
-    throw new Error("the file has no <body> \u2014 it may not be HTML");
+    throw new Error("the file has no <body>, so it may not be HTML");
   const { images, unresolved } = await resolveImages(collectImageSources(root), assets, () => null);
   const lines = renderHtml(root, { images });
   const title = pageTitle(document2);
@@ -3448,7 +3452,7 @@ function describeGaps(dropped, unresolved, assets) {
   const local = unresolved.filter((src) => !/^https?:\/\//i.test(src));
   if (remote.length > 0) {
     warnings.push(
-      `${remote.length} image${remote.length === 1 ? "" : "s"} ${remote.length === 1 ? "is" : "are"} linked to the web rather than stored in the file, so nothing could be copied into the vault \u2014 they are embedded as links and will only display online.`
+      `${remote.length} image${remote.length === 1 ? "" : "s"} ${remote.length === 1 ? "is" : "are"} linked to the web rather than stored in the file, so nothing could be copied into the vault. They are embedded as links and will only display online.`
     );
   }
   if (local.length > 0) {
@@ -3476,7 +3480,382 @@ var LANGUAGE_FILE_NAMES = ["eng.traineddata", "eng.traineddata.gz"];
 
 // src/recognize.ts
 var import_tesseract = __toESM(require_src());
+
+// src/layout/tables.ts
+var SPACE_GAP = 0.2;
+var MAX_ROW_GAP = 2.5;
+var HEADER_STEP = 1.8;
+var SIZE_JUMP = 1.3;
+var SAME_PITCH = 0.15;
+var PITCH_REACH = 3;
+var SAME_ROW_GAP = 1.2;
+var ROW_PITCH_STEP = 1.2;
+var SAME_LEFT = 0.5;
+var MIN_GUTTER = 0.1;
+var CELL_GAP = 1;
+var PROSE_WORDS = 4;
+var PROSE_LOWERCASE = 0.6;
+var MIN_ROWS = 3;
+var MAX_TRIM = 3;
+var TWO_COLUMN_NUMERIC_SHARE = 0.8;
+var NUMERIC_COLUMN_SHARE = 0.6;
+function findTables(rows) {
+  const tables = [];
+  const search = (start, end) => {
+    if (end - start + 1 < MIN_ROWS)
+      return;
+    const table2 = bestTable(rows, start, end);
+    if (!table2) {
+      const seam = widestGap(rows, start, end);
+      search(start, seam - 1);
+      search(seam, end);
+      return;
+    }
+    search(start, table2.first - 1);
+    tables.push(table2);
+    search(table2.last + 1, end);
+  };
+  for (const [start, end] of blocks(rows))
+    search(start, end);
+  return tables;
+}
+function joinItems(items) {
+  let out = items[0].text;
+  let cursor = items[0].x + items[0].width;
+  for (const item of items.slice(1)) {
+    const gap = item.x - cursor;
+    const needsSpace = gap > item.size * SPACE_GAP && !/\s$/.test(out) && !/^\s/.test(item.text);
+    out += needsSpace ? ` ${item.text}` : item.text;
+    cursor = item.x + item.width;
+  }
+  return out;
+}
+function runsOf(row, gap) {
+  const runs = [];
+  for (const segment of segmentsOf(row)) {
+    const size = Math.max(...segment.items.map((item) => item.size));
+    const last = runs[runs.length - 1];
+    if (last && segment.left - last.right <= gap * Math.max(size, last.size)) {
+      last.items.push(...segment.items);
+      last.right = segment.right;
+      last.size = Math.max(last.size, size);
+    } else {
+      runs.push({ items: [...segment.items], left: segment.left, right: segment.right, size });
+    }
+  }
+  return runs.map((run) => ({ text: joinItems(run.items).trim(), left: run.left, right: run.right, size: run.size }));
+}
+function segmentsOf(row) {
+  const segments = [];
+  for (const item of row.items) {
+    if (item.text.trim() === "")
+      continue;
+    const last = segments[segments.length - 1];
+    if (last && item.x - last.right <= item.size * SPACE_GAP) {
+      last.items.push(item);
+      last.right = Math.max(last.right, item.x + item.width);
+    } else {
+      segments.push({ items: [item], left: item.x, right: item.x + item.width });
+    }
+  }
+  return segments;
+}
+function rowSize(row) {
+  return Math.max(...row.items.map((item) => item.size));
+}
+function blocks(rows) {
+  const out = [];
+  let start = 0;
+  const close = (end) => {
+    let multi = 0;
+    for (let index = start; index <= end; index++)
+      if (segmentsOf(rows[index]).length > 1)
+        multi++;
+    if (multi >= 2)
+      out.push([start, end]);
+  };
+  const gap = (index) => index > 0 && index < rows.length ? rows[index].y - rows[index - 1].y : NaN;
+  const samePitch = (a, b) => Math.abs(a - b) <= SAME_PITCH * Math.max(a, b);
+  const repeats = (index) => {
+    for (let offset = 1; offset <= PITCH_REACH; offset++) {
+      if (samePitch(gap(index), gap(index - offset)) || samePitch(gap(index), gap(index + offset)))
+        return true;
+    }
+    return false;
+  };
+  for (let index = 1; index <= rows.length; index++) {
+    const ended = index === rows.length || sizeJump(rows[index - 1], rows[index]) || gap(index) > MAX_ROW_GAP * Math.max(rowSize(rows[index]), rowSize(rows[index - 1])) && !(gap(index) <= HEADER_STEP * gap(index - 1)) && !repeats(index);
+    if (!ended)
+      continue;
+    close(index - 1);
+    start = index;
+  }
+  return out;
+}
+function sizeJump(above, below) {
+  const [larger, smaller] = rowSize(above) >= rowSize(below) ? [above, below] : [below, above];
+  return segmentsOf(larger).length === 1 && rowSize(larger) >= SIZE_JUMP * rowSize(smaller);
+}
+function widestGap(rows, start, end) {
+  let seam = start + 1;
+  let widest = -1;
+  for (let index = start + 1; index <= end; index++) {
+    const gap = (rows[index].y - rows[index - 1].y) / Math.max(rowSize(rows[index]), rowSize(rows[index - 1]));
+    if (gap > widest) {
+      widest = gap;
+      seam = index;
+    }
+  }
+  return seam;
+}
+function bestTable(rows, start, end) {
+  const multi = [];
+  for (let index = start; index <= end; index++)
+    if (segmentsOf(rows[index]).length > 1)
+      multi.push(index);
+  let best = null;
+  for (let top = 0; top <= MAX_TRIM && top < multi.length; top++) {
+    for (let bottom = 0; bottom <= MAX_TRIM && bottom < multi.length - top; bottom++) {
+      const first = multi[top];
+      const last = multi[multi.length - 1 - bottom];
+      if (last - first + 1 < MIN_ROWS)
+        continue;
+      const table2 = tableIn(rows, first, last, start, end);
+      if (table2 && (!best || table2.last - table2.first > best.last - best.first))
+        best = table2;
+    }
+  }
+  return best;
+}
+function tableIn(rows, first, last, blockStart, blockEnd) {
+  if (segmentsOf(rows[first]).length < 2 || segmentsOf(rows[last]).length < 2)
+    return null;
+  const size = median(rows.slice(first, last + 1).map(rowSize));
+  const candidates = rows.slice(first, last + 1).map(segmentsOf);
+  let gutters = withoutLoneColumns(
+    candidates,
+    guttersOf(
+      candidates.filter((row) => row.length > 1),
+      size
+    )
+  );
+  if (gutters.length === 0)
+    return null;
+  const cellsIn = (index) => {
+    var _a2, _b;
+    return (_b = (_a2 = place(segmentsOf(rows[index]), gutters)) == null ? void 0 : _a2.size) != null ? _b : 0;
+  };
+  const columnCount = gutters.length + 1;
+  while (first < last && cellsIn(first) < Math.max(2, Math.ceil(columnCount / 2)))
+    first++;
+  while (last > first && cellsIn(last) < 2)
+    last--;
+  if (last - first + 1 < MIN_ROWS)
+    return null;
+  const fits = (index) => place(segmentsOf(rows[index]), gutters) !== null;
+  const wrapsFrom = (index) => {
+    const above = segmentsOf(rows[index - 1]);
+    return segmentsOf(rows[index]).every(
+      (segment) => above.some(
+        (cell) => columnOf(cell, gutters) === columnOf(segment, gutters) && Math.abs(cell.left - segment.left) <= SAME_LEFT * size
+      )
+    );
+  };
+  while (first > blockStart && rows[first].y - rows[first - 1].y <= SAME_ROW_GAP * size && fits(first - 1))
+    first--;
+  while (last < blockEnd && rows[last + 1].y - rows[last].y <= SAME_ROW_GAP * size && fits(last + 1) && wrapsFrom(last + 1)) {
+    last++;
+  }
+  const span = rows.slice(first, last + 1);
+  const segments = span.map(segmentsOf);
+  gutters = withoutLoneColumns(segments, gutters);
+  if (gutters.length === 0)
+    return null;
+  const columns = gutters.length + 1;
+  const placed = [];
+  for (let index = 0; index < span.length; index++) {
+    const cells = place(segments[index], gutters);
+    if (cells === null) {
+      let end = first + index - 1;
+      while (end > first && segmentsOf(rows[end]).length < 2)
+        end--;
+      return end - first + 1 >= MIN_ROWS ? tableIn(rows, first, end, blockStart, end) : null;
+    }
+    placed.push({ y: span[index].y, cells });
+  }
+  const table2 = mergeRows(placed, columns, size);
+  if (table2.length < MIN_ROWS && !isSummary(table2))
+    return null;
+  const numeric = Array.from({ length: columns }, (_, column) => isNumericColumn(table2.slice(1), column));
+  if (columns === 2 && !mostlyNumeric(table2.slice(1), 1, TWO_COLUMN_NUMERIC_SHARE))
+    return null;
+  for (let column = 0; column < columns; column++) {
+    const filled = table2.filter((row) => row[column] !== "");
+    if (filled.length >= 2)
+      continue;
+    const others = filled.length === 1 ? filled[0].filter((cell) => cell !== "").length - 1 : 0;
+    if (!isRowLabel(column, columns, others))
+      return null;
+  }
+  if (looksLikeProse(placed, columns))
+    return null;
+  return {
+    first,
+    last,
+    rows: table2,
+    numeric,
+    left: Math.min(...segments.flat().map((segment) => segment.left)),
+    right: Math.max(...segments.flat().map((segment) => segment.right))
+  };
+}
+function guttersOf(rows, size) {
+  const covered = rows.flat().map((segment) => [segment.left, segment.right]).sort((a, b) => a[0] - b[0]);
+  const gutters = [];
+  let reach = covered[0][1];
+  for (const [left, right] of covered.slice(1)) {
+    if (left - reach >= MIN_GUTTER * size)
+      gutters.push([reach, left]);
+    reach = Math.max(reach, right);
+  }
+  return gutters;
+}
+function withoutLoneColumns(segments, gutters) {
+  const kept = [...gutters];
+  for (; ; ) {
+    const columns = kept.length + 1;
+    const used = segments.map(
+      (row) => new Set(row.map((segment) => columnOf(segment, kept)).filter((column) => column !== null))
+    );
+    const lone = Array.from({ length: columns }, (_, column) => column).findIndex((column) => {
+      const rows = used.filter((row) => row.has(column));
+      return rows.length < 2 && !(rows.length === 1 && isRowLabel(column, columns, rows[0].size - 1));
+    });
+    if (lone === -1 || kept.length === 0)
+      return kept;
+    const width = (gutter) => gutter ? gutter[1] - gutter[0] : Infinity;
+    const before = kept[lone - 1];
+    const after = kept[lone];
+    kept.splice(width(before) <= width(after) ? lone - 1 : lone, 1);
+  }
+}
+function place(segments, gutters) {
+  const cells = /* @__PURE__ */ new Map();
+  for (const segment of segments) {
+    const column = columnOf(segment, gutters);
+    if (column === null)
+      return null;
+    const before = cells.get(column);
+    const previous = before == null ? void 0 : before[before.length - 1];
+    if (previous && segment.left - previous.right > CELL_GAP * segment.items[0].size)
+      return null;
+    cells.set(column, [...before != null ? before : [], segment]);
+  }
+  return cells;
+}
+function isSummary(table2) {
+  return table2.length === 2 && table2[0].length >= 3 && table2[1].filter(isNumeric).length >= 2;
+}
+function isRowLabel(column, columns, otherCells) {
+  return (column === 0 || column === columns - 1) && otherCells >= 2;
+}
+function columnOf(segment, gutters) {
+  const middle = (segment.left + segment.right) / 2;
+  let column = 0;
+  for (const [left, right] of gutters) {
+    if (segment.left < left && segment.right > right)
+      return null;
+    if (middle > (left + right) / 2)
+      column++;
+  }
+  return column;
+}
+function mergeRows(placed, columns, size) {
+  const rows = [];
+  const leading = leadingLimit(placed.map((row) => row.y));
+  for (const { y, cells } of placed) {
+    const texts = new Map([...cells].map(([column, segments]) => [column, segments.map((s) => joinItems(s.items)).join(" ")]));
+    const current = rows[rows.length - 1];
+    const near = current !== void 0 && y - current.y <= (leading != null ? leading : SAME_ROW_GAP * size);
+    if (current && near) {
+      const shared = [...texts].filter(([column]) => current.cells[column] !== "");
+      const partial = leading !== null || texts.size <= Math.ceil(columns / 2);
+      const words = shared.every(([, text]) => !isNumeric(text));
+      if (shared.length === 0 || partial && words) {
+        for (const [column, text] of texts)
+          current.cells[column] = joinWrapped(current.cells[column], text);
+        current.y = y;
+        continue;
+      }
+    }
+    const row = Array(columns).fill("");
+    for (const [column, text] of texts)
+      row[column] = text;
+    rows.push({ y, cells: row });
+  }
+  return rows.map((row) => row.cells.map((cell) => cell.replace(/\s+/g, " ").trim()));
+}
+function leadingLimit(baselines) {
+  const gaps = baselines.slice(1).map((y, index) => y - baselines[index]).sort((a, b) => a - b);
+  let best = null;
+  let widest = ROW_PITCH_STEP;
+  for (let index = 1; index < gaps.length; index++) {
+    const step = gaps[index] / gaps[index - 1];
+    if (step >= widest) {
+      widest = step;
+      best = (gaps[index] + gaps[index - 1]) / 2;
+    }
+  }
+  return best;
+}
+function joinWrapped(above, below) {
+  if (above === "")
+    return below;
+  if (/[‐-]$/.test(above))
+    return `${above.slice(0, -1)}${below.trimStart()}`;
+  return `${above} ${below}`;
+}
+function looksLikeProse(placed, columns) {
+  let wordy = 0;
+  for (let column = 0; column < columns; column++) {
+    const texts = placed.map((row) => row.cells.get(column)).filter((cell) => cell !== void 0).map((cell) => cell.map((segment) => joinItems(segment.items)).join(" ").trim());
+    if (texts.length === 0)
+      continue;
+    if (median(texts.map((text) => text.split(/\s+/).length)) >= PROSE_WORDS)
+      wordy++;
+    if (column > 0 && texts.filter((text) => /^\p{Ll}/u.test(text)).length >= texts.length * PROSE_LOWERCASE) {
+      return true;
+    }
+  }
+  return wordy >= 2;
+}
+var NUMBER = /^[-−–+(]?\s*[$€£¥₹]?\s*[-−]?\d[\d,.' ]*%?\)?(\s?[A-Z]{3})?$/;
+function isNumeric(text) {
+  return NUMBER.test(text.trim());
+}
+function isNumericColumn(body, column) {
+  return mostlyNumeric(body, column, NUMERIC_COLUMN_SHARE);
+}
+function mostlyNumeric(body, column, share) {
+  const filled = body.map((row) => row[column]).filter((cell) => cell !== "");
+  return filled.length > 0 && filled.filter(isNumeric).length >= filled.length * share;
+}
+function median(values) {
+  var _a2;
+  const sorted = [...values].sort((a, b) => a - b);
+  return (_a2 = sorted[sorted.length >> 1]) != null ? _a2 : 0;
+}
+
+// src/recognize.ts
 var workerUrl = null;
+var LOW_TABLE_CONFIDENCE = 80;
+function recognitionMarkdown(recognition) {
+  return recognition.blocks.flatMap(
+    (block) => block.kind === "text" ? ["", escapeInline(block.text), ""] : ["", ...table(block.rows.map((row) => row.map((cell) => squashSpaces(escapeInline(cell)))), block.numeric), ""]
+  );
+}
+function hasBlocks(recognition) {
+  return recognition !== void 0 && recognition.blocks.length > 0;
+}
 var MIN_PARAGRAPH_CONFIDENCE = 60;
 var OcrEngineError = class extends Error {
   constructor(cause) {
@@ -3485,7 +3864,7 @@ var OcrEngineError = class extends Error {
   }
 };
 async function recognize(data, ocr) {
-  var _a2, _b;
+  var _a2, _b, _c;
   let worker;
   try {
     const engine = await ocr.resolve();
@@ -3503,7 +3882,13 @@ async function recognize(data, ocr) {
   try {
     await worker.setParameters({ tessedit_pageseg_mode: import_tesseract.PSM.AUTO });
     const { data: result } = await worker.recognize(data, {}, { blocks: true, text: true });
-    return { ...buildParagraphs((_a2 = result.blocks) != null ? _a2 : []), confidence: (_b = result.confidence) != null ? _b : 0 };
+    const text = (_a2 = result.blocks) != null ? _a2 : [];
+    let tables = text;
+    if (mayHoldTable(text)) {
+      await worker.setParameters({ tessedit_pageseg_mode: import_tesseract.PSM.SINGLE_BLOCK });
+      tables = (_b = (await worker.recognize(data, {}, { blocks: true })).data.blocks) != null ? _b : [];
+    }
+    return { ...readBlocks(text, tables), confidence: (_c = result.confidence) != null ? _c : 0 };
   } finally {
     await worker.terminate();
   }
@@ -3511,14 +3896,14 @@ async function recognize(data, ocr) {
 var MAX_LINE_GAP = 1.5;
 var COLUMN_TOLERANCE = 0.6;
 var MIN_FILL_RATIO = 0.6;
-function buildParagraphs(blocks) {
-  const groups = readLines(blocks);
+function buildParagraphs(blocks2, inTables) {
+  const groups = readLines(blocks2).map((group) => group.filter((line) => !inTables.has(line.source))).filter((group) => group.length > 0);
   if (groups.length === 0)
     return { paragraphs: [], discarded: 0 };
   const all = groups.flat();
-  const lineHeight = median(all.map((line) => line.box.y1 - line.box.y0)) || 1;
-  const units = groups.flatMap((group) => splitOnGaps(group, lineHeight));
-  const merged = mergeWrapped(units, all, lineHeight);
+  const lineHeight2 = median2(all.map((line) => line.box.y1 - line.box.y0)) || 1;
+  const units = groups.flatMap((group) => splitOnGaps(group, lineHeight2));
+  const merged = mergeWrapped(units, all, lineHeight2);
   const paragraphs = [];
   let discarded = 0;
   for (const unit of merged) {
@@ -3529,14 +3914,200 @@ function buildParagraphs(blocks) {
     if (confidence < MIN_PARAGRAPH_CONFIDENCE)
       discarded++;
     else
-      paragraphs.push(text);
+      paragraphs.push({ text, box: unit[0].box });
   }
   return { paragraphs, discarded };
 }
-function readLines(blocks) {
+function readBlocks(text, tables) {
+  var _a2, _b, _c;
+  const { rows, tilt, skipped } = layoutRows(tables);
+  const straighten = (x, y) => ({ x: x + tilt * y, y: y - tilt * x });
+  const found = [];
+  const detectedTables = skipped ? [] : findTables(rows);
+  for (const detected of detectedTables) {
+    const words = rows.slice(detected.first, detected.last + 1).flatMap((row) => row.items);
+    const first = rows[detected.first];
+    const last = rows[detected.last];
+    found.push({
+      block: { kind: "table", rows: detected.rows, numeric: detected.numeric, confidence: average(words.map((w) => w.confidence)) },
+      // From the top of the first row's letters to below the last row's
+      // descenders, in straightened coordinates.
+      box: {
+        x0: detected.left,
+        x1: detected.right,
+        y0: first.y - Math.max(...first.items.map((item) => item.size)),
+        y1: last.y + 0.5 * Math.max(...last.items.map((item) => item.size))
+      }
+    });
+  }
+  const inside = (bbox) => {
+    const middle = straighten((bbox.x0 + bbox.x1) / 2, (bbox.y0 + bbox.y1) / 2);
+    return found.find(({ box }) => middle.x >= box.x0 && middle.x <= box.x1 && middle.y >= box.y0 && middle.y <= box.y1);
+  };
+  const inTables = /* @__PURE__ */ new Set();
+  const unplaced = [];
+  for (const line of text.flatMap((block) => {
+    var _a3;
+    return ((_a3 = block.paragraphs) != null ? _a3 : []).flatMap((paragraph) => {
+      var _a4;
+      return (_a4 = paragraph.lines) != null ? _a4 : [];
+    });
+  })) {
+    if (!line.bbox || !inside(line.bbox))
+      continue;
+    inTables.add(line);
+    if (tables === text)
+      continue;
+    for (const word of (_a2 = line.words) != null ? _a2 : []) {
+      const token = ((_b = word.text) != null ? _b : "").trim();
+      const table2 = word.bbox && inside(word.bbox);
+      if (!table2 || table2.block.kind !== "table" || token === "" || ((_c = word.confidence) != null ? _c : 0) < MIN_PARAGRAPH_CONFIDENCE)
+        continue;
+      const cells = table2.block.rows.flat();
+      if (!cells.some((cell) => cell.includes(token)))
+        unplaced.push(token);
+    }
+  }
+  const { paragraphs, discarded } = buildParagraphs(text, inTables);
+  const out = paragraphs.map((paragraph) => {
+    const topLeft = straighten(paragraph.box.x0, paragraph.box.y0);
+    const bottomRight = straighten(paragraph.box.x1, paragraph.box.y1);
+    return {
+      block: { kind: "text", text: paragraph.text },
+      box: { x0: topLeft.x, y0: topLeft.y, x1: bottomRight.x, y1: bottomRight.y }
+    };
+  });
+  for (const entry2 of found) {
+    const next = out.findIndex(
+      ({ block, box }) => block.kind === "text" && box.y0 > entry2.box.y0 && box.x0 < entry2.box.x1 && box.x1 > entry2.box.x0
+    );
+    out.splice(next === -1 ? out.length : next, 0, entry2);
+  }
+  return {
+    blocks: out.map((entry2) => entry2.block),
+    discarded,
+    unplaced,
+    layout: tables === text ? { rows, tables: detectedTables } : mergedLayout(text, rows, detectedTables, found),
+    ...skipped ? { tablesSkipped: skipped } : {}
+  };
+}
+function mergedLayout(text, rows, tables, found) {
+  const ordinary = layoutRows(text);
+  const inTable = (row) => found.some(
+    ({ box }) => row.y >= box.y0 && row.y <= box.y1 && row.items.some((item) => item.x < box.x1 && item.x + item.width > box.x0)
+  );
+  const tableRows3 = tables.flatMap((detected) => rows.slice(detected.first, detected.last + 1));
+  const merged = [...ordinary.rows.filter((row) => !inTable(row)), ...tableRows3].sort((a, b) => a.y - b.y);
+  return {
+    rows: merged,
+    tables: tables.map((detected) => ({
+      ...detected,
+      first: merged.indexOf(rows[detected.first]),
+      last: merged.indexOf(rows[detected.last])
+    }))
+  };
+}
+var TABLE_HINT_ROWS = 3;
+function mayHoldTable(blocks2) {
+  const { rows, skipped } = layoutRows(blocks2);
+  return !skipped && rows.filter((row) => row.items.length > 1).length >= TABLE_HINT_ROWS;
+}
+var MIN_WORD_CONFIDENCE = 10;
+var RULE = /^[|_]+$/;
+var MAX_WARP = 0.5;
+function layoutRows(blocks2) {
+  var _a2, _b, _c, _d;
+  const lines = blocks2.flatMap((block) => {
+    var _a3;
+    return ((_a3 = block.paragraphs) != null ? _a3 : []).flatMap((paragraph) => {
+      var _a4;
+      return (_a4 = paragraph.lines) != null ? _a4 : [];
+    });
+  });
+  const sloped = lines.filter((line) => line.baseline && line.baseline.x1 - line.baseline.x0 > 0);
+  const slopes = sloped.map((line) => {
+    const { x0, y0, x1, y1 } = line.baseline;
+    return (y1 - y0) / (x1 - x0);
+  });
+  const tilt = median2(slopes);
+  const height = median2(lines.map(lineHeight)) || 1;
+  const words = lines.flatMap((line) => {
+    var _a3;
+    return ((_a3 = line.words) != null ? _a3 : []).map((word) => ({ word, line }));
+  });
+  const xs = words.flatMap(({ word }) => word.bbox ? [word.bbox.x0, word.bbox.x1] : []);
+  const width = xs.length > 0 ? Math.max(...xs) - Math.min(...xs) : 0;
+  const warp = sloped.filter((_, index) => Math.abs(slopes[index] - tilt) * width > MAX_WARP * height).length;
+  if (sloped.length >= 3 && warp > sloped.length * 0.25) {
+    return {
+      rows: [],
+      tilt,
+      skipped: "its lines aren't straight across the page, as in a photo taken at an angle or of paper that isn't flat"
+    };
+  }
+  const placed = [];
+  for (const { word, line } of words) {
+    const text = ((_a2 = word.text) != null ? _a2 : "").trim();
+    if (!word.bbox || text === "" || RULE.test(text) || ((_b = word.confidence) != null ? _b : 0) < MIN_WORD_CONFIDENCE)
+      continue;
+    const { x0, x1 } = word.bbox;
+    const baseline = (_c = line.baseline) != null ? _c : { x0, y0: word.bbox.y1, x1, y1: word.bbox.y1 };
+    const along = (x0 + x1) / 2;
+    const y = baseline.y0 + (baseline.y1 - baseline.y0) / Math.max(1, baseline.x1 - baseline.x0) * (along - baseline.x0);
+    placed.push({
+      word: { text, x: x0 + tilt * y, width: x1 - x0, size: lineHeight(line), confidence: (_d = word.confidence) != null ? _d : 0 },
+      y: y - tilt * along
+    });
+  }
+  placed.sort((a, b) => a.y - b.y || a.word.x - b.word.x);
+  const rows = [];
+  let current = [];
+  const flush = () => {
+    if (current.length === 0)
+      return;
+    const runs = joinWords(current.map((entry2) => entry2.word).sort((a, b) => a.x - b.x));
+    rows.push({ items: runs, y: median2(current.map((entry2) => entry2.y)) });
+    current = [];
+  };
+  for (const entry2 of placed) {
+    if (current.length > 0 && entry2.y - current[0].y > 0.5 * entry2.word.size)
+      flush();
+    current.push(entry2);
+  }
+  flush();
+  return { rows, tilt };
+}
+var WORD_RUN_GAP = 1;
+function joinWords(words) {
+  const runs = [];
+  for (const word of words) {
+    const last = runs[runs.length - 1];
+    if (last && word.x - (last.word.x + last.word.width) <= WORD_RUN_GAP * Math.max(word.size, last.word.size)) {
+      last.word = {
+        text: `${last.word.text} ${word.text}`,
+        x: last.word.x,
+        width: word.x + word.width - last.word.x,
+        size: Math.max(word.size, last.word.size),
+        confidence: 0
+      };
+      last.confidences.push(word.confidence);
+    } else {
+      runs.push({ word: { ...word }, confidences: [word.confidence] });
+    }
+  }
+  return runs.map((run) => ({ ...run.word, confidence: average(run.confidences) }));
+}
+function lineHeight(line) {
+  var _a2;
+  const measured = (_a2 = line.rowAttributes) == null ? void 0 : _a2.rowHeight;
+  if (measured && measured > 0)
+    return measured;
+  return line.bbox ? line.bbox.y1 - line.bbox.y0 : 0;
+}
+function readLines(blocks2) {
   var _a2, _b, _c, _d, _e;
   const groups = [];
-  for (const block of blocks) {
+  for (const block of blocks2) {
     for (const paragraph of (_a2 = block.paragraphs) != null ? _a2 : []) {
       const lines = [];
       for (const line of (_b = paragraph.lines) != null ? _b : []) {
@@ -3548,6 +4119,7 @@ function readLines(blocks) {
           return ((_a3 = word.text) != null ? _a3 : "").trim() !== "";
         })) == null ? void 0 : _d.bbox;
         lines.push({
+          source: line,
           text,
           confidence: (_e = line.confidence) != null ? _e : 0,
           box: line.bbox,
@@ -3563,50 +4135,50 @@ function readLines(blocks) {
   }
   return groups;
 }
-function splitOnGaps(lines, lineHeight) {
+function splitOnGaps(lines, lineHeight2) {
   const units = [[lines[0]]];
   for (let index = 1; index < lines.length; index++) {
     const previous = lines[index - 1];
     const current = lines[index];
-    if (current.box.y0 - previous.box.y1 > MAX_LINE_GAP * lineHeight)
+    if (current.box.y0 - previous.box.y1 > MAX_LINE_GAP * lineHeight2)
       units.push([current]);
     else
       units[units.length - 1].push(current);
   }
   return units;
 }
-function mergeWrapped(units, all, lineHeight) {
+function mergeWrapped(units, all, lineHeight2) {
   const merged = [];
   for (const unit of units) {
     const previous = merged[merged.length - 1];
-    if (previous && continuesParagraph(previous, unit, all, lineHeight))
+    if (previous && continuesParagraph(previous, unit, all, lineHeight2))
       previous.push(...unit);
     else
       merged.push([...unit]);
   }
   return merged;
 }
-function continuesParagraph(previous, next, all, lineHeight) {
+function continuesParagraph(previous, next, all, lineHeight2) {
   const last = previous[previous.length - 1];
   const first = next[0];
   const gap = first.box.y0 - last.box.y1;
-  if (gap < 0 || gap > MAX_LINE_GAP * lineHeight)
+  if (gap < 0 || gap > MAX_LINE_GAP * lineHeight2)
     return false;
-  if (Math.abs(first.box.x0 - previous[0].box.x0) > COLUMN_TOLERANCE * lineHeight)
+  if (Math.abs(first.box.x0 - previous[0].box.x0) > COLUMN_TOLERANCE * lineHeight2)
     return false;
   const left = previous[0].box.x0;
-  const margin = rightMarginFor(left, all, lineHeight);
+  const margin = rightMarginFor(left, all, lineHeight2);
   const width = margin - left;
   if (width <= 0)
     return false;
   if ((last.box.x1 - left) / width < MIN_FILL_RATIO)
     return false;
-  return last.box.x1 + 0.25 * lineHeight + first.firstWordWidth > margin;
+  return last.box.x1 + 0.25 * lineHeight2 + first.firstWordWidth > margin;
 }
-function rightMarginFor(left, all, lineHeight) {
+function rightMarginFor(left, all, lineHeight2) {
   let margin = 0;
   for (const line of all) {
-    if (Math.abs(line.box.x0 - left) <= COLUMN_TOLERANCE * lineHeight)
+    if (Math.abs(line.box.x0 - left) <= COLUMN_TOLERANCE * lineHeight2)
       margin = Math.max(margin, line.box.x1);
   }
   return margin;
@@ -3619,7 +4191,7 @@ function repairVerticalStrokes(text) {
     return text;
   return text.replace(/(^|[\s("'“‘])[|l](?=(?:['’](?:m|ve|ll|d|re)\b)?\s+[a-z])/g, "$1I");
 }
-function median(values) {
+function median2(values) {
   if (values.length === 0)
     return 0;
   const sorted = [...values].sort((a, b) => a - b);
@@ -3678,39 +4250,52 @@ function forPage(ocr, page, total) {
     resolve: () => ocr.resolve(),
     report: (status, progress) => {
       var _a2;
-      return (_a2 = ocr.report) == null ? void 0 : _a2.call(ocr, `page ${page} of ${total} \u2014 ${status}`, progress);
+      return (_a2 = ocr.report) == null ? void 0 : _a2.call(ocr, `page ${page} of ${total}: ${status}`, progress);
     }
   };
 }
 
 // src/extractors/image.ts
 async function extractImage(data, assets, ocr = CDN_OCR) {
-  const format = sniffImageFormat(data);
-  if (!format)
+  const format2 = sniffImageFormat(data);
+  if (!format2)
     throw new Error("not a readable image (unrecognised file signature)");
-  const embed = await assets.save(data, format);
-  const { paragraphs, confidence, discarded } = await recognize(data, ocr);
+  const embed = await assets.save(data, format2);
+  const recognition = await recognize(data, ocr);
+  const { blocks: blocks2, confidence, discarded } = recognition;
   const warnings = [];
-  if (paragraphs.length === 0) {
+  if (blocks2.length === 0) {
     warnings.push("OCR found no text in this image.");
   } else if (confidence < 70) {
     warnings.push(
-      `OCR confidence was low (${Math.round(confidence)}%) \u2014 check the text against the image before relying on it.`
+      `OCR confidence was low (${Math.round(confidence)}%). Check the text against the image before relying on it.`
     );
   }
   if (discarded > 0) {
     warnings.push(
-      `${discarded} unreadable region${discarded === 1 ? "" : "s"} dropped \u2014 usually text over a photo, or something that isn't text at all.`
+      `${discarded} unreadable region${discarded === 1 ? "" : "s"} dropped. That's usually text over a photo, or something that isn't text at all.`
     );
+  }
+  const doubtful = blocks2.filter((block) => block.kind === "table" && block.confidence < LOW_TABLE_CONFIDENCE);
+  if (doubtful.length > 0) {
+    const which = doubtful.length === 1 ? "A table was" : `${doubtful.length} tables were`;
+    warnings.push(`${which} read with OCR confidence below ${LOW_TABLE_CONFIDENCE}%. Check the figures against the image.`);
+  }
+  if (recognition.unplaced.length > 0) {
+    warnings.push(
+      `OCR read these in a table's area, but they aren't in the table: ${recognition.unplaced.map(escapeInline).join(", ")}. Check the table against the image.`
+    );
+  }
+  if (recognition.tablesSkipped) {
+    warnings.push(`Tables weren't looked for, because ${recognition.tablesSkipped}. Any table reads as text.`);
   }
   if (!embed)
     warnings.push("The image itself isn't embedded (image extraction is off).");
   return {
-    markdown: joinBlocks([
-      ...embed ? [embed, ""] : [],
-      ...paragraphs.flatMap((paragraph) => [escapeInline(paragraph), ""])
-    ]),
-    warnings
+    markdown: joinBlocks(recognitionMarkdown(recognition)),
+    warnings,
+    ...embed ? { original: embed } : {},
+    layout: [{ page: 1, ...recognition.layout, source: "ocr" }]
   };
 }
 function sniffImageFormat(data) {
@@ -4018,7 +4603,7 @@ async function extractOpenDocument(data, assets, _ocr, options) {
     warnings.push(droppedImagesWarning(context.droppedImages, assets.enabled));
   if (context.skippedIndexes.length > 0) {
     warnings.push(
-      `${context.skippedIndexes.length} generated index${context.skippedIndexes.length === 1 ? "" : "es"} left out (${context.skippedIndexes.join(", ")}) \u2014 a table of contents or bibliography that the word processor rebuilds from the document, so it lists page numbers this note doesn't have.`
+      `${context.skippedIndexes.length} generated index${context.skippedIndexes.length === 1 ? "" : "es"} left out (${context.skippedIndexes.join(", ")}) because each is a table of contents or bibliography that the word processor rebuilds from the document, so it lists page numbers this note doesn't have.`
     );
   }
   const lines = [...result.lines];
@@ -4238,12 +4823,12 @@ var TEXT_NODE2 = 3;
 function renderInline2(container, context) {
   return renderInlineRaw(container, context, { bold: false, italic: false }).trim();
 }
-function renderInlineRaw(container, context, format) {
+function renderInlineRaw(container, context, format2) {
   var _a2, _b, _c, _d, _e;
   let out = "";
   for (const node of Array.from(container.childNodes)) {
     if (node.nodeType === TEXT_NODE2) {
-      out += emphasise(escapeInline(((_a2 = node.textContent) != null ? _a2 : "").replace(/\s+/g, " ")), format);
+      out += emphasise(escapeInline(((_a2 = node.textContent) != null ? _a2 : "").replace(/\s+/g, " ")), format2);
       continue;
     }
     if (node.nodeType !== 1)
@@ -4253,13 +4838,13 @@ function renderInlineRaw(container, context, format) {
       case "text:span": {
         const style = context.textStyles.get((_b = element.getAttribute("text:style-name")) != null ? _b : "");
         out += renderInlineRaw(element, context, {
-          bold: format.bold || ((_c = style == null ? void 0 : style.bold) != null ? _c : false),
-          italic: format.italic || ((_d = style == null ? void 0 : style.italic) != null ? _d : false)
+          bold: format2.bold || ((_c = style == null ? void 0 : style.bold) != null ? _c : false),
+          italic: format2.italic || ((_d = style == null ? void 0 : style.italic) != null ? _d : false)
         });
         break;
       }
       case "text:a": {
-        const inner = renderInlineRaw(element, context, format);
+        const inner = renderInlineRaw(element, context, format2);
         const href = element.getAttribute("xlink:href");
         out += href && inner.trim() !== "" ? `[${inner}](${href})` : inner;
         break;
@@ -4289,7 +4874,7 @@ function renderInlineRaw(container, context, format) {
       case "office:annotation":
         break;
       default:
-        out += renderInlineRaw(element, context, format);
+        out += renderInlineRaw(element, context, format2);
     }
   }
   return out;
@@ -4304,16 +4889,16 @@ function renderNote(note, context) {
   context.footnotes.push(text);
   return `[^${context.footnotes.length}]`;
 }
-function emphasise(text, format) {
-  if (text === "" || !format.bold && !format.italic)
+function emphasise(text, format2) {
+  if (text === "" || !format2.bold && !format2.italic)
     return text;
   const [, leading, core, trailing] = /^(\s*)([\s\S]*?)(\s*)$/.exec(text);
   if (core === "")
     return text;
   let wrapped = core;
-  if (format.italic)
+  if (format2.italic)
     wrapped = `*${wrapped}*`;
-  if (format.bold)
+  if (format2.bold)
     wrapped = `**${wrapped}**`;
   return `${leading}${wrapped}${trailing}`;
 }
@@ -9891,10 +10476,10 @@ var AnnotationStorage = class {
     const obj = __privateGet(this, _storage).get(key);
     let modified = false;
     if (obj !== void 0) {
-      for (const [entry, val] of Object.entries(value)) {
-        if (obj[entry] !== val) {
+      for (const [entry2, val] of Object.entries(value)) {
+        if (obj[entry2] !== val) {
           modified = true;
-          obj[entry] = val;
+          obj[entry2] = val;
         }
       }
     } else {
@@ -11341,7 +11926,7 @@ var RadialAxialShadingPattern = class extends BaseShadingPattern {
 };
 function drawTriangle(data, context, p1, p2, p3, c1, c2, c3) {
   const coords = context.coords, colors = context.colors;
-  const bytes = data.data, rowSize = data.width * 4;
+  const bytes = data.data, rowSize2 = data.width * 4;
   let tmp;
   if (coords[p1 + 1] > coords[p2 + 1]) {
     tmp = p1;
@@ -11417,7 +12002,7 @@ function drawTriangle(data, context, p1, p2, p3, c1, c2, c3) {
     cbb = c1b - (c1b - c3b) * k;
     const x1_ = Math.round(Math.min(xa, xb));
     const x2_ = Math.round(Math.max(xa, xb));
-    let j = rowSize * y + x1_ * 4;
+    let j = rowSize2 * y + x1_ * 4;
     for (let x = x1_; x <= x2_; x++) {
       k = (xa - x) / (xa - xb);
       if (k < 0) {
@@ -13770,11 +14355,11 @@ var _CanvasGraphics = class {
       putBinaryImageData(tmpCtx, imgData);
       imgToPaint = this.applyTransferMapsToCanvas(tmpCtx);
     }
-    for (const entry of map) {
+    for (const entry2 of map) {
       ctx.save();
-      ctx.transform(...entry.transform);
+      ctx.transform(...entry2.transform);
       ctx.scale(1, -1);
-      drawImageAtIntegerCoords(ctx, imgToPaint, entry.x, entry.y, entry.w, entry.h, 0, -1, 1, 1);
+      drawImageAtIntegerCoords(ctx, imgToPaint, entry2.x, entry2.y, entry2.w, entry2.h, 0, -1, 1, 1);
       ctx.restore();
     }
     this.compose();
@@ -19264,8 +19849,8 @@ var WidgetAnnotationElement = class extends AnnotationElement {
     if (this.data.multiLine) {
       const height = Math.abs(this.data.rect[3] - this.data.rect[1] - BORDER_SIZE);
       const numberOfLines = Math.round(height / (LINE_FACTOR * fontSize)) || 1;
-      const lineHeight = height / numberOfLines;
-      computedFontSize = Math.min(fontSize, roundToOneDecimal(lineHeight / LINE_FACTOR));
+      const lineHeight2 = height / numberOfLines;
+      computedFontSize = Math.min(fontSize, roundToOneDecimal(lineHeight2 / LINE_FACTOR));
     } else {
       const height = Math.abs(this.data.rect[3] - this.data.rect[1] - BORDER_SIZE);
       computedFontSize = Math.min(fontSize, roundToOneDecimal(height / LINE_FACTOR));
@@ -26817,6 +27402,154 @@ function crc32(data) {
   return (crc ^ 4294967295) >>> 0;
 }
 
+// src/extractors/pdfForms.ts
+var NO_FORM = { lines: [], warnings: [], frontmatter: {} };
+async function readFormFields(document2) {
+  var _a2;
+  const objects = await document2.getFieldObjects();
+  if (!objects)
+    return NO_FORM;
+  const details = await widgetDetails(document2);
+  const fields = [];
+  const signatures = [];
+  for (const [name, entries] of Object.entries(objects)) {
+    const widgets = entries.filter((entry2) => entry2.type !== "");
+    const type = (_a2 = widgets[0]) == null ? void 0 : _a2.type;
+    const label = details.labels.get(name) || name;
+    if (type === void 0 || type === "button")
+      continue;
+    (type === "signature" ? signatures : fields).push({ name, label, type, widgets });
+  }
+  if (fields.length === 0 && signatures.length === 0)
+    return NO_FORM;
+  disambiguate([...fields, ...signatures]);
+  const rows = inReadingOrder(fields).map((field) => ({ field, value: valueOf(field, details.selections) }));
+  const filled = rows.filter((row) => row.value.filled);
+  const warnings = [];
+  if (fields.length > 0 && filled.length === 0) {
+    warnings.push(`The form is blank: none of its ${fields.length} fields are filled in.`);
+  } else {
+    const empty = rows.filter((row) => !row.value.filled && row.field.type !== "checkbox");
+    const unticked = rows.filter((row) => !row.value.filled && row.field.type === "checkbox");
+    if (empty.length > 0)
+      warnings.push(`Form fields left empty: ${nameList(empty.map((row) => row.field.label))}.`);
+    if (unticked.length > 0) {
+      warnings.push(`Checkboxes left unticked: ${nameList(unticked.map((row) => row.field.label))}.`);
+    }
+  }
+  if (signatures.length > 0) {
+    warnings.push(
+      `Signature fields aren't read, so whether ${signatures.length === 1 ? "this one is" : "these are"} signed isn't shown: ${nameList(signatures.map((field) => field.label))}.`
+    );
+  }
+  return {
+    lines: fields.length > 0 ? [
+      "",
+      heading(2, "Form fields"),
+      "",
+      ...table([["Field", "Value"], ...rows.map((row) => [escapeInline(row.field.label), row.value.text])]),
+      ""
+    ] : [],
+    warnings,
+    frontmatter: fields.length > 0 ? { form_fields_filled: `${filled.length}/${fields.length}` } : {}
+  };
+}
+function disambiguate(fields) {
+  var _a2, _b;
+  const counts = /* @__PURE__ */ new Map();
+  for (const field of fields)
+    counts.set(field.label, ((_a2 = counts.get(field.label)) != null ? _a2 : 0) + 1);
+  for (const field of fields) {
+    if (((_b = counts.get(field.label)) != null ? _b : 0) > 1 && field.label !== field.name)
+      field.label = `${field.label} (${field.name})`;
+  }
+}
+async function widgetDetails(document2) {
+  const labels = /* @__PURE__ */ new Map();
+  const selections = /* @__PURE__ */ new Map();
+  for (let pageNumber = 1; pageNumber <= document2.numPages; pageNumber++) {
+    const page = await document2.getPage(pageNumber);
+    for (const annotation of await page.getAnnotations()) {
+      const name = annotation.fieldName;
+      const label = squashLabel(annotation.alternativeText);
+      if (typeof name === "string" && label && !labels.has(name))
+        labels.set(name, label);
+      if (Array.isArray(annotation.fieldValue))
+        selections.set(String(annotation.id), annotation.fieldValue);
+    }
+  }
+  return { labels, selections };
+}
+function squashLabel(text) {
+  return typeof text === "string" ? text.replace(/\s+/g, " ").trim() : "";
+}
+function valueOf(field, selections) {
+  const widgets = field.widgets;
+  switch (field.type) {
+    case "checkbox": {
+      const ticked = widgets.find((widget) => isOn(widget.value));
+      const exports = new Set(widgets.map((widget) => widget.exportValues));
+      if (exports.size > 1)
+        return ticked ? filledWith(String(ticked.value)) : EMPTY;
+      return ticked ? { text: "\u2611", filled: true } : { text: "\u2610", filled: false };
+    }
+    case "radiobutton": {
+      const selected = widgets.find((widget) => isOn(widget.value));
+      return selected ? filledWith(String(selected.value)) : EMPTY;
+    }
+    case "combobox":
+    case "listbox": {
+      const values = widgets.flatMap((widget) => choices(widget, selections));
+      const selected = [...new Set(values)].filter((value) => value.trim() !== "");
+      return selected.length > 0 ? filledWith(selected.join(", ")) : EMPTY;
+    }
+    default: {
+      const value = widgets.map((widget) => widget.value).find((value2) => typeof value2 === "string" && value2.trim());
+      return typeof value === "string" ? filledWith(value.trim()) : EMPTY;
+    }
+  }
+}
+var EMPTY = { text: "", filled: false };
+function filledWith(text) {
+  return { text: escapeInline(text), filled: true };
+}
+function isOn(value) {
+  return typeof value === "string" && value !== "" && value !== "Off";
+}
+function choices(widget, selections) {
+  var _a2;
+  return ((_a2 = selections.get(widget.id)) != null ? _a2 : [widget.value]).filter((value) => typeof value === "string").map((value) => {
+    var _a3, _b, _c;
+    return (_c = (_b = (_a3 = widget.items) == null ? void 0 : _a3.find((item) => item.exportValue === value)) == null ? void 0 : _b.displayValue) != null ? _c : value;
+  });
+}
+function inReadingOrder(fields) {
+  const placed = fields.map((field) => ({ field, position: positionOf(field) })).sort((a, b) => a.position[0] - b.position[0] || b.position[1] - a.position[1]);
+  const lines = [];
+  for (const entry2 of placed) {
+    const line = lines[lines.length - 1];
+    const level = line && line[0].position[0] === entry2.position[0] && line[0].position[1] - entry2.position[1] <= 4;
+    if (level)
+      line.push(entry2);
+    else
+      lines.push([entry2]);
+  }
+  return lines.flatMap((line) => line.sort((a, b) => a.position[2] - b.position[2]).map((entry2) => entry2.field));
+}
+function positionOf(field) {
+  var _a2;
+  const placed = [];
+  for (const { page, rect } of field.widgets) {
+    if (page !== void 0 && rect !== void 0)
+      placed.push([page, rect[3], rect[0]]);
+  }
+  placed.sort((a, b) => a[0] - b[0] || b[1] - a[1] || a[2] - b[2]);
+  return (_a2 = placed[0]) != null ? _a2 : [Number.MAX_SAFE_INTEGER, 0, 0];
+}
+function nameList(names) {
+  return names.map(escapeInline).join(", ");
+}
+
 // src/extractors/pdf.ts
 var workerUrl2 = null;
 function ensureWorker() {
@@ -26865,32 +27598,41 @@ async function extractPdf(data, assets, ocr = CDN_OCR) {
     }
     const { scanned, failed, engineError } = await readScannedPages(document2, imageOnly, ocr);
     const repeated = repeatedEdgeText(pageRows.map((rows) => rows.map(toLine)));
-    const pages = pageRows.map((rows) => buildPage(withoutFurniture(rows, repeated)));
+    const built = pageRows.map((rows) => buildPage(withoutFurniture(rows, repeated)));
+    const pages = built.map((page) => page.lines);
     const allLines = pages.flat();
     if (allLines.length === 0 && engineError)
       throw engineError;
     if (allLines.length === 0 && scanned.size === 0) {
       throw new Error(
-        "this PDF has no text at all \u2014 no text layer, and no page image that OCR could read either"
+        "this PDF has no text at all: no text layer, and no page image that OCR could read either"
       );
     }
-    const bodySize = modeFontSize(allLines);
-    const bodyWidth = medianLineWidth(allLines);
+    const textLines = allLines.filter((line) => !line.table);
+    const bodySize = modeFontSize(textLines);
+    const bodyWidth = medianLineWidth(textLines);
     const lines = [];
     pages.forEach((pageLines, index) => {
       const recognised = scanned.get(index + 1);
       if (recognised) {
-        for (const paragraph of recognised.paragraphs)
-          lines.push("", escapeInline(paragraph), "");
+        lines.push(...recognitionMarkdown(recognised));
       }
       lines.push(...renderPage2(pageLines, bodySize, bodyWidth));
       for (const embed of pageImages[index])
         lines.push("", embed, "");
     });
+    const form = await readFormFields(document2);
     return {
-      markdown: joinBlocks(lines),
-      warnings: pdfWarnings(document2.numPages, pages, { scanned, failed, engineError }, skippedImages),
-      frontmatter: coverageOf(document2.numPages, pages, scanned)
+      markdown: joinBlocks([...form.lines, ...lines]),
+      warnings: [
+        ...pdfWarnings(document2.numPages, pages, { scanned, failed, engineError }, skippedImages),
+        ...form.warnings
+      ],
+      frontmatter: { ...coverageOf(document2.numPages, pages, scanned), ...form.frontmatter },
+      layout: built.map((page, index) => {
+        const recognised = scanned.get(index + 1);
+        return recognised ? { page: index + 1, ...recognised.layout, source: "ocr" } : { page: index + 1, rows: page.rows, tables: page.tables, source: "text" };
+      })
     };
   } finally {
     await document2.destroy();
@@ -26904,7 +27646,7 @@ function coverageOf(pageCount, pages, scanned) {
   return frontmatter;
 }
 function hasText(recognition) {
-  return recognition !== void 0 && recognition.paragraphs.length > 0;
+  return hasBlocks(recognition);
 }
 function pdfWarnings(pageCount, pages, { scanned, failed, engineError }, skippedImages) {
   const warnings = ["Vector graphics and charts drawn as line art are not extracted."];
@@ -26918,8 +27660,29 @@ function pdfWarnings(pageCount, pages, { scanned, failed, engineError }, skipped
     const confidences = read.map(([, recognition]) => recognition.confidence);
     const lowest = Math.round(Math.min(...confidences));
     warnings.push(
-      `${read.length} page${read.length === 1 ? "" : "s"} had no text layer and ${read.length === 1 ? "was" : "were"} read by OCR instead (${listPages(read.map(([page]) => page))}). That part of the note is a recognition rather than an extraction and can be wrong \u2014 lowest confidence was ${lowest}%.`
+      `${read.length} page${read.length === 1 ? "" : "s"} had no text layer and ${read.length === 1 ? "was" : "were"} read by OCR instead (${listPages(read.map(([page]) => page))}). That part of the note is a recognition rather than an extraction and can be wrong. Lowest confidence was ${lowest}%.`
     );
+    const doubtful = read.filter(
+      ([, recognition]) => recognition.blocks.some((block) => block.kind === "table" && block.confidence < LOW_TABLE_CONFIDENCE)
+    ).map(([page]) => page);
+    if (doubtful.length > 0) {
+      warnings.push(
+        `Tables read by OCR with confidence below ${LOW_TABLE_CONFIDENCE}% (${listPages(doubtful)}). Check the figures against the original.`
+      );
+    }
+    for (const [page, recognition] of read) {
+      if (recognition.unplaced.length === 0)
+        continue;
+      warnings.push(
+        `On page ${page}, OCR read these in a table's area, but they aren't in the table: ${recognition.unplaced.map(escapeInline).join(", ")}. Check the table against the original.`
+      );
+    }
+    const unsearched = read.filter(([, recognition]) => recognition.tablesSkipped);
+    if (unsearched.length > 0) {
+      warnings.push(
+        `Tables weren't looked for on ${listPages(unsearched.map(([page]) => page))}, because ${unsearched[0][1].tablesSkipped}. Any table there reads as text.`
+      );
+    }
     const discarded = read.reduce((total, [, recognition]) => total + recognition.discarded, 0);
     if (discarded > 0) {
       warnings.push(
@@ -26938,7 +27701,7 @@ function pdfWarnings(pageCount, pages, { scanned, failed, engineError }, skipped
   ).filter((page) => page > 0);
   if (blank.length > 0) {
     warnings.push(
-      `${blank.length} of ${pageCount} pages produced nothing \u2014 no text layer, and nothing OCR could read (${listPages(blank)}). They may be blank, or artwork with no lettering.`
+      `${blank.length} of ${pageCount} pages produced nothing: no text layer, and nothing OCR could read (${listPages(blank)}). They may be blank, or artwork with no lettering.`
     );
   }
   return warnings;
@@ -26948,6 +27711,7 @@ function listPages(pages) {
   return pages.length > 12 ? `pages ${shown}, \u2026` : `page${pages.length === 1 ? "" : "s"} ${shown}`;
 }
 async function readScannedPages(document2, pageNumbers, ocr) {
+  var _a2;
   const results = /* @__PURE__ */ new Map();
   const failed = [];
   let engineError = null;
@@ -26966,7 +27730,13 @@ async function readScannedPages(document2, pageNumbers, ocr) {
         recognitions.push(await recognize(raster, forPage(ocr, index + 1, pageNumbers.length)));
       }
       results.set(pageNumber, {
-        paragraphs: recognitions.flatMap((recognition) => recognition.paragraphs),
+        blocks: recognitions.flatMap((recognition) => recognition.blocks),
+        tablesSkipped: (_a2 = recognitions.find((recognition) => recognition.tablesSkipped)) == null ? void 0 : _a2.tablesSkipped,
+        unplaced: recognitions.flatMap((recognition) => recognition.unplaced),
+        // Strips are rare and short; their layouts are kept apart by page
+        // position only through the first, which is the one that matters for
+        // fields read off the top of a page.
+        layout: recognitions[0].layout,
         confidence: Math.min(...recognitions.map((recognition) => recognition.confidence)),
         discarded: recognitions.reduce((total, recognition) => total + recognition.discarded, 0)
       });
@@ -27160,8 +27930,38 @@ function positionItems(items) {
 }
 function buildPage(positioned) {
   if (positioned.length === 0)
+    return { lines: [], rows: [], tables: [] };
+  const rows = groupRows(positioned);
+  const layoutRows2 = rows.map((row) => ({ items: row, y: -row[0].y }));
+  const tables = findTables(layoutRows2);
+  if (tables.length === 0)
+    return { lines: buildTextLines(positioned, positioned), rows: layoutRows2, tables };
+  const inTable = new Set(tables.flatMap((found) => rows.slice(found.first, found.last + 1)));
+  const lines = buildTextLines(rows.filter((row) => !inTable.has(row)).flat(), positioned);
+  for (const found of tables) {
+    const top = rows[found.first][0].y;
+    const tableLine = {
+      text: found.rows.flat().join(" "),
+      size: Math.max(...rows[found.first].map((item) => item.size)),
+      top,
+      left: found.left,
+      right: found.right,
+      table: table(
+        found.rows.map((row) => row.map((cell) => squashSpaces(escapeInline(cell)))),
+        found.numeric
+      )
+    };
+    const next = lines.findIndex(
+      (line) => line.top < top && line.left < found.right && line.right > found.left && !line.table
+    );
+    lines.splice(next === -1 ? lines.length : next, 0, tableLine);
+  }
+  return { lines, rows: layoutRows2, tables };
+}
+function buildTextLines(positioned, page) {
+  if (positioned.length === 0)
     return [];
-  const boundaries = detectColumnBoundaries(positioned);
+  const boundaries = detectColumnBoundaries(page);
   if (boundaries.length === 0)
     return buildLines(positioned);
   const banners = [];
@@ -27280,7 +28080,7 @@ function buildLines(positioned) {
   return groupRows(positioned).map(toLine).filter((line) => line !== null);
 }
 function toLine(row) {
-  const text = joinRun(row);
+  const text = joinItems(row);
   if (text.trim() === "")
     return null;
   return {
@@ -27313,17 +28113,6 @@ function groupRows(positioned) {
   }
   flush();
   return rows;
-}
-function joinRun(items) {
-  let out = items[0].text;
-  let cursor = items[0].x + items[0].width;
-  for (const item of items.slice(1)) {
-    const gap = item.x - cursor;
-    const needsSpace = gap > item.size * 0.2 && !/\s$/.test(out) && !/^\s/.test(item.text);
-    out += needsSpace ? ` ${item.text}` : item.text;
-    cursor = item.x + item.width;
-  }
-  return out;
 }
 function modeFontSize(lines) {
   var _a2;
@@ -27364,6 +28153,11 @@ function renderPage2(lines, bodySize, bodyWidth) {
   const endsBlock = (line) => line.right - line.left < bodyWidth * 0.85;
   lines.forEach((line, index) => {
     var _a2;
+    if (line.table) {
+      flush();
+      out.push("", ...line.table, "");
+      return;
+    }
     const level = headingLevels[index];
     if (level !== null) {
       flush();
@@ -27393,6 +28187,8 @@ function continuesBlock(block, line, bodySize) {
 }
 function headingLevelsFor(lines, bodySize) {
   const levels = lines.map((line) => {
+    if (line.table)
+      return null;
     const ratio = line.size / bodySize;
     if (ratio < 1.2)
       return null;
@@ -27488,13 +28284,13 @@ async function renderSlide(zip, slidePath, slideNumber, context, assets) {
     return [];
   const rels = readRelationships(zip, slidePath);
   const images = await saveImages(zip, slidePath, rels, imageRelationshipIds(shapeTree), assets);
-  const blocks = [];
+  const blocks2 = [];
   let title = null;
   for (const shape of walkShapes(shapeTree)) {
     if (shape.tagName === "p:pic") {
       const embed = imageRelationshipIds(shape).map((id) => images.get(id)).find((found) => found !== void 0);
       if (embed)
-        blocks.push("", embed, "");
+        blocks2.push("", embed, "");
       else
         context.droppedImages++;
       continue;
@@ -27502,7 +28298,7 @@ async function renderSlide(zip, slidePath, slideNumber, context, assets) {
     if (shape.tagName === "p:graphicFrame") {
       const tableElement = shape.getElementsByTagName("a:tbl").item(0);
       if (tableElement)
-        blocks.push("", ...renderTable4(tableElement, rels), "");
+        blocks2.push("", ...renderTable4(tableElement, rels), "");
       else
         context.droppedCharts++;
       continue;
@@ -27516,11 +28312,11 @@ async function renderSlide(zip, slidePath, slideNumber, context, assets) {
         continue;
       title = null;
     }
-    blocks.push(...renderTextBody(body, rels, shouldRenderAsList(shape, body)));
+    blocks2.push(...renderTextBody(body, rels, shouldRenderAsList(shape, body)));
   }
   const header2 = title ? `Slide ${slideNumber}: ${title}` : `Slide ${slideNumber}`;
   const notes = renderNotes(zip, slidePath, rels);
-  return ["", heading(2, header2), "", ...blocks, ...notes, ""];
+  return ["", heading(2, header2), "", ...blocks2, ...notes, ""];
 }
 function* walkShapes(parent) {
   for (const node of Array.from(parent.children)) {
@@ -27645,7 +28441,7 @@ function renderNotes(zip, slidePath, rels) {
 async function extractSubtitles(data) {
   const track = parseTrack(decodeText(data));
   if (track.cueCount === 0 && track.malformed.length === 0) {
-    throw new Error("no subtitle cues found \u2014 the file has no `-->` timing lines");
+    throw new Error("no subtitle cues found: the file has no `-->` timing lines");
   }
   const paragraphs = groupIntoParagraphs(track.turns);
   const duration = track.turns.reduce((longest, turn) => Math.max(longest, turn.end), 0);
@@ -27740,12 +28536,12 @@ function describeGaps3(track) {
     warnings.push(`Comment in the source file, not part of the transcript: ${note}`);
   }
   if (track.styleBlocks > 0 || track.regionBlocks > 0) {
-    const blocks = [
+    const blocks2 = [
       track.styleBlocks > 0 ? `${track.styleBlocks} STYLE` : null,
       track.regionBlocks > 0 ? `${track.regionBlocks} REGION` : null
     ].filter(Boolean);
     warnings.push(
-      `${blocks.join(" and ")} block${track.styleBlocks + track.regionBlocks === 1 ? "" : "s"} dropped \u2014 they position and colour the captions on screen and carry no text.`
+      `${blocks2.join(" and ")} block${track.styleBlocks + track.regionBlocks === 1 ? "" : "s"} dropped. They position and colour the captions on screen and carry no text.`
     );
   }
   return warnings;
@@ -27784,8 +28580,8 @@ function parseTrack(source) {
     regionBlocks: 0
   };
   const recurringSpeakers = recurringBareSpeakers(source);
-  const blocks = source.split(/\r\n\s*?\r\n|\n[ \t]*\n|\r[ \t]*\r/);
-  for (const [index, block] of blocks.entries()) {
+  const blocks2 = source.split(/\r\n\s*?\r\n|\n[ \t]*\n|\r[ \t]*\r/);
+  for (const [index, block] of blocks2.entries()) {
     const lines = splitLines(block).map((line) => line.replace(/\s+$/, "")).filter((line, position, all) => !(line.trim() === "" && (position === 0 || position === all.length - 1)));
     if (lines.length === 0)
       continue;
@@ -28092,19 +28888,19 @@ async function extractXlsx(data, assets, _ocr, options = DEFAULT_EXTRACT_OPTIONS
   }
   const warnings = [];
   if (skippedHidden.length > 0)
-    warnings.push(`Skipped (hidden): ${nameList(skippedHidden)}.`);
+    warnings.push(`Skipped (hidden): ${nameList2(skippedHidden)}.`);
   if (emptySheets.length > 0)
-    warnings.push(`Skipped (empty): ${nameList(emptySheets)}.`);
+    warnings.push(`Skipped (empty): ${nameList2(emptySheets)}.`);
   if (unreadableSheets.length > 0) {
-    warnings.push(`Skipped (worksheet part missing from the file): ${nameList(unreadableSheets)}.`);
+    warnings.push(`Skipped (worksheet part missing from the file): ${nameList2(unreadableSheets)}.`);
   }
   if (keptLoadBearing.length > 0) {
     warnings.push(
-      `Hidden but converted anyway, because a visible sheet, pivot table or chart reads from them: ${nameList(keptLoadBearing)}.`
+      `Hidden but converted anyway, because a visible sheet, pivot table or chart reads from them: ${nameList2(keptLoadBearing)}.`
     );
   }
   if (keptHidden.length > 0) {
-    warnings.push(`Hidden in Excel, converted anyway: ${nameList(keptHidden)}.`);
+    warnings.push(`Hidden in Excel, converted anyway: ${nameList2(keptHidden)}.`);
   }
   warnings.push("Formulas are exported as their last-calculated values.");
   return {
@@ -28128,7 +28924,7 @@ function readSheetIndex(zip, workbook) {
     };
   });
 }
-function nameList(names) {
+function nameList2(names) {
   return names.map(escapeInline).join(", ");
 }
 function sheetKey(name) {
@@ -28325,19 +29121,19 @@ function readCellValue(cell, sharedStrings, cellFormats) {
       return raw;
   }
   const styleIndex = Number((_d = cell.getAttribute("s")) != null ? _d : "0");
-  const format = cellFormats.get(styleIndex);
+  const format2 = cellFormats.get(styleIndex);
   const value = Number(raw);
-  if (!format || !Number.isFinite(value))
+  if (!format2 || !Number.isFinite(value))
     return raw;
-  if (format.isDate)
+  if (format2.isDate)
     return (_e = serialToIsoDate(value)) != null ? _e : raw;
-  return formatNumber(value, format);
+  return formatNumber(value, format2);
 }
-function formatNumber(value, format) {
-  const scaled = format.isPercent ? value * 100 : value;
-  const rounded = format.decimals === null ? Number(scaled.toPrecision(11)) : Number(scaled.toFixed(format.decimals));
-  const text = format.decimals === null ? String(rounded) : rounded.toFixed(format.decimals);
-  return format.isPercent ? `${text}%` : text;
+function formatNumber(value, format2) {
+  const scaled = format2.isPercent ? value * 100 : value;
+  const rounded = format2.decimals === null ? Number(scaled.toPrecision(11)) : Number(scaled.toFixed(format2.decimals));
+  const text = format2.decimals === null ? String(rounded) : rounded.toFixed(format2.decimals);
+  return format2.isPercent ? `${text}%` : text;
 }
 function serialToIsoDate(serial) {
   if (!Number.isFinite(serial) || serial <= 0)
@@ -28389,9 +29185,9 @@ function readCellFormats(zip) {
     return formats;
   }
   const customCodes = /* @__PURE__ */ new Map();
-  for (const format of descendants(doc, "numFmt")) {
-    const id = Number(format.getAttribute("numFmtId"));
-    const code = format.getAttribute("formatCode");
+  for (const format2 of descendants(doc, "numFmt")) {
+    const id = Number(format2.getAttribute("numFmtId"));
+    const code = format2.getAttribute("formatCode");
     if (Number.isInteger(id) && code)
       customCodes.set(id, code);
   }
@@ -28505,8 +29301,1250 @@ function isSupported(extension) {
   return extension.toLowerCase() in EXTRACTORS;
 }
 
-// src/settings.ts
+// src/pluginVersion.ts
 var import_obsidian = require("obsidian");
+var LATEST_RELEASE_URL = "https://api.github.com/repos/NoteNerdOfficial/convert-to-markdown/releases/latest";
+var COMMUNITY_PLUGIN_URL = "obsidian://show-plugin?id=convert-to-markdown";
+function compareVersions(a, b) {
+  var _a2, _b;
+  const pa = a.replace(/^v/, "").split(".").map((part) => parseInt(part, 10) || 0);
+  const pb = b.replace(/^v/, "").split(".").map((part) => parseInt(part, 10) || 0);
+  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+    const diff = ((_a2 = pa[i]) != null ? _a2 : 0) - ((_b = pb[i]) != null ? _b : 0);
+    if (diff !== 0)
+      return diff;
+  }
+  return 0;
+}
+async function fetchLatestPluginVersion() {
+  try {
+    const res = await (0, import_obsidian.requestUrl)({ url: LATEST_RELEASE_URL, headers: { Accept: "application/vnd.github+json" } });
+    const tag = res.json.tag_name;
+    return typeof tag === "string" && tag.trim() ? tag.trim().replace(/^v/, "") : null;
+  } catch (e) {
+    return null;
+  }
+}
+function versionStatus(installed, latest) {
+  if (!latest)
+    return { state: "unknown", installed };
+  return compareVersions(latest, installed) > 0 ? { state: "outdated", installed, latest } : { state: "current", installed };
+}
+
+// src/settings.ts
+var import_obsidian2 = require("obsidian");
+
+// src/types/values.ts
+var SYMBOLS = { "\u20AC": "EUR", "\xA3": "GBP", "\u20B9": "INR", "\xA5": "JPY" };
+var MONEY = /([-−–(]?)\s*([$€£¥₹]|\b[A-Z]{3}\b)?\s*([-−–]?)\s*(\d{1,3}(?:[,.'  ]\d{3})+(?:[.,]\d{1,2})?|\d+(?:[.,]\d{1,2})?)\s*(\)?)\s*([$€£¥₹]|\b[A-Z]{3}\b)?/;
+var PERCENTAGE = /\d+(?:[.,]\d+)?\s*%/g;
+function parseMoney(text) {
+  var _a2, _b;
+  const match = MONEY.exec(text.replace(PERCENTAGE, " "));
+  if (!match)
+    return null;
+  const [, sign, before, innerSign, digits, close, after] = match;
+  const amount = numberFrom(digits);
+  if (amount === null)
+    return null;
+  const negative = sign === "(" ? close === ")" : sign !== "" || innerSign !== "";
+  const mark = (_a2 = after != null ? after : before) != null ? _a2 : null;
+  return { amount: negative ? -amount : amount, currency: mark ? (_b = SYMBOLS[mark]) != null ? _b : mark : null };
+}
+function numberFrom(digits) {
+  const compact = digits.replace(/['\s ]/g, "");
+  const lastComma = compact.lastIndexOf(",");
+  const lastDot = compact.lastIndexOf(".");
+  let normal;
+  if (lastComma !== -1 && lastDot !== -1) {
+    const decimal = lastComma > lastDot ? "," : ".";
+    normal = compact.replace(decimal === "," ? /\./g : /,/g, "").replace(",", ".");
+  } else if (lastComma !== -1) {
+    normal = /,\d{1,2}$/.test(compact) && compact.split(",").length === 2 ? compact.replace(",", ".") : compact.replace(/,/g, "");
+  } else if (lastDot !== -1 && compact.split(".").length > 2) {
+    normal = compact.replace(/\./g, "");
+  } else {
+    normal = compact;
+  }
+  const value = Number(normal);
+  return Number.isFinite(value) ? Math.round(value * 100) / 100 : null;
+}
+var MONTHS = {
+  jan: 1,
+  january: 1,
+  feb: 2,
+  february: 2,
+  mar: 3,
+  march: 3,
+  apr: 4,
+  april: 4,
+  may: 5,
+  jun: 6,
+  june: 6,
+  jul: 7,
+  july: 7,
+  aug: 8,
+  august: 8,
+  sep: 9,
+  sept: 9,
+  september: 9,
+  oct: 10,
+  october: 10,
+  nov: 11,
+  november: 11,
+  dec: 12,
+  december: 12
+};
+var MONTH = "(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sept?(?:ember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\\.?";
+var DAY = "(\\d{1,2})(?:st|nd|rd|th)?";
+var YEAR = "(\\d{4})";
+var ISO_DATE = /\b(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})\b/;
+var DAY_MONTH_YEAR = new RegExp(`\\b${DAY}\\s+${MONTH},?\\s+${YEAR}\\b`, "i");
+var MONTH_DAY_YEAR = new RegExp(`\\b${MONTH}\\s+${DAY},?\\s+${YEAR}\\b`, "i");
+var NUMERIC_DATE = /\b(\d{1,2})[-/.](\d{1,2})[-/.](\d{4}|\d{2})\b/;
+function parseDate(text, order) {
+  let match = ISO_DATE.exec(text);
+  if (match)
+    return dated(+match[1], +match[2], +match[3], false);
+  match = DAY_MONTH_YEAR.exec(text);
+  if (match)
+    return dated(+match[3], monthNumber(match[2]), +match[1], false);
+  match = MONTH_DAY_YEAR.exec(text);
+  if (match)
+    return dated(+match[3], monthNumber(match[1]), +match[2], false);
+  match = NUMERIC_DATE.exec(text);
+  if (match) {
+    const [first, second] = [+match[1], +match[2]];
+    const year = match[3].length === 2 ? 2e3 + +match[3] : +match[3];
+    if (first > 12)
+      return dated(year, second, first, false);
+    if (second > 12)
+      return dated(year, first, second, false);
+    const ambiguous = first !== second;
+    return order === "dmy" ? dated(year, second, first, ambiguous) : dated(year, first, second, ambiguous);
+  }
+  return null;
+}
+function monthNumber(name) {
+  var _a2;
+  return (_a2 = MONTHS[name.toLowerCase().replace(/\.$/, "")]) != null ? _a2 : 0;
+}
+function dated(year, month, day, ambiguous) {
+  const date = new Date(Date.UTC(year, month - 1, day));
+  if (month < 1 || month > 12 || date.getUTCDate() !== day)
+    return null;
+  const pad = (value) => String(value).padStart(2, "0");
+  return { iso: `${year}-${pad(month)}-${pad(day)}`, ambiguous };
+}
+
+// src/types/fields.ts
+var INLINE = 3;
+var BESIDE = 2;
+var BELOW = 1;
+var RUN_GAP = 1;
+var MAX_LABEL_WORDS = 8;
+var BELOW_REACH = 2.4;
+function findFields(pages, specs, order) {
+  const candidates = /* @__PURE__ */ new Map();
+  const labelSets = specs.map((spec) => ({ spec, labels: new Map(spec.labels.map((label) => [normalizeLabel(label), label])) }));
+  const isAnyLabel = (text) => labelSets.some(({ labels }) => alternatives(text).some((alt) => labels.has(alt)));
+  for (const page of pages) {
+    const rows = page.rows.map((row) => runsOf(row, RUN_GAP));
+    rows.forEach((runs, rowIndex) => {
+      runs.forEach((run, runIndex) => {
+        var _a2;
+        for (const { spec, labels } of labelSets) {
+          for (const match of labelMatches(run.text, labels)) {
+            const add = (raw, layout, y2) => {
+              var _a3;
+              const value = valueOf2(spec, raw, order);
+              if (!value)
+                return false;
+              const list = (_a3 = candidates.get(spec.key)) != null ? _a3 : [];
+              list.push({
+                found: { value, label: match.label, ocr: page.source === "ocr", page: page.page, y: y2 },
+                score: match.words,
+                layout,
+                row: rowIndex
+              });
+              candidates.set(spec.key, list);
+              return true;
+            };
+            const y = page.rows[rowIndex].y;
+            if (match.rest !== "" && add(cutAtNextLabel(match.rest), INLINE, y))
+              continue;
+            if (match.rest !== "")
+              continue;
+            const beside = (_a2 = runs[runIndex + 1]) != null ? _a2 : besideAcross(rows, page, rowIndex, run);
+            if (beside && !isAnyLabel(beside.text) && add(beside.text, BESIDE, y))
+              continue;
+            const below = linesBelow(rows, page, rowIndex, run, spec.kind === "block", isAnyLabel);
+            if (below.length > 0)
+              add(below.join(spec.kind === "block" ? ", " : " "), BELOW, y);
+          }
+        }
+      });
+    });
+  }
+  const found = /* @__PURE__ */ new Map();
+  for (const spec of specs) {
+    const list = candidates.get(spec.key);
+    if (!list || list.length === 0)
+      continue;
+    const best = pick(list, spec);
+    found.set(spec.key, best);
+  }
+  return found;
+}
+function pick(list, spec) {
+  const position = (candidate) => candidate.found.page * 1e6 + candidate.found.y;
+  const ranked = [...list].sort(
+    (a, b) => b.score - a.score || b.layout - a.layout || (spec.prefer === "last" ? position(b) - position(a) : position(a) - position(b))
+  );
+  const best = ranked[0];
+  if (!spec.sum || best.found.value.kind !== "money")
+    return best.found;
+  const peers = ranked.filter(
+    (candidate) => candidate.score === best.score && candidate.layout === best.layout && candidate.found.value.kind === "money"
+  );
+  const lines = new Map(peers.map((candidate) => [`${candidate.found.page}:${candidate.row}`, candidate]));
+  if (lines.size < 2)
+    return best.found;
+  const parts = [...lines.values()];
+  const amount = parts.reduce((total, part) => total + part.found.value.amount, 0);
+  return {
+    ...best.found,
+    value: { kind: "money", amount: Math.round(amount * 100) / 100, currency: best.found.value.currency },
+    label: parts.map((part) => part.found.label).join(" + "),
+    ocr: parts.some((part) => part.found.ocr)
+  };
+}
+function labelMatches(text, labels) {
+  var _a2;
+  const matches = [];
+  let from = 0;
+  for (const colon of text.matchAll(/:(?=\s|$)/g)) {
+    const before = text.slice(from, colon.index).trim().split(/\s+/);
+    from = ((_a2 = colon.index) != null ? _a2 : 0) + 1;
+    for (let count = Math.min(before.length, MAX_LABEL_WORDS); count >= 1; count--) {
+      const label = before.slice(-count).join(" ");
+      const matched = alternatives(label).find((alt) => labels.has(alt));
+      if (!matched)
+        continue;
+      matches.push({ label, words: matched.split(" ").length, rest: text.slice(from).trim() });
+      break;
+    }
+  }
+  if (matches.length > 0)
+    return matches;
+  const words = text.split(/\s+/);
+  for (let count = Math.min(words.length, MAX_LABEL_WORDS); count >= 1; count--) {
+    const label = words.slice(0, count).join(" ");
+    if (/\d/.test(normalizeLabel(label)))
+      continue;
+    const matched = alternatives(label).find((alt) => labels.has(alt));
+    if (matched)
+      matches.push({ label, words: matched.split(" ").length, rest: words.slice(count).join(" ") });
+  }
+  return matches;
+}
+function normalizeLabel(text) {
+  return text.toLowerCase().replace(/\([^)]*\)|\[[^\]]*\]/g, " ").replace(/\b(?:n[°º]|no\.|num\.?|nr\.?)(?=\s|$)/g, "no").replace(/\s*#\s*/g, " # ").replace(/[:.\s]+$/, "").replace(/[^\p{L}\p{N}#&/ -]/gu, " ").replace(/\s+/g, " ").trim();
+}
+function alternatives(label) {
+  return [normalizeLabel(label), ...label.split(/\s+\/\s+/).map(normalizeLabel)].filter((alt) => alt !== "");
+}
+function cutAtNextLabel(text) {
+  const next = /\s+[\p{L}#][\p{L}#.\s]{0,24}:\s/u.exec(text);
+  return (next ? text.slice(0, next.index) : text).trim();
+}
+function besideAcross(rows, page, labelRow, label) {
+  const y = page.rows[labelRow].y;
+  let best;
+  for (const index of [labelRow - 1, labelRow + 1]) {
+    if (index < 0 || index >= rows.length || Math.abs(page.rows[index].y - y) > label.size)
+      continue;
+    for (const run of rows[index]) {
+      if (run.left > label.right && (!best || run.left < best.left))
+        best = run;
+    }
+  }
+  return best;
+}
+function linesBelow(rows, page, labelRow, label, block, isAnyLabel) {
+  const out = [];
+  let lastY = page.rows[labelRow].y;
+  for (let index = labelRow + 1; index < rows.length; index++) {
+    const y = page.rows[index].y;
+    if (y - lastY > BELOW_REACH * label.size)
+      break;
+    const under = rows[index].find(
+      (run) => run.left < label.right + label.size && run.right > label.left - label.size && Math.abs(run.left - label.left) <= 2 * label.size
+    );
+    if (!under || isAnyLabel(under.text))
+      break;
+    out.push(under.text);
+    lastY = y;
+    if (!block)
+      break;
+  }
+  return out;
+}
+function valueOf2(spec, raw, order) {
+  const text = raw.replace(/\s+/g, " ").trim();
+  if (text === "")
+    return null;
+  switch (spec.kind) {
+    case "money": {
+      const money = parseMoney(text);
+      return money ? { kind: "money", amount: money.amount, currency: money.currency } : null;
+    }
+    case "date": {
+      const date = parseDate(text, order);
+      return date ? { kind: "date", iso: date.iso, ambiguous: date.ambiguous } : null;
+    }
+    case "account":
+      return text.replace(/\D/g, "").length >= 4 ? { kind: "text", text } : null;
+    case "id": {
+      const token = text.split(" ")[0].replace(/[,;]$/, "");
+      return /\d/.test(token) ? { kind: "text", text: token } : null;
+    }
+    default:
+      return parseMoney(text) && /^[\d\s$€£.,()−-]+$/.test(text) ? null : { kind: "text", text };
+  }
+}
+
+// src/template.ts
+var DEFAULT_INVOICE_TEMPLATE = `---
+type: invoice
+vendor: {{vendor}}
+invoice_number: {{invoice_number}}
+invoice_date: {{invoice_date}}
+due_date: {{due_date}}
+subtotal: {{subtotal}}
+tax: {{tax}}
+total: {{total}}
+currency: {{currency}}
+tags: [finance, invoices]
+---
+{{original}}
+
+{{content}}
+`;
+var PLACEHOLDER = /\{\{\s*([A-Za-z_][\w-]*)\s*(?::([^{}\n]*))?\}\}/g;
+var WHOLE_LINE_PLACEHOLDER = /^\s*\{\{\s*[A-Za-z_][\w-]*\s*(?::[^{}\n]*)?\}\}\s*$/;
+var CODE = /\u0000(\d+)\u0000/g;
+var SLOT = /\u0001(\d+)\u0001/g;
+var ISO_DATE2 = /^\d{4}-\d{2}-\d{2}(?:[T ][\d:.]+(?:Z|[+-]\d{2}:?\d{2})?)?$/;
+function renderTemplate(input) {
+  const unknown = [];
+  const missing = [];
+  const problems = [];
+  const once = (list, item) => list.includes(item) || list.push(item);
+  const has = (record2, key) => Object.prototype.hasOwnProperty.call(record2, key);
+  const code = [];
+  const text = input.template.replace(/\r\n?/g, "\n").replace(/<%[\s\S]*?%>/g, (block) => `\0${code.push(block) - 1}\0`);
+  const resolve = (literal, name, format2, inFrontmatter) => {
+    const unformattable = (value) => {
+      if (format2 !== void 0)
+        once(problems, `${literal} has a format, but ${name} isn't a date, so it was written unformatted.`);
+      return value;
+    };
+    if (name === "title")
+      return unformattable({ kind: "text", text: input.now.title });
+    if (name === "date" || name === "time") {
+      return { kind: "text", text: format2 !== void 0 ? input.now.formatNow(format2) : input.now[name] };
+    }
+    if (has(input.blocks, name)) {
+      if (!inFrontmatter)
+        return unformattable({ kind: "block", text: input.blocks[name] });
+      once(problems, `${literal} is a block of Markdown and can't go in frontmatter, so it was left empty.`);
+      return { kind: "missing" };
+    }
+    if (has(input.fields, name)) {
+      const value = input.fields[name];
+      if (value === null) {
+        once(missing, name);
+        return { kind: "missing" };
+      }
+      if (typeof value === "number")
+        return unformattable({ kind: "number", value });
+      if (format2 !== void 0 && ISO_DATE2.test(value))
+        return { kind: "text", text: input.formatDate(value, format2) };
+      return unformattable({ kind: "text", text: value });
+    }
+    once(unknown, name);
+    return { kind: "unknown", text: literal };
+  };
+  const lines = text.split("\n");
+  let frontmatter = null;
+  let body = lines;
+  if (/^---\s*$/.test(lines[0])) {
+    const close = lines.findIndex((line, i) => i > 0 && /^---\s*$/.test(line));
+    if (close < 0) {
+      problems.push("The template's frontmatter opens with --- but never closes, so the template can't be read.");
+      return { note: "", unknownPlaceholders: unknown, missing, problems, fatal: true };
+    }
+    frontmatter = renderFrontmatter(lines.slice(1, close), input.coverage, resolve, problems);
+    body = lines.slice(close + 1);
+  } else if (input.coverage.length > 0) {
+    frontmatter = renderFrontmatter([], input.coverage, resolve, problems);
+  }
+  const out = [];
+  let swallowBlank = false;
+  for (const line of body) {
+    if (swallowBlank && line.trim() === "") {
+      swallowBlank = false;
+      continue;
+    }
+    swallowBlank = false;
+    const rendered = line.replace(PLACEHOLDER, (literal, name, format2, at) => {
+      const value = resolve(literal, name, format2, false);
+      const result = asText(value);
+      const lead = line.slice(0, at);
+      return value.kind === "block" && /^[\s>]*$/.test(lead) ? result.replace(/\n/g, `
+${lead}`) : result;
+    });
+    if (WHOLE_LINE_PLACEHOLDER.test(line) && rendered.trim() === "") {
+      swallowBlank = out.length === 0 || out[out.length - 1].trim() === "";
+      continue;
+    }
+    out.push(rendered);
+  }
+  const head = frontmatter === null ? "" : `${["---", ...frontmatter, "---"].join("\n")}
+`;
+  const note = `${head}${out.join("\n")}`.replace(CODE, (_, i) => code[Number(i)]).replace(/\n+$/, "");
+  return { note: `${note}
+`, unknownPlaceholders: unknown, missing, problems, fatal: false };
+}
+function asText(value) {
+  if (value.kind === "missing")
+    return "";
+  if (value.kind === "number")
+    return String(value.value);
+  return value.text;
+}
+function renderFrontmatter(lines, coverage, resolve, problems) {
+  var _a2, _b, _c, _d;
+  const out = [];
+  const placed = /* @__PURE__ */ new Set();
+  const covered = new Map(coverage);
+  let skipping = false;
+  let blockIndent = null;
+  for (const line of lines) {
+    const indent = ((_a2 = /^\s*/.exec(line)) != null ? _a2 : [""])[0].length;
+    if (skipping && (/^[\s-]/.test(line) || line === ""))
+      continue;
+    skipping = false;
+    const top = /^([^\s#'"{[\-?:][^:]*?|"[^"]*"|'[^']*')\s*:(?:\s|$)/.exec(line);
+    const topKey = top == null ? void 0 : top[1].replace(/^(["'])(.*)\1$/, "$2");
+    if (topKey !== void 0 && covered.has(topKey)) {
+      if (!placed.has(topKey))
+        out.push(entry(topKey, (_b = covered.get(topKey)) != null ? _b : ""));
+      placed.add(topKey);
+      skipping = true;
+      blockIndent = null;
+      continue;
+    }
+    const values = [];
+    const masked = line.replace(PLACEHOLDER, (literal, name, format2) => {
+      values.push(resolve(literal, name, format2, true));
+      return `${values.length - 1}`;
+    });
+    const fill = (s, escape2) => s.replace(SLOT, (_, i) => escape2(asText(values[Number(i)])));
+    if (blockIndent !== null && (line.trim() === "" || indent > blockIndent)) {
+      out.push(fill(masked, (t) => t.replace(/\n/g, `
+${" ".repeat(indent)}`)));
+      continue;
+    }
+    blockIndent = null;
+    const shape = /^(\s*(?:-(?:\s+|$))*)(?:([^\s#'"{[\-?:|>!&*\u0001][^\u0001]*?|"[^"]*"|'[^']*')\s*:(?:\s+|$))?/.exec(masked);
+    const prefix = (_c = shape == null ? void 0 : shape[0]) != null ? _c : "";
+    const isItem = /-/.test((_d = shape == null ? void 0 : shape[1]) != null ? _d : "");
+    if (!shape || !shape[2] && !isItem) {
+      if (values.length === 0 || /^\s*#/.test(masked))
+        out.push(fill(masked, (t) => t.replace(/\n+/g, " ")));
+      else
+        problems.push(`A placeholder in the frontmatter line "${line.trim()}" isn't in a value, so the line was left out.`);
+      continue;
+    }
+    const [value, comment] = splitComment(masked.slice(prefix.length));
+    const tail = comment ? ` ${comment}` : "";
+    if (/^[|>][-+1-9]*$/.test(value))
+      blockIndent = indent;
+    if (values.length === 0) {
+      out.push(line);
+      continue;
+    }
+    const rendered = renderValue(value, values, fill, problems, line);
+    if (rendered === null && isItem && !shape[2])
+      continue;
+    out.push(rendered === null ? `${prefix.trimEnd()}${tail}` : `${prefix}${rendered}${tail}`);
+  }
+  for (const [key, value] of coverage)
+    if (!placed.has(key))
+      out.push(entry(key, value));
+  return out;
+}
+function entry(key, value) {
+  return value === "" ? `${key}:` : `${key}: ${value}`;
+}
+function renderValue(value, values, fill, problems, line) {
+  const whole = /^\u0001(\d+)\u0001$/.exec(value);
+  if (whole)
+    return scalar(values[Number(whole[1])], problems);
+  if (/^".*"$/.test(value))
+    return fill(value, (t) => escapeDouble(t));
+  if (/^'.*'$/.test(value)) {
+    return fill(value, (t) => t.replace(/\s*\n\s*/g, " ").replace(/[\u0002-\u0008\u000b-\u001f\u007f]/g, "").replace(/'/g, "''"));
+  }
+  if (/^\[[^[\]{}]*\]$/.test(value)) {
+    const items = splitFlow(value.slice(1, -1));
+    if (items !== null) {
+      const kept = items.map((item) => item.includes("") ? renderValue(item, values, fill, problems, line) : item).filter((item) => item !== null && item !== "");
+      return `[${kept.join(", ")}]`;
+    }
+  }
+  if (/^[[{"'|>!&*]/.test(value)) {
+    problems.push(`A placeholder in the frontmatter line "${line.trim()}" is somewhere it can't be written safely, so the value was left empty.`);
+    return null;
+  }
+  if (value.includes("\0")) {
+    const kept = fill(value, (t) => {
+      const flat = t.replace(/[\r\n]+/g, " ").trim();
+      if (flat === "" || yamlValue(flat) === flat)
+        return flat;
+      problems.push(`A value in the frontmatter line "${line.trim()}" can't sit unquoted beside Templater code, so it was left out.`);
+      return "";
+    }).trim();
+    return kept === "" ? null : kept;
+  }
+  const textValue = fill(value, (t) => t).replace(/[\r\n]+/g, " ").trim();
+  return textValue === "" ? null : yamlString(textValue);
+}
+function scalar(value, problems) {
+  if (value.kind === "missing")
+    return null;
+  if (value.kind !== "number")
+    return yamlString(value.text);
+  if (Number.isFinite(value.value))
+    return String(value.value);
+  problems.push(`A number field came out as ${value.value}, so it was left empty.`);
+  return null;
+}
+function yamlString(text) {
+  const flat = text.replace(/[\r\n]+/g, " ").trim();
+  return yamlValue(flat) === flat ? flat : `"${escapeDouble(flat)}"`;
+}
+function escapeDouble(text) {
+  return text.replace(/\s*[\r\n]+\s*/g, " ").replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/[\u0002-\u0008\u000b-\u001f\u007f]/g, (c) => `\\x${c.charCodeAt(0).toString(16).padStart(2, "0")}`);
+}
+function splitComment(text) {
+  let quote = "";
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (quote === '"' && c === "\\")
+      i++;
+    else if (quote !== "" && c === quote)
+      quote = "";
+    else if (quote === "" && (c === '"' || c === "'") && (i === 0 || /[\s[,]/.test(text[i - 1])))
+      quote = c;
+    else if (quote === "" && c === "#" && (i === 0 || /\s/.test(text[i - 1]))) {
+      return [text.slice(0, i).trim(), text.slice(i)];
+    }
+  }
+  return [text.trim(), ""];
+}
+function splitFlow(inner) {
+  const items = [];
+  let quote = "";
+  let start = 0;
+  for (let i = 0; i < inner.length; i++) {
+    const c = inner[i];
+    if (quote === '"' && c === "\\")
+      i++;
+    else if (quote !== "" && c === quote)
+      quote = "";
+    else if (quote === "" && (c === '"' || c === "'") && inner.slice(start, i).trim() === "")
+      quote = c;
+    else if (quote === "" && c === ",") {
+      items.push(inner.slice(start, i).trim());
+      start = i + 1;
+    }
+  }
+  if (quote !== "")
+    return null;
+  items.push(inner.slice(start).trim());
+  return items;
+}
+
+// src/types/shared.ts
+function prominentLine(pages, skip) {
+  var _a2;
+  const page = pages.find((candidate) => candidate.rows.length > 0);
+  if (!page)
+    return null;
+  const top = page.rows[0].y;
+  const bottom = page.rows[page.rows.length - 1].y;
+  const inTables = new Set(page.tables.flatMap((found) => page.rows.slice(found.first, found.last + 1)));
+  const runs = page.rows.filter((row) => row.y <= top + (bottom - top) * 0.35 && !inTables.has(row)).flatMap((row) => runsOf(row, 1).map((run) => ({ run, y: row.y }))).filter(({ run }) => /\p{L}{2}/u.test(run.text) && !skip.test(run.text) && !run.text.includes(":"));
+  if (runs.length === 0)
+    return null;
+  const largest = Math.max(...runs.map(({ run }) => run.size));
+  const chosen = (_a2 = runs.find(({ run }) => run.size >= largest * 0.95)) != null ? _a2 : runs[0];
+  return { value: { kind: "text", text: chosen.run.text }, label: "", ocr: page.source === "ocr", page: page.page, y: chosen.y };
+}
+function firstDate(pages, order) {
+  const page = pages.find((candidate) => candidate.rows.length > 0);
+  if (!page)
+    return null;
+  const top = page.rows[0].y;
+  const bottom = page.rows[page.rows.length - 1].y;
+  for (const row of page.rows) {
+    if (row.y > top + (bottom - top) * 0.4)
+      break;
+    for (const run of runsOf(row, 1)) {
+      const date = parseDate(run.text, order);
+      if (date)
+        return { value: { kind: "date", ...date }, label: "", ocr: page.source === "ocr", page: page.page, y: row.y };
+    }
+  }
+  return null;
+}
+function moneyOf(found, key) {
+  var _a2;
+  const value = (_a2 = found.get(key)) == null ? void 0 : _a2.value;
+  return (value == null ? void 0 : value.kind) === "money" ? value.amount : null;
+}
+var TOLERANCE = 0.011;
+function round(value) {
+  return Math.round(value * 100) / 100;
+}
+function format(value) {
+  return value.toFixed(2);
+}
+
+// src/types/invoice.ts
+var FIELDS = [
+  {
+    key: "vendor",
+    name: "Vendor",
+    labels: ["sold by", "vendor", "seller", "supplier", "merchant", "billed by", "issued by", "from"],
+    kind: "text",
+    core: true,
+    prefer: "first"
+  },
+  {
+    key: "invoice_number",
+    name: "Invoice number",
+    labels: [
+      "invoice #",
+      "invoice no",
+      "invoice number",
+      "invoice id",
+      "invoice",
+      "inv #",
+      "inv no",
+      "receipt #",
+      "receipt no",
+      "receipt number",
+      "bill #",
+      "bill no",
+      "bill number",
+      "document no",
+      "document number"
+    ],
+    kind: "id",
+    core: true,
+    prefer: "first"
+  },
+  {
+    key: "invoice_date",
+    name: "Invoice date",
+    labels: ["invoice date", "date of issue", "issue date", "issued", "date issued", "billing date", "bill date", "receipt date", "date"],
+    kind: "date",
+    core: true,
+    prefer: "first"
+  },
+  {
+    key: "due_date",
+    name: "Due date",
+    labels: ["due date", "date due", "payment due", "payment due date", "due", "due by", "pay by"],
+    kind: "date",
+    core: true,
+    prefer: "first"
+  },
+  {
+    key: "po_number",
+    name: "PO number",
+    labels: ["po", "po #", "po no", "po number", "p o", "purchase order", "purchase order #", "purchase order no", "purchase order number"],
+    kind: "id",
+    core: false,
+    prefer: "first"
+  },
+  {
+    key: "bill_to",
+    name: "Bill to",
+    labels: ["bill to", "billed to", "billing address", "invoice to", "sold to", "customer"],
+    kind: "block",
+    core: false,
+    prefer: "first"
+  },
+  {
+    key: "subtotal",
+    name: "Subtotal",
+    labels: ["subtotal", "sub total", "sub-total", "invoice subtotal", "net", "net amount", "net total", "amount before tax", "total before tax"],
+    kind: "money",
+    core: true,
+    prefer: "last"
+  },
+  {
+    key: "tax",
+    name: "Tax",
+    labels: [
+      "tax",
+      "taxes",
+      "sales tax",
+      "total tax",
+      "tax total",
+      "tax amount",
+      "vat",
+      "gst",
+      "hst",
+      "pst",
+      "qst",
+      "gst/hst",
+      "tva",
+      "tps",
+      "tvq",
+      "tvh"
+    ],
+    kind: "money",
+    core: true,
+    prefer: "last",
+    sum: true
+  },
+  {
+    key: "shipping",
+    name: "Shipping",
+    labels: ["shipping", "shipping & handling", "shipping and handling", "delivery", "freight", "postage"],
+    kind: "money",
+    core: false,
+    prefer: "last"
+  },
+  {
+    key: "discount",
+    name: "Discount",
+    labels: ["discount", "discounts", "promotion", "coupon"],
+    kind: "money",
+    core: false,
+    prefer: "last"
+  },
+  {
+    key: "total",
+    name: "Total",
+    labels: [
+      "total",
+      "grand total",
+      "amount due",
+      "balance due",
+      "total due",
+      "total payable",
+      "amount payable",
+      "total amount",
+      "invoice total",
+      "total to pay",
+      "amount to pay",
+      "balance"
+    ],
+    kind: "money",
+    core: true,
+    prefer: "last"
+  }
+];
+function closingLabels(fields) {
+  return new Set(
+    fields.filter((field) => ["subtotal", "tax", "total", "discount"].includes(field.key)).flatMap((field) => field.labels.map(normalizeLabel))
+  );
+}
+var ITEM_HEADER = /\b(description|item|items|product|service|details|article|qty|quantity|unit|price|rate|hours)\b/i;
+var AMOUNT_HEADER = /\b(amount|total|subtotal|line total|price|sous-total)\b/i;
+var QUANTITY_HEADER = /\b(qty|quantity|quantité|hours|units)\b/i;
+var DOCUMENT_WORDS = /\b(invoice|receipt|facture|statement|bill|paid|payé|page|tax|copy|original|quote|estimate)\b/i;
+var INVOICE = {
+  id: "invoice",
+  name: "invoice / receipt",
+  defaultTemplate: DEFAULT_INVOICE_TEMPLATE,
+  fields: FIELDS,
+  read(pages, order, extraLabels2 = {}) {
+    var _a2;
+    const fields = FIELDS.map((field) => {
+      var _a3;
+      return { ...field, labels: [...field.labels, ...(_a3 = extraLabels2[field.key]) != null ? _a3 : []] };
+    });
+    const closing = closingLabels(fields);
+    const found = findFields(pages, fields, order);
+    const guessed = [];
+    const warnings = [];
+    if (!found.has("vendor")) {
+      const vendor = prominentLine(pages, DOCUMENT_WORDS);
+      if (vendor) {
+        found.set("vendor", vendor);
+        guessed.push("vendor");
+      }
+    }
+    if (!found.has("invoice_date")) {
+      const date = firstDate(pages, order);
+      if (date) {
+        found.set("invoice_date", date);
+        guessed.push("invoice_date");
+      }
+    }
+    const items = lineItems(pages, closing);
+    for (const problem of [items ? checkItems(items, found) : null, checkSum(found)]) {
+      if (problem)
+        warnings.push(problem);
+    }
+    const values = {};
+    for (const spec of fields) {
+      const value = (_a2 = found.get(spec.key)) == null ? void 0 : _a2.value;
+      values[spec.key] = !value ? null : value.kind === "money" ? value.amount : value.kind === "date" ? value.iso : value.text;
+    }
+    const money = ["total", "subtotal", "tax"].map((key) => {
+      var _a3;
+      return (_a3 = found.get(key)) == null ? void 0 : _a3.value;
+    }).find((value) => (value == null ? void 0 : value.kind) === "money" && value.currency);
+    values.currency = (money == null ? void 0 : money.kind) === "money" ? money.currency : null;
+    const missing = fields.filter((spec) => spec.core && !found.has(spec.key)).map((spec) => spec.key);
+    if (values.currency === null && found.has("total"))
+      missing.push("currency");
+    if (!items)
+      missing.push("line_items");
+    return {
+      fields: values,
+      blocks: { line_items: items ? items.markdown.join("\n") : "" },
+      missing,
+      ocr: [...found].filter(([, field]) => field.ocr).map(([key]) => key),
+      guessed,
+      ambiguous: [...found].filter(([, field]) => field.value.kind === "date" && field.value.ambiguous).map(([key]) => key),
+      warnings
+    };
+  }
+};
+function lineItems(pages, closing) {
+  var _a2;
+  const tables = pages.flatMap((page) => page.tables);
+  const score = (found) => found.rows[0].filter((cell) => ITEM_HEADER.test(cell)).length;
+  const headedTables = tables.filter((found) => score(found) > 0);
+  const chosen = (_a2 = headedTables.sort((a, b) => score(b) - score(a) || b.rows.length - a.rows.length)[0]) != null ? _a2 : tables.filter((found) => found.rows.filter((row) => isClosing(row[0], closing)).length < found.rows.length / 2).sort((a, b) => b.rows.length - a.rows.length)[0];
+  if (!chosen)
+    return null;
+  const headed = score(chosen) > 0;
+  const body = headed ? chosen.rows.slice(1) : chosen.rows;
+  const end = body.findIndex((row) => isClosing(row[0], closing));
+  const items = end === -1 ? body : body.slice(0, end);
+  let column = -1;
+  if (headed) {
+    chosen.rows[0].forEach((cell, index) => {
+      if (AMOUNT_HEADER.test(cell) && !QUANTITY_HEADER.test(cell) && chosen.numeric[index])
+        column = index;
+    });
+  } else {
+    column = chosen.numeric.lastIndexOf(true);
+  }
+  const amounts = column === -1 ? [] : items.map((row) => {
+    var _a3, _b;
+    return (_b = parseMoney((_a3 = row[column]) != null ? _a3 : "")) == null ? void 0 : _b.amount;
+  }).filter((amount) => amount !== void 0);
+  return {
+    markdown: table(
+      chosen.rows.map((row) => row.map((cell) => squashSpaces(escapeInline(cell)))),
+      chosen.numeric
+    ),
+    amounts,
+    column: headed && column !== -1 ? chosen.rows[0][column] : "the amount column"
+  };
+}
+function isClosing(cell, closing) {
+  return closing.has(normalizeLabel(cell)) || cell.split(/\s+\/\s+/).some((half) => closing.has(normalizeLabel(half)));
+}
+function checkItems(items, found) {
+  if (items.amounts.length === 0)
+    return null;
+  const sum = round(items.amounts.reduce((total, amount) => total + amount, 0));
+  const against = found.has("subtotal") ? "subtotal" : !found.has("tax") && found.has("total") ? "total" : null;
+  if (!against)
+    return null;
+  const expected = moneyOf(found, against);
+  if (Math.abs(sum - expected) <= TOLERANCE)
+    return null;
+  return `The line items (${escapeInline(items.column)}) add up to ${format(sum)}, but the ${against} is ${format(expected)}. Check both against the original.`;
+}
+function checkSum(found) {
+  var _a2, _b;
+  const subtotal = moneyOf(found, "subtotal");
+  const tax = moneyOf(found, "tax");
+  const total = moneyOf(found, "total");
+  if (subtotal === null || tax === null || total === null)
+    return null;
+  const shipping = (_a2 = moneyOf(found, "shipping")) != null ? _a2 : 0;
+  const discount = Math.abs((_b = moneyOf(found, "discount")) != null ? _b : 0);
+  const expected = round(subtotal + tax + shipping - discount);
+  if (Math.abs(expected - total) <= TOLERANCE)
+    return null;
+  const parts = [
+    `subtotal ${format(subtotal)}`,
+    `tax ${format(tax)}`,
+    ...shipping ? [`shipping ${format(shipping)}`] : [],
+    ...discount ? [`less discount ${format(discount)}`] : []
+  ];
+  return `${parts.join(", ")} come to ${format(expected)}, but the total is ${format(total)}. Check the figures against the original.`;
+}
+
+// src/types/statement.ts
+var DEFAULT_STATEMENT_TEMPLATE = `---
+type: statement
+institution: {{institution}}
+account_last4: {{account_last4}}
+period_start: {{period_start}}
+period_end: {{period_end}}
+opening_balance: {{opening_balance}}
+closing_balance: {{closing_balance}}
+currency: {{currency}}
+tags: [finance, statements]
+---
+{{original}}
+
+{{content}}
+`;
+var FIELDS2 = [
+  {
+    key: "institution",
+    name: "Institution",
+    labels: ["bank", "institution", "issuer", "card issuer"],
+    kind: "text",
+    core: true,
+    prefer: "first"
+  },
+  {
+    key: "account",
+    name: "Account number",
+    labels: [
+      "account",
+      "account number",
+      "account #",
+      "account no",
+      "account ending",
+      "account ending in",
+      "acct",
+      "acct #",
+      "acct no",
+      "card number",
+      "card #",
+      "card no",
+      "card ending",
+      "card ending in",
+      "iban"
+    ],
+    kind: "account",
+    core: true,
+    prefer: "first"
+  },
+  {
+    key: "period",
+    name: "Statement period",
+    labels: ["statement period", "period", "billing period", "statement dates", "for the period", "period covered"],
+    kind: "text",
+    core: true,
+    prefer: "first"
+  },
+  {
+    key: "statement_date",
+    name: "Statement date",
+    labels: ["statement date", "closing date", "statement closing date", "as of", "as at"],
+    kind: "date",
+    core: false,
+    prefer: "first"
+  },
+  {
+    key: "opening_balance",
+    name: "Opening balance",
+    labels: [
+      "opening balance",
+      "previous balance",
+      "balance forward",
+      "beginning balance",
+      "starting balance",
+      "balance brought forward",
+      "previous statement balance",
+      "balance at start"
+    ],
+    kind: "money",
+    core: true,
+    prefer: "first"
+  },
+  {
+    key: "closing_balance",
+    name: "Closing balance",
+    labels: [
+      "closing balance",
+      "new balance",
+      "ending balance",
+      "balance at end",
+      "statement balance",
+      "current balance",
+      "balance carried forward",
+      "new statement balance"
+    ],
+    kind: "money",
+    core: true,
+    prefer: "last"
+  }
+];
+var DOCUMENT_WORDS2 = /\b(statement|account|page|summary|monthly|chequing|checking|savings|relevé)\b/i;
+var TRANSACTION_HEADER = /\b(date|description|details|transaction|withdrawals?|deposits?|debits?|credits?|amount|balance)\b/i;
+var MONEY_OUT = /\b(withdrawals?|debits?|paid out|money out|charges|purchases|retraits?)\b/i;
+var MONEY_IN = /\b(deposits?|credits?|paid in|money in|payments?|dépôts?)\b/i;
+var AMOUNT = /\b(amount|montant)\b/i;
+var BALANCE = /\b(balance|solde)\b/i;
+var STATEMENT = {
+  id: "statement",
+  name: "statement",
+  defaultTemplate: DEFAULT_STATEMENT_TEMPLATE,
+  fields: FIELDS2,
+  read(pages, order, extraLabels2 = {}) {
+    var _a2, _b, _c, _d, _e, _f;
+    const fields = FIELDS2.map((field) => {
+      var _a3;
+      return { ...field, labels: [...field.labels, ...(_a3 = extraLabels2[field.key]) != null ? _a3 : []] };
+    });
+    const found = findFields(pages, fields, order);
+    const guessed = [];
+    const ambiguous = [];
+    const warnings = [];
+    if (!found.has("institution")) {
+      const institution = (_a2 = prominentLine(pages, DOCUMENT_WORDS2)) != null ? _a2 : titleLine(pages);
+      if (institution) {
+        found.set("institution", institution);
+        guessed.push("institution");
+      }
+    }
+    const period = found.get("period");
+    const dates = (period == null ? void 0 : period.value.kind) === "text" ? periodDates(period.value.text, order) : [];
+    const statementDate = (_b = found.get("statement_date")) == null ? void 0 : _b.value;
+    const values = {
+      institution: textOf3(found.get("institution")),
+      account_last4: lastFour(found.get("account")),
+      period_start: (_d = (_c = dates[0]) == null ? void 0 : _c.iso) != null ? _d : null,
+      period_end: (_f = (_e = dates[1]) == null ? void 0 : _e.iso) != null ? _f : (statementDate == null ? void 0 : statementDate.kind) === "date" ? statementDate.iso : null,
+      opening_balance: moneyOf(found, "opening_balance"),
+      closing_balance: moneyOf(found, "closing_balance"),
+      currency: null
+    };
+    if (dates.some((date) => date.ambiguous))
+      ambiguous.push("period_start", "period_end");
+    const money = ["closing_balance", "opening_balance"].map((key) => {
+      var _a3;
+      return (_a3 = found.get(key)) == null ? void 0 : _a3.value;
+    }).find((value) => (value == null ? void 0 : value.kind) === "money" && value.currency);
+    values.currency = (money == null ? void 0 : money.kind) === "money" ? money.currency : null;
+    const transactions = transactionTable(pages);
+    if (transactions) {
+      const problem = checkTransactions(transactions, values.opening_balance, values.closing_balance);
+      if (problem)
+        warnings.push(...problem);
+    }
+    const missing = [
+      ...["institution", "account_last4", "period_start", "period_end", "opening_balance", "closing_balance"].filter(
+        (key) => values[key] === null
+      ),
+      ...values.currency === null && values.closing_balance !== null ? ["currency"] : [],
+      ...transactions ? [] : ["transactions"]
+    ];
+    const ocr = [...found].filter(([, field]) => field.ocr).map(([key]) => fieldKeyFor(key));
+    return {
+      fields: values,
+      blocks: { transactions: transactions ? transactions.markdown.join("\n") : "" },
+      missing,
+      ocr: [...new Set(ocr.flat())],
+      guessed,
+      ambiguous,
+      warnings
+    };
+  }
+};
+function fieldKeyFor(key) {
+  if (key === "account")
+    return ["account_last4"];
+  if (key === "period")
+    return ["period_start", "period_end"];
+  if (key === "statement_date")
+    return ["period_end"];
+  return [key];
+}
+function titleLine(pages) {
+  const line = prominentLine(pages, /(?!)/);
+  if (!line || line.value.kind !== "text")
+    return null;
+  const [first] = line.value.text.split(/\s+[—–-]\s+/);
+  return first && first !== line.value.text ? { ...line, value: { kind: "text", text: first.trim() } } : null;
+}
+function textOf3(field) {
+  return (field == null ? void 0 : field.value.kind) === "text" ? field.value.text : null;
+}
+function lastFour(field) {
+  if ((field == null ? void 0 : field.value.kind) !== "text")
+    return null;
+  const digits = field.value.text.replace(/\D/g, "");
+  return digits.length >= 4 ? digits.slice(-4) : null;
+}
+function periodDates(text, order) {
+  const parts = text.split(/\s+(?:to|through|thru|until|au|-|–|—)\s+/i);
+  if (parts.length < 2)
+    return [];
+  const start = parseDate(parts[0], order);
+  const end = parseDate(parts.slice(1).join(" "), order);
+  return start && end ? [start, end] : [];
+}
+function transactionTable(pages) {
+  const tables = pages.flatMap((page) => page.tables);
+  const score = (found) => found.rows[0].filter((cell) => TRANSACTION_HEADER.test(cell)).length;
+  const best = [...tables].sort((a, b) => score(b) - score(a) || b.rows.length - a.rows.length)[0];
+  if (!best || score(best) < 2)
+    return null;
+  const header2 = best.rows[0];
+  const same = tables.filter((found) => found.rows[0].join("|") === header2.join("|"));
+  const rows = [header2, ...same.flatMap((found) => found.rows.slice(1))];
+  const numeric = header2.map((_, column) => same.some((found) => found.numeric[column]));
+  const find = (pattern) => header2.findIndex((cell, index) => numeric[index] && pattern.test(cell));
+  return {
+    markdown: table(
+      rows.map((row) => row.map((cell) => squashSpaces(escapeInline(cell)))),
+      numeric
+    ),
+    rows: rows.slice(1),
+    out: find(MONEY_OUT),
+    in: find(MONEY_IN),
+    amount: find(AMOUNT),
+    balance: find(BALANCE),
+    date: header2.findIndex((cell) => /\bdate\b/i.test(cell))
+  };
+}
+function checkTransactions(found, opening, closing) {
+  const signed = (sign) => found.rows.map((row) => {
+    var _a2, _b, _c;
+    if (found.amount !== -1)
+      return sign * ((_a2 = amountIn(row[found.amount])) != null ? _a2 : 0);
+    const inflow = found.in === -1 ? 0 : (_b = amountIn(row[found.in])) != null ? _b : 0;
+    const outflow = found.out === -1 ? 0 : (_c = amountIn(row[found.out])) != null ? _c : 0;
+    return sign * (inflow - outflow);
+  });
+  if (found.amount === -1 && found.in === -1 && found.out === -1)
+    return null;
+  const readings = [1, -1].map((sign) => {
+    const changes = signed(sign);
+    const wrongRows = [];
+    if (found.balance !== -1) {
+      const balances = found.rows.map((row) => amountIn(row[found.balance]));
+      let previous = opening;
+      balances.forEach((balance, index) => {
+        if (balance === null)
+          return;
+        const expected = previous === null ? null : round(previous + changes[index]);
+        previous = balance;
+        if (expected === null || Math.abs(expected - balance) <= TOLERANCE)
+          return;
+        wrongRows.push(index);
+        const next = balances[index + 1];
+        if (next !== null && next !== void 0 && Math.abs(round(expected + changes[index + 1]) - next) <= TOLERANCE) {
+          previous = expected;
+        }
+      });
+    }
+    const total = round(changes.reduce((sum, change) => sum + change, 0));
+    const periodOk = opening === null || closing === null || Math.abs(round(opening + total) - closing) <= TOLERANCE;
+    return { wrongRows, total, periodOk };
+  });
+  const [first, second] = readings;
+  const chosen = first.wrongRows.length + (first.periodOk ? 0 : 1) <= second.wrongRows.length + (second.periodOk ? 0 : 1) ? first : second;
+  const problems = [];
+  if (chosen.wrongRows.length > 0) {
+    const named = chosen.wrongRows.slice(0, 8).map((index) => {
+      var _a2;
+      const row = found.rows[index];
+      const date = found.date !== -1 ? row[found.date] : "";
+      return escapeInline([date, (_a2 = row.find((cell, column) => column !== found.date && /\p{L}/u.test(cell))) != null ? _a2 : ""].filter(Boolean).join(" "));
+    });
+    problems.push(
+      `The running balance doesn't follow from the transactions on ${chosen.wrongRows.length} row${chosen.wrongRows.length === 1 ? "" : "s"}: ${named.join("; ")}${chosen.wrongRows.length > 8 ? "; \u2026" : ""}. Check them against the original.`
+    );
+  }
+  if (!chosen.periodOk && opening !== null && closing !== null) {
+    problems.push(
+      `The opening balance ${format(opening)} and the transactions (${format(chosen.total)}) come to ${format(round(opening + chosen.total))}, but the closing balance is ${format(closing)}. Check the figures against the original.`
+    );
+  }
+  return problems.length > 0 ? problems : null;
+}
+function amountIn(cell) {
+  var _a2, _b;
+  return cell ? (_b = (_a2 = parseMoney(cell)) == null ? void 0 : _a2.amount) != null ? _b : null : null;
+}
+
+// src/types/compose.ts
+function conversionNotes(warnings) {
+  return ["> [!info]- Conversion notes", ...warnings.map((line) => `> - ${line}`)].join("\n");
+}
+function composeTypedNote(input) {
+  var _a2, _b;
+  const { type, typed, result } = input;
+  const coverage = input.coverage.length === 0 ? [] : [
+    ...input.coverage,
+    ...Object.entries((_a2 = result.frontmatter) != null ? _a2 : {}),
+    ["missing_fields", flowList(typed.missing)],
+    ["ocr_fields", flowList(typed.ocr)],
+    ["guessed_fields", flowList(typed.guessed)],
+    ["ambiguous_fields", flowList(typed.ambiguous)]
+  ];
+  const render = (template) => renderTemplate({
+    template,
+    fields: typed.fields,
+    blocks: { content: result.markdown.trim(), original: input.original, ...typed.blocks },
+    coverage,
+    formatDate: input.formatDate,
+    now: input.now
+  });
+  const notes = input.templateProblem ? [input.templateProblem] : [];
+  let output = render((_b = input.template) != null ? _b : type.defaultTemplate);
+  if (output.fatal) {
+    notes.push("The template note's frontmatter never closes, so the built-in template was used instead.");
+    output = render(type.defaultTemplate);
+  }
+  if (output.unknownPlaceholders.length > 0) {
+    notes.push(
+      `The template uses placeholders this document type doesn't have, left as typed: ${output.unknownPlaceholders.map((name) => `{{${name}}}`).join(", ")}.`
+    );
+  }
+  const warnings = [...typed.warnings, ...result.warnings, ...output.problems, ...notes];
+  const note = output.note.trimEnd();
+  return input.addConversionNotes && warnings.length > 0 ? `${note}
+
+${conversionNotes(warnings)}
+` : `${note}
+`;
+}
+function flowList(keys) {
+  return `[${keys.join(", ")}]`;
+}
+
+// src/types/index.ts
+var DOCUMENT_TYPES = [INVOICE, STATEMENT];
+var LAYOUT_FORMATS = /* @__PURE__ */ new Set(["pdf", "png", "jpg", "jpeg", "webp", "gif", "bmp", "tif", "tiff"]);
+function typesFor(extension) {
+  return LAYOUT_FORMATS.has(extension.toLowerCase()) ? DOCUMENT_TYPES : [];
+}
+
+// src/settings.ts
 var DEFAULT_SETTINGS = {
   outputLocation: "sameFolder",
   outputFolder: "Converted",
@@ -28515,11 +30553,69 @@ var DEFAULT_SETTINGS = {
   attachmentFolder: DEFAULT_ATTACHMENT_FOLDER,
   ocrDataFolder: "",
   includeHiddenSheets: true,
+  embedOriginal: "off",
+  dateOrder: "system",
+  documentTypes: {},
   addFrontmatter: true,
   addConversionNotes: true,
   openAfterConvert: true
 };
-var ConvertToMarkdownSettingTab = class extends import_obsidian.PluginSettingTab {
+var RELATED_PLUGINS = [
+  {
+    name: "AI Skills Manager",
+    desc: "Manages AI skills, agents, commands and rules for Claude, Codex and more. Pairs with converting: turn existing documentation, PDFs or slide decks into Markdown here, then shape the notes into skills or rules there.",
+    url: "https://community.obsidian.md/plugins/ai-skills-manager",
+    icon: "shapes"
+  },
+  {
+    name: "Terminus",
+    desc: "A real terminal inside Obsidian with Claude Code support, including a panel for reviewing and accepting file edits. Handy for pointing an AI tool at converted notes without leaving the vault.",
+    url: "https://community.obsidian.md/plugins/terminus",
+    icon: "square-terminal"
+  },
+  {
+    name: "Working Tabs",
+    desc: "Groups open tabs into named spaces by task instead of folder. Keeps an original file and the notes converted from it together while you check them over.",
+    url: "https://community.obsidian.md/plugins/working-tabs",
+    icon: "layout-panel-left"
+  }
+];
+function renderRelatedPlugin(setting, plugin) {
+  setting.addButton((btn) => btn.setButtonText("View plugin").onClick(() => window.open(plugin.url, "_blank")));
+  setting.settingEl.addClass("convert-to-markdown-related-plugin");
+  const tile = createDiv({ cls: "convert-to-markdown-related-plugin-icon", attr: { "aria-hidden": "true" } });
+  (0, import_obsidian2.setIcon)(tile, plugin.icon);
+  setting.settingEl.prepend(tile);
+}
+function renderVersionSetting(setting, plugin) {
+  const apply = (status) => {
+    setting.setName("Version");
+    setting.controlEl.empty();
+    if (status.state === "outdated") {
+      setting.setDesc(`Installed ${status.installed}. Version ${status.latest} is available with the latest fixes and features.`);
+      setting.addButton((btn) => btn.setButtonText("Update").setCta().onClick(() => window.open(COMMUNITY_PLUGIN_URL)));
+      return;
+    }
+    setting.setDesc(
+      status.state === "current" ? `Installed ${status.installed}. You're on the latest version.` : `Installed ${status.installed}. Couldn't check for updates right now. Keep Convert to Markdown up to date from Community plugins to get the latest fixes.`
+    );
+    if (status.state === "unknown") {
+      setting.addButton((btn) => btn.setButtonText("Open Community plugins").onClick(() => window.open(COMMUNITY_PLUGIN_URL)));
+    }
+    setting.addButton(
+      (btn) => btn.setButtonText("Check for updates").onClick(async () => {
+        btn.setDisabled(true).setButtonText("Checking...");
+        const next = await plugin.checkPluginVersion();
+        if (next.state === "current")
+          new import_obsidian2.Notice("Convert to Markdown is up to date.");
+        apply(next);
+      })
+    );
+  };
+  apply(plugin.pluginVersionStatus());
+  void plugin.checkPluginVersion().then(apply);
+}
+var ConvertToMarkdownSettingTab = class extends import_obsidian2.PluginSettingTab {
   constructor(app, plugin) {
     super(app, plugin);
     this.plugin = plugin;
@@ -28537,7 +30633,8 @@ var ConvertToMarkdownSettingTab = class extends import_obsidian.PluginSettingTab
   display() {
     const { containerEl } = this;
     containerEl.empty();
-    new import_obsidian.Setting(containerEl).setName("Save converted notes").setDesc("Where to put the Markdown note.").addDropdown(
+    renderVersionSetting(new import_obsidian2.Setting(containerEl), this.plugin);
+    new import_obsidian2.Setting(containerEl).setName("Save converted notes").setDesc("Where to put the Markdown note.").addDropdown(
       (dropdown) => dropdown.addOption("sameFolder", "Next to the original file").addOption("folder", "In a specific folder").setValue(this.plugin.settings.outputLocation).onChange(async (value) => {
         this.plugin.settings.outputLocation = value === "folder" ? "folder" : "sameFolder";
         await this.plugin.saveSettings();
@@ -28545,14 +30642,42 @@ var ConvertToMarkdownSettingTab = class extends import_obsidian.PluginSettingTab
       })
     );
     if (this.plugin.settings.outputLocation === "folder") {
-      new import_obsidian.Setting(containerEl).setName("Output folder").setDesc("Vault-relative path. Created if it doesn't exist.").addText(
+      new import_obsidian2.Setting(containerEl).setName("Output folder").setDesc("Vault-relative path. Created if it doesn't exist.").addText(
         (text) => text.setPlaceholder("Converted").setValue(this.plugin.settings.outputFolder).onChange(async (value) => {
-          this.plugin.settings.outputFolder = (0, import_obsidian.normalizePath)(value.trim() || "Converted");
+          this.plugin.settings.outputFolder = (0, import_obsidian2.normalizePath)(value.trim() || "Converted");
           await this.plugin.saveSettings();
         })
       );
     }
-    new import_obsidian.Setting(containerEl).setName("Extract images").setDesc(
+    new import_obsidian2.Setting(containerEl).setName("Open after converting").addToggle(
+      (toggle) => toggle.setValue(this.plugin.settings.openAfterConvert).onChange(async (value) => {
+        this.plugin.settings.openAfterConvert = value;
+        await this.plugin.saveSettings();
+      })
+    );
+    new import_obsidian2.Setting(containerEl).setName("Note contents").setHeading();
+    new import_obsidian2.Setting(containerEl).setName("Add frontmatter").setDesc("Record the source file and conversion date at the top of the note.").addToggle(
+      (toggle) => toggle.setValue(this.plugin.settings.addFrontmatter).onChange(async (value) => {
+        this.plugin.settings.addFrontmatter = value;
+        await this.plugin.saveSettings();
+      })
+    );
+    new import_obsidian2.Setting(containerEl).setName("Add conversion notes").setDesc("List what the converter skipped, such as images, hidden sheets and pages with no text layer.").addToggle(
+      (toggle) => toggle.setValue(this.plugin.settings.addConversionNotes).onChange(async (value) => {
+        this.plugin.settings.addConversionNotes = value;
+        await this.plugin.saveSettings();
+      })
+    );
+    new import_obsidian2.Setting(containerEl).setName("Embed the original PDF").setDesc(
+      "Show the PDF itself in the note, alongside the converted text, for documents where the layout matters as much as the words, such as an invoice, a form or a statement. Obsidian displays it as a scrollable viewer. The PDF stays where it is; the note just shows it."
+    ).addDropdown(
+      (dropdown) => dropdown.addOption("off", "Don't embed").addOption("above", "Above the converted text").addOption("below", "Below the converted text").setValue(this.plugin.settings.embedOriginal).onChange(async (value) => {
+        this.plugin.settings.embedOriginal = value === "above" || value === "below" ? value : "off";
+        await this.plugin.saveSettings();
+      })
+    );
+    new import_obsidian2.Setting(containerEl).setName("Images").setHeading();
+    new import_obsidian2.Setting(containerEl).setName("Extract images").setDesc(
       "Copy images out of the document into an attachments folder and embed them. An image file being converted is moved there itself. Turn off for text-only notes."
     ).addToggle(
       (toggle) => toggle.setValue(this.plugin.settings.extractImages).onChange(async (value) => {
@@ -28562,7 +30687,7 @@ var ConvertToMarkdownSettingTab = class extends import_obsidian.PluginSettingTab
       })
     );
     if (this.plugin.settings.extractImages) {
-      new import_obsidian.Setting(containerEl).setName("Save images").setDesc(
+      new import_obsidian2.Setting(containerEl).setName("Save images").setDesc(
         "Where extracted images are written. Obsidian's choice follows Files and links \u2192 Default location for new attachments, the same place pasted images go."
       ).addDropdown(
         (dropdown) => dropdown.addOption("plugin", "In the folder set below").addOption("obsidian", "Where Obsidian puts attachments").setValue(this.plugin.settings.attachmentLocation).onChange(async (value) => {
@@ -28578,7 +30703,7 @@ var ConvertToMarkdownSettingTab = class extends import_obsidian.PluginSettingTab
           fragment.appendText("XAttachment \u2192 a folder beside the note \xB7 ../assets \u2192 up one level \xB7 ");
           fragment.appendText("/Assets/{{note}} \u2192 from the vault root.");
         });
-        new import_obsidian.Setting(containerEl).setName("Image folder").setDesc(desc).addText(
+        new import_obsidian2.Setting(containerEl).setName("Image folder").setDesc(desc).addText(
           (text) => text.setPlaceholder(DEFAULT_ATTACHMENT_FOLDER).setValue(this.plugin.settings.attachmentFolder).onChange(async (value) => {
             this.plugin.settings.attachmentFolder = value.trim() || DEFAULT_ATTACHMENT_FOLDER;
             await this.plugin.saveSettings();
@@ -28586,52 +30711,140 @@ var ConvertToMarkdownSettingTab = class extends import_obsidian.PluginSettingTab
         );
       }
     }
-    new import_obsidian.Setting(containerEl).setName("Convert hidden sheets").setDesc(
-      "Spreadsheets only (.xlsx and .ods). A hidden sheet is often the raw data a visible pivot table summarises, so hidden sheets are converted like any other. Turn off to leave them out \u2014 they're then listed by name in the conversion notes, and any sheet a visible formula, pivot table or chart reads from is converted regardless."
+    new import_obsidian2.Setting(containerEl).setName("Spreadsheets").setHeading();
+    new import_obsidian2.Setting(containerEl).setName("Convert hidden sheets").setDesc(
+      "For .xlsx and .ods files. A hidden sheet is often the raw data a visible pivot table summarises, so hidden sheets are converted like any other. Turn off to leave them out. They're then listed by name in the conversion notes, and any sheet a visible formula, pivot table or chart reads from is converted regardless."
     ).addToggle(
       (toggle) => toggle.setValue(this.plugin.settings.includeHiddenSheets).onChange(async (value) => {
         this.plugin.settings.includeHiddenSheets = value;
         await this.plugin.saveSettings();
       })
     );
-    new import_obsidian.Setting(containerEl).setName("Reading images (OCR)").setDesc(
-      "Converting an image file \u2014 or a page of a scanned PDF, which is the same thing \u2014 runs local OCR. No API key, and the image never leaves your machine. By default the recognition engine and English training data (~9 MB) download on first use and are then cached; every conversion after that works offline."
-    );
-    new import_obsidian.Setting(containerEl).setName("OCR engine folder").setDesc(
+    new import_obsidian2.Setting(containerEl).setName("Scans and images (OCR)").setHeading();
+    containerEl.createEl("p", {
+      cls: "setting-item-description",
+      text: "Converting an image file, or a page of a scanned PDF (which is the same thing), runs local OCR. No API key, and the image never leaves your machine. By default the recognition engine and English training data (~9 MB) download on first use and are then cached; every conversion after that works offline."
+    });
+    new import_obsidian2.Setting(containerEl).setName("OCR engine folder").setDesc(
       "For machines where the CDN is blocked. Put tesseract-core-simd-lstm.wasm.js and eng.traineddata in a vault folder and name it here, and OCR never touches the network. Leave empty to download them on first use. See the README for the two download links."
     ).addText(
       (text) => text.setPlaceholder("(download on first use)").setValue(this.plugin.settings.ocrDataFolder).onChange(async (value) => {
         const trimmed = value.trim();
-        this.plugin.settings.ocrDataFolder = trimmed === "" ? "" : (0, import_obsidian.normalizePath)(trimmed);
+        this.plugin.settings.ocrDataFolder = trimmed === "" ? "" : (0, import_obsidian2.normalizePath)(trimmed);
         await this.plugin.saveSettings();
       })
     );
-    new import_obsidian.Setting(containerEl).setName("Add frontmatter").setDesc("Record the source file and conversion date at the top of the note.").addToggle(
-      (toggle) => toggle.setValue(this.plugin.settings.addFrontmatter).onChange(async (value) => {
-        this.plugin.settings.addFrontmatter = value;
+    new import_obsidian2.Setting(containerEl).setName("Invoices and statements").setHeading();
+    new import_obsidian2.Setting(containerEl).setName("Date order").setDesc(
+      "Which way round a date written all in numbers is read on an invoice, receipt or statement. 06/10/2026 is 6 October in most of the world and June 10 in the US. Dates that could be read either way are listed in the note's ambiguous_fields property so you can check them."
+    ).addDropdown(
+      (dropdown) => dropdown.addOption("system", "From your system's language").addOption("dmy", "Day first (06/10 is 6 October)").addOption("mdy", "Month first (06/10 is June 10)").setValue(this.plugin.settings.dateOrder).onChange(async (value) => {
+        this.plugin.settings.dateOrder = value === "dmy" || value === "mdy" ? value : "system";
         await this.plugin.saveSettings();
       })
     );
-    new import_obsidian.Setting(containerEl).setName("Add conversion notes").setDesc("List what the converter skipped \u2014 images, hidden sheets, pages with no text layer.").addToggle(
-      (toggle) => toggle.setValue(this.plugin.settings.addConversionNotes).onChange(async (value) => {
-        this.plugin.settings.addConversionNotes = value;
-        await this.plugin.saveSettings();
+    for (const type of DOCUMENT_TYPES)
+      this.displayDocumentType(containerEl, type);
+    new import_obsidian2.Setting(containerEl).setName("Support").setHeading();
+    new import_obsidian2.Setting(containerEl).setName("Report a bug or request a feature").setDesc(
+      "Opens a new issue on the Convert to Markdown GitHub repo. For a file that converts badly, say what kind of file it is and what went wrong, and attach it if it's nothing private."
+    ).addButton(
+      (btn) => btn.setButtonText("Open GitHub issues").onClick(() => {
+        window.open("https://github.com/NoteNerdOfficial/convert-to-markdown/issues/new", "_blank");
       })
     );
-    new import_obsidian.Setting(containerEl).setName("Open after converting").addToggle(
-      (toggle) => toggle.setValue(this.plugin.settings.openAfterConvert).onChange(async (value) => {
-        this.plugin.settings.openAfterConvert = value;
+    new import_obsidian2.Setting(containerEl).setName("Related plugins").setHeading();
+    containerEl.createEl("p", {
+      text: "Other community plugins that pair well with Convert to Markdown.",
+      cls: "setting-item-description"
+    });
+    for (const plugin of RELATED_PLUGINS) {
+      renderRelatedPlugin(new import_obsidian2.Setting(containerEl).setName(plugin.name).setDesc(plugin.desc), plugin);
+    }
+  }
+  /**
+   * A document type's own settings: the template its notes are laid out by,
+   * and labels to read its fields by besides the built-in ones.
+   */
+  displayDocumentType(containerEl, type) {
+    const settings = this.typeSettings(type);
+    const heading2 = type.name.charAt(0).toUpperCase() + type.name.slice(1);
+    new import_obsidian2.Setting(containerEl).setName(heading2).setHeading();
+    const templateDesc = createFragment((fragment) => {
+      fragment.appendText(
+        "A note to lay out converted notes by, with placeholders like {{vendor}}, {{total}}, {{original}} and {{content}} for the whole conversion. Leave empty for the built-in template. The note's source and coverage properties are always added, whatever the template says."
+      );
+    });
+    new import_obsidian2.Setting(containerEl).setName("Template note").setDesc(templateDesc).addText((text) => {
+      text.setPlaceholder("(built-in template)").setValue(settings.template);
+      new MarkdownFileSuggest(this.app, text.inputEl).onSelect(async (file) => {
+        text.setValue(file.path);
+        settings.template = file.path;
         await this.plugin.saveSettings();
+      });
+      text.onChange(async (value) => {
+        settings.template = value.trim() === "" ? "" : (0, import_obsidian2.normalizePath)(value.trim());
+        await this.plugin.saveSettings();
+      });
+    }).addButton(
+      (button) => button.setButtonText("Create from built-in").setTooltip("Write the built-in template into a new note to start from, and use it").onClick(async () => {
+        const name = `${type.id.charAt(0).toUpperCase()}${type.id.slice(1)} template`;
+        const file = await this.app.vault.create(availableName(this.app, name), type.defaultTemplate);
+        settings.template = file.path;
+        await this.plugin.saveSettings();
+        this.display();
+        await this.app.workspace.getLeaf(true).openFile(file);
       })
     );
+    const details = containerEl.createEl("details");
+    details.createEl("summary", { text: "Extra labels to read fields by" });
+    details.createEl("p", {
+      cls: "setting-item-description",
+      text: "If your documents print a field under a label that isn't recognised, add it here, separated by commas. It's matched whole and ignoring case, like the built-in ones."
+    });
+    for (const field of type.fields) {
+      new import_obsidian2.Setting(details).setName(field.name).setDesc(`Built in: ${field.labels.slice(0, 6).join(", ")}${field.labels.length > 6 ? ", \u2026" : ""}`).addText(
+        (text) => {
+          var _a2;
+          return text.setValue((_a2 = settings.labels[field.key]) != null ? _a2 : "").onChange(async (value) => {
+            settings.labels[field.key] = value;
+            await this.plugin.saveSettings();
+          });
+        }
+      );
+    }
+  }
+  /** The type's settings, created on first use. */
+  typeSettings(type) {
+    var _a2, _b, _c, _d;
+    const all = this.plugin.settings.documentTypes;
+    (_b = all[_a2 = type.id]) != null ? _b : all[_a2] = { template: "", labels: {} };
+    (_d = (_c = all[type.id]).labels) != null ? _d : _c.labels = {};
+    return all[type.id];
+  }
+};
+function availableName(app, base) {
+  let path = `${base}.md`;
+  for (let index = 1; app.vault.getAbstractFileByPath(path); index++)
+    path = `${base} ${index}.md`;
+  return path;
+}
+var MarkdownFileSuggest = class extends import_obsidian2.AbstractInputSuggest {
+  getSuggestions(query2) {
+    const lower = query2.toLowerCase();
+    return this.app.vault.getMarkdownFiles().filter((file) => file.path.toLowerCase().includes(lower)).slice(0, 50);
+  }
+  renderSuggestion(file, el) {
+    el.setText(file.path);
   }
 };
 
 // src/main.ts
-var ConvertToMarkdownPlugin = class extends import_obsidian2.Plugin {
+var ConvertToMarkdownPlugin = class extends import_obsidian3.Plugin {
   constructor() {
     super(...arguments);
     this.settings = { ...DEFAULT_SETTINGS };
+    this.latestPluginVersion = null;
   }
   async onload() {
     await this.loadSettings();
@@ -28642,29 +30855,65 @@ var ConvertToMarkdownPlugin = class extends import_obsidian2.Plugin {
       callback: () => {
         const files = this.app.vault.getFiles().filter((file) => isSupported(file.extension));
         if (files.length === 0) {
-          new import_obsidian2.Notice(`No convertible files in this vault (${SUPPORTED_EXTENSIONS.join(", ")}).`);
+          new import_obsidian3.Notice(`No convertible files in this vault (${SUPPORTED_EXTENSIONS.join(", ")}).`);
           return;
         }
         new FilePickerModal(this, files).open();
       }
     });
+    for (const type of DOCUMENT_TYPES) {
+      this.addCommand({
+        id: `convert-file-as-${type.id}`,
+        name: `Convert a file as ${type.name}`,
+        callback: () => {
+          const files = this.app.vault.getFiles().filter((file) => typesFor(file.extension).includes(type));
+          if (files.length === 0) {
+            new import_obsidian3.Notice(`No PDFs or images in this vault to convert as ${type.name}.`);
+            return;
+          }
+          new FilePickerModal(this, files, type).open();
+        }
+      });
+    }
     this.registerEvent(
       this.app.workspace.on("file-menu", (menu, file) => {
-        if (!(file instanceof import_obsidian2.TFile) || !isSupported(file.extension))
+        if (!(file instanceof import_obsidian3.TFile) || !isSupported(file.extension))
           return;
         menu.addItem(
           (item) => item.setTitle("Convert to Markdown").setIcon("file-text").onClick(() => void this.convert(file))
         );
+        for (const type of typesFor(file.extension)) {
+          menu.addItem(
+            (item) => item.setTitle(`Convert to Markdown as ${type.name}`).setIcon("receipt").onClick(() => void this.convert(file, type))
+          );
+        }
       })
     );
+    this.app.workspace.onLayoutReady(() => void this.checkPluginVersion());
+    this.registerInterval(window.setInterval(() => void this.checkPluginVersion(), 12 * 60 * 60 * 1e3));
   }
-  async convert(file) {
+  pluginVersionStatus() {
+    return versionStatus(this.manifest.version, this.latestPluginVersion);
+  }
+  /** Refreshes the cached latest release. A failed check keeps the last known result rather than clearing it. */
+  async checkPluginVersion() {
+    const latest = await fetchLatestPluginVersion();
+    if (latest)
+      this.latestPluginVersion = latest;
+    return this.pluginVersionStatus();
+  }
+  /**
+   * Converts a file to a note beside it (or where the settings say). With a
+   * document type, the note is that type's: its fields as properties, laid
+   * out by its template.
+   */
+  async convert(file, type) {
     const extract = extractorFor(file.extension);
     if (!extract) {
-      new import_obsidian2.Notice(`Can't convert .${file.extension} files.`);
+      new import_obsidian3.Notice(`Can't convert .${file.extension} files.`);
       return;
     }
-    const notice = new import_obsidian2.Notice(`Converting ${file.name}\u2026`, 0);
+    const notice = new import_obsidian3.Notice(`Converting ${file.name}\u2026`, 0);
     const writes = new ConversionWrites(this.app);
     try {
       const data = Buffer.from(await this.app.vault.readBinary(file));
@@ -28683,9 +30932,9 @@ var ConvertToMarkdownPlugin = class extends import_obsidian2.Plugin {
       );
       if (imageMove)
         await imageMove.apply(result);
-      await this.app.vault.modify(note, this.composeNote(file, result));
+      await this.app.vault.modify(note, type ? await this.composeTyped(file, result, type) : this.composeNote(file, result));
       notice.hide();
-      new import_obsidian2.Notice(`Converted ${file.name} \u2192 ${note.basename}`);
+      new import_obsidian3.Notice(`Converted ${file.name} \u2192 ${note.basename}`);
       if (this.settings.openAfterConvert) {
         await this.app.workspace.getLeaf(false).openFile(note);
       }
@@ -28693,7 +30942,7 @@ var ConvertToMarkdownPlugin = class extends import_obsidian2.Plugin {
       notice.hide();
       await writes.undo();
       const message = error instanceof Error ? error.message : String(error);
-      new import_obsidian2.Notice(`Couldn't convert ${file.name}: ${message}`, 1e4);
+      new import_obsidian3.Notice(`Couldn't convert ${file.name}: ${message}`, 1e4);
       console.error(`Convert to Markdown: failed to convert ${file.path}`, error);
     }
   }
@@ -28704,9 +30953,7 @@ var ConvertToMarkdownPlugin = class extends import_obsidian2.Plugin {
       sections.push(
         [
           "---",
-          `source: ${yamlValue(`[[${this.sourceLink(source)}]]`)}`,
-          `source_format: ${source.extension}`,
-          `converted: ${window.moment().format("YYYY-MM-DD HH:mm")}`,
+          ...this.sourceProperties(source).map(([key, value]) => `${key}: ${value}`),
           // How much of the source made it across, when the extractor can say
           // — at the top of the note, where it's read before the content
           // rather than after it.
@@ -28715,14 +30962,86 @@ var ConvertToMarkdownPlugin = class extends import_obsidian2.Plugin {
         ].join("\n")
       );
     }
-    sections.push(result.markdown.trim() === "" ? "*(no text content found)*" : result.markdown);
+    if (result.original)
+      sections.push(result.original);
+    const original = this.originalEmbed(source);
+    if (original && this.settings.embedOriginal === "above")
+      sections.push(original);
+    if (result.markdown.trim() !== "")
+      sections.push(result.markdown);
+    else if (!result.original)
+      sections.push("*(no text content found)*");
+    if (original && this.settings.embedOriginal === "below")
+      sections.push(original);
     if (this.settings.addConversionNotes && result.warnings.length > 0) {
-      sections.push(
-        ["> [!info]- Conversion notes", ...result.warnings.map((line) => `> - ${line}`)].join("\n")
-      );
+      sections.push(conversionNotes(result.warnings));
     }
     return `${sections.join("\n\n")}
 `;
+  }
+  /** A note shaped by a document type, through its template. */
+  async composeTyped(source, result, type) {
+    var _a2, _b, _c;
+    const settings = this.settings.documentTypes[type.id];
+    const typed = type.read((_a2 = result.layout) != null ? _a2 : [], this.dateOrder(), extraLabels((_b = settings == null ? void 0 : settings.labels) != null ? _b : {}));
+    const { template, problem } = await this.templateFor(type);
+    const now = window.moment();
+    return composeTypedNote({
+      type,
+      typed,
+      result,
+      template,
+      templateProblem: problem,
+      coverage: this.settings.addFrontmatter ? this.sourceProperties(source) : [],
+      // The template places the original itself, so a PDF is embedded
+      // whatever the embed setting says; an image already carries its own.
+      original: (_c = result.original) != null ? _c : source.extension.toLowerCase() === "pdf" ? `![[${this.sourceLink(source)}]]` : "",
+      addConversionNotes: this.settings.addConversionNotes,
+      formatDate: (iso, format2) => window.moment(iso).format(format2),
+      now: {
+        title: source.basename,
+        date: now.format("YYYY-MM-DD"),
+        time: now.format("HH:mm"),
+        formatNow: (format2) => now.format(format2)
+      }
+    });
+  }
+  /**
+   * The text of the type's template note, or null for the built-in
+   * template. A template note that's been moved or deleted doesn't stop the
+   * conversion: the built-in one is used, and the note says why.
+   */
+  async templateFor(type) {
+    var _a2, _b;
+    const path = (_b = (_a2 = this.settings.documentTypes[type.id]) == null ? void 0 : _a2.template) != null ? _b : "";
+    if (path === "")
+      return { template: null };
+    const file = this.app.vault.getFileByPath((0, import_obsidian3.normalizePath)(path));
+    if (!file) {
+      return {
+        template: null,
+        problem: `The template note "${path}" wasn't found, so the built-in template was used. Choose another in settings.`
+      };
+    }
+    return { template: await this.app.vault.cachedRead(file) };
+  }
+  /** `source`, `source_format` and `converted`, as frontmatter keys and YAML values. */
+  sourceProperties(source) {
+    return [
+      ["source", yamlValue(`[[${this.sourceLink(source)}]]`)],
+      ["source_format", source.extension],
+      ["converted", window.moment().format("YYYY-MM-DD HH:mm")]
+    ];
+  }
+  /**
+   * Which way round an all-number date like 06/10/2026 is read. "From your
+   * system" follows the language Obsidian is running under: month first in
+   * the US, day first nearly everywhere else.
+   */
+  dateOrder() {
+    if (this.settings.dateOrder !== "system")
+      return this.settings.dateOrder;
+    return /^(en-US|en-PH|es-US)\b/.test(navigator.language) ? "mdy" : "dmy";
   }
   /**
    * The wikilink target for the source file — its bare filename where that's
@@ -28739,6 +31058,20 @@ var ConvertToMarkdownPlugin = class extends import_obsidian2.Plugin {
    * path is unambiguous in that case, at the cost of being the kind of link
    * that only updates itself when Obsidian is the one doing the moving.
    */
+  /**
+   * An embed of the source file itself, when the setting asks for one and
+   * Obsidian can display it.
+   *
+   * Only PDFs qualify. An image file is already embedded by its own
+   * extractor, and Obsidian has no viewer for Office, OpenDocument, EPUB or
+   * the rest — an embed of a .docx renders as nothing more than its filename,
+   * which the `source` link in the frontmatter already gives.
+   */
+  originalEmbed(source) {
+    if (this.settings.embedOriginal === "off" || source.extension.toLowerCase() !== "pdf")
+      return null;
+    return `![[${this.sourceLink(source)}]]`;
+  }
   sourceLink(source) {
     const collides = this.app.vault.getFiles().some((file) => file !== source && file.name === source.name);
     return collides ? source.path : source.name;
@@ -28758,7 +31091,7 @@ var ConvertToMarkdownPlugin = class extends import_obsidian2.Plugin {
       resolve: async () => {
         const { adapter } = this.app.vault;
         const listing = await adapter.list(folder).catch(() => {
-          throw new Error(`OCR engine folder "${folder}" doesn't exist \u2014 check the setting`);
+          throw new Error(`OCR engine folder "${folder}" doesn't exist. Check the setting`);
         });
         const names = new Set(listing.files.map((path) => path.slice(path.lastIndexOf("/") + 1)));
         const coreName = CORE_FILE_PREFERENCE.find((name) => names.has(name));
@@ -28812,7 +31145,7 @@ var ConvertToMarkdownPlugin = class extends import_obsidian2.Plugin {
       if (attachments === null)
         attachments = writes.folder(await this.attachmentFolder(configured, name, notePath));
       const path = attachments === "" ? name : `${attachments}/${name}`;
-      if (!(this.findPath(path) instanceof import_obsidian2.TFile)) {
+      if (!(this.findPath(path) instanceof import_obsidian3.TFile)) {
         writes.created(
           await this.app.vault.createBinary(path, data.buffer.slice(data.byteOffset, data.byteOffset + data.length))
         );
@@ -28883,7 +31216,7 @@ var ConvertToMarkdownPlugin = class extends import_obsidian2.Plugin {
       const previous = isImage(source.extension) ? this.latestNoteFrom(source) : null;
       return (_b = (_a2 = (previous != null ? previous : source).parent) == null ? void 0 : _a2.path) != null ? _b : "";
     }
-    return this.ensureFolder((0, import_obsidian2.normalizePath)(this.settings.outputFolder || "Converted"));
+    return this.ensureFolder((0, import_obsidian3.normalizePath)(this.settings.outputFolder || "Converted"));
   }
   /** The most recently changed note whose frontmatter `source` links to `source`. */
   latestNoteFrom(source) {
@@ -28911,7 +31244,7 @@ var ConvertToMarkdownPlugin = class extends import_obsidian2.Plugin {
    */
   async ensureFolder(path) {
     const existing = this.findPath(path);
-    if (existing instanceof import_obsidian2.TFolder)
+    if (existing instanceof import_obsidian3.TFolder)
       return existing.path;
     if (existing)
       throw new Error(`"${existing.path}" is a file, not a folder`);
@@ -28936,7 +31269,7 @@ var ConvertToMarkdownPlugin = class extends import_obsidian2.Plugin {
         (child) => child.name.toLowerCase() === part.toLowerCase()
       );
       parts.push(match ? match.name : part);
-      folder = match instanceof import_obsidian2.TFolder ? match : null;
+      folder = match instanceof import_obsidian3.TFolder ? match : null;
     }
     return parts.join("/");
   }
@@ -28965,7 +31298,7 @@ var ConversionWrites = class {
     this.moves = [];
     this.folders = /* @__PURE__ */ new Set();
     this.foldersBefore = new Set(
-      app.vault.getAllLoadedFiles().filter((file) => file instanceof import_obsidian2.TFolder).map((folder) => folder.path.toLowerCase())
+      app.vault.getAllLoadedFiles().filter((file) => file instanceof import_obsidian3.TFolder).map((folder) => folder.path.toLowerCase())
     );
   }
   created(file) {
@@ -29009,19 +31342,29 @@ function progressReporter(notice, fileName) {
   return (status, progress) => {
     const percent = Number.isFinite(progress) ? Math.round(progress * 100) : 0;
     const message = `Converting ${fileName}
-${status} \u2014 ${percent}%`;
+${status} (${percent}%)`;
     if (message === last)
       return;
     last = message;
     notice.setMessage(message);
   };
 }
-var FilePickerModal = class extends import_obsidian2.FuzzySuggestModal {
-  constructor(plugin, files) {
+function extraLabels(typed) {
+  const out = {};
+  for (const [key, text] of Object.entries(typed)) {
+    const labels = text.split(/[,\n]/).map((label) => label.trim()).filter((label) => label !== "");
+    if (labels.length > 0)
+      out[key] = labels;
+  }
+  return out;
+}
+var FilePickerModal = class extends import_obsidian3.FuzzySuggestModal {
+  constructor(plugin, files, type) {
     super(plugin.app);
     this.plugin = plugin;
     this.files = files;
-    this.setPlaceholder("Pick a document to convert to Markdown");
+    this.type = type;
+    this.setPlaceholder(type ? `Pick a document to convert as ${type.name}` : "Pick a document to convert to Markdown");
   }
   getItems() {
     return this.files;
@@ -29030,7 +31373,7 @@ var FilePickerModal = class extends import_obsidian2.FuzzySuggestModal {
     return file.path;
   }
   onChooseItem(file) {
-    void this.plugin.convert(file);
+    void this.plugin.convert(file, this.type);
   }
 };
 
