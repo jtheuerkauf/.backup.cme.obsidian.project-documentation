@@ -15,7 +15,7 @@
               "state": {
                 "file": "~templates/Simplified Ticket.md",
                 "mode": "source",
-                "source": false,
+                "source": true,
                 "backlinks": true,
                 "backlinkOpts": {
                   "collapseAll": false,
@@ -43,9 +43,9 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Epics/10 - Alerting/Epic 10 MS 2-3 GitLab Issues Breakdown.md",
+                "file": "Gitlab Issues/-To- should be a no-reply account, recipients all in -Bcc-.md",
                 "mode": "source",
-                "source": false,
+                "source": true,
                 "backlinks": true,
                 "backlinkOpts": {
                   "collapseAll": false,
@@ -58,7 +58,7 @@
                 }
               },
               "icon": "lucide-file",
-              "title": "Epic 10 MS 2-3 GitLab Issues Breakdown"
+              "title": "-To- should be a no-reply account, recipients all in -Bcc-"
             }
           },
           {
@@ -295,7 +295,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 374.5
+    "width": 374.5,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -310,8 +311,16 @@
       "obsidian-gitlab-issues:Gitlab Issues": false
     }
   },
-  "active": "69bef66036e116dd",
+  "active": "9add8b5f0f84bf38",
   "lastOpenFiles": [
+    "Gitlab Issues/-To- should be a no-reply account, recipients all in -Bcc-.md",
+    "~templates/Simplified Ticket.md",
+    "Gitlab Issues/Alert Job Migrations.md",
+    "Epics/10 - Alerting/PIP/CME PIP Joe Theuerkauf(SMSigned).pdf",
+    "NewRivers/427-Migrations for Maintenance Seeding",
+    "NewRivers/311-DB Menu for Static Subtrees",
+    "Untitled",
+    "Gitlab Issues/Generic Alerting Service.md",
     "Gitlab Issues/Add seeder templates for sidebar menu operations.md",
     "Epics/10 - Alerting/Epic 10 MS 2-3 GitLab Issues Breakdown.md",
     "Gitlab Issues/Provide --test and --dry-run options to restrict to local environment.md",
@@ -321,14 +330,11 @@
     "Gitlab Issues/Partial run retries query for last-run to find point-in-time info.md",
     "Gitlab Issues/Reduce legacy SQL to Builder pattern.md",
     "Gitlab Issues/Alert Seeder Template validates code points-of-contact.md",
-    "Gitlab Issues/-To- should be a no-reply account, recipients all in -Bcc-.md",
     "Gitlab Issues/Seed template for migrating AllRivers Alerts.md",
     "Epics/10 - Alerting/MS 2 - Alerts Architecture/extracts/A03 — Build the alert registry, scheduler, runner, jobs, and command.md",
     "Epics/10 - Alerting/Epic 10 MS 2-3 GitLab Issues Breakdown.md",
     "Epics/10 - Alerting/MS 2 - Alerts Architecture/extracts/A02 — Define alert run outcomes and idempotency rules.md",
     "Epics/10 - Alerting/MS 2 - Alerts Architecture/extracts/A01 — Persist alert definitions and alert runs.md",
-    "~templates/Simplified Ticket.md",
-    "Epics/10 - Alerting/PIP/CME PIP Joe Theuerkauf(SMSigned).pdf",
     "Gitlab Issues/Console commands and syntax.md",
     "Gitlab Issues/Update config-alerts.php.md",
     "Gitlab Issues/Table migrations for alerts, alert_types, etc..md",
@@ -338,22 +344,12 @@
     "Epics/10 - Alerting/Milestones 2 and 3 Rescope from GPT Doc.md",
     "Gitlab Issues/Alerts Registry System.md",
     "Gitlab Issues/Alert Run History.md",
-    "Gitlab Issues/Alert Role-based Recipients.md",
-    "Gitlab Issues/Alert Job Migrations.md",
     "~templates",
     "_templates",
     "$templates",
     "Epics/10 - Alerting/MS 3 - Mailables Refactoring/extracts",
     "Epics/10 - Alerting/MS 2 - Alerts Architecture/extracts",
     "Epics/10 - Alerting/MS 3 - Mailables Refactoring",
-    "Epics/10 - Alerting/MS 2 - Alerts Architecture",
-    "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/Meeting Questions.md~RF775e7777.TMP",
-    "Gitlab Issues/Done/Create sync that creates-updates-deletes the projects from BuildCentral.md~RF775e63b1.TMP",
-    "Epics/30 - Build Central/Region Map with Regional Directors.pdf~RF775e5876.TMP",
-    "Gitlab Issues/Add Migration-Seeding procedure for table and data maintenance.md~RF775e4f5e.TMP",
-    "Gitlab Issues/Consolidate Dockerfiles.md~RF775e4e16.TMP",
-    "Epics/10 - Alerting/epic-10-ms-0.2.md",
-    "Epics/10 - Alerting/epic-10-ms-0.2-handoff.md",
     "Untitled.canvas",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/sf-opportunity-linked-to-project.png",
     "Epics/30 - Build Central/489 Build Central + Salesforce/Docs/sf-project-with-attached-opportunity.png",
