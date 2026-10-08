@@ -1,6 +1,6 @@
 ---
 id: {{id}}
-title: '{{title}'
+title: '{{title}}'
 dueDate: {{due_date}}
 link: {{web_url}}
 ---
