@@ -312,6 +312,7 @@
   },
   "active": "9add8b5f0f84bf38",
   "lastOpenFiles": [
+    "Gitlab Issues/Add -pinned- and -search- to clean up sidebar access.md",
     "Gitlab Issues/-To- should be a no-reply account, recipients all in -Bcc-.md",
     "~templates/Simplified Ticket.md",
     "Gitlab Issues/Alert Job Migrations.md",
@@ -341,7 +342,6 @@
     "Epics/10 - Alerting/PIP/Work Schedule.md",
     "Epics/10 - Alerting/Milestones 2 and 3 Rescope from GPT Doc.md",
     "Gitlab Issues/Alerts Registry System.md",
-    "Gitlab Issues/Alert Run History.md",
     "~templates",
     "_templates",
     "$templates",
