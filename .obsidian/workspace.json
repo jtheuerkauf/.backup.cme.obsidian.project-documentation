@@ -90,7 +90,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 548.5
+    "width": 443.5
   },
   "right": {
     "id": "bc30929d0bbcdc6c",
@@ -186,9 +186,19 @@
               "icon": "sticky-note",
               "title": "Highlights & Notes"
             }
+          },
+          {
+            "id": "294dd2e05dc6e37d",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
           }
         ],
-        "currentTab": 5
+        "currentTab": 6
       }
     ],
     "direction": "horizontal",
@@ -207,7 +217,7 @@
       "obsidian-gitlab-issues:Gitlab Issues": false
     }
   },
-  "active": "fc0b21bf5c786bff",
+  "active": "3f70c6ea0986d482",
   "lastOpenFiles": [
     "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Sean's Toolset Notes.md",
     "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Meetings/2026-08-27 BCD Contact Visibility in Project Object.md",
