@@ -1,0 +1,93 @@
+{
+  "insertion": 3,
+  "spoiler": 0,
+  "superscript": 3,
+  "subscript": 0,
+  "customHighlight": 3,
+  "customSpan": 3,
+  "fencedDiv": 3,
+  "tidyFormatting": true,
+  "openTagMenuAfterFormat": true,
+  "noStyledDivInSourceMode": true,
+  "hlTagDisplayBehaviour": 2,
+  "spanTagDisplayBehaviour": 2,
+  "showHlTagInPreviewMode": false,
+  "showSpanTagInPreviewMode": false,
+  "alwaysShowFencedDivTag": 0,
+  "colorButton": true,
+  "showAccentColor": true,
+  "showDefaultColor": true,
+  "showRemoveColor": true,
+  "lightModeHlOpacity": 0.4,
+  "darkModeHlOpacity": 0.5,
+  "colorConfigs": [
+    {
+      "tag": "requirement",
+      "name": "Requirement",
+      "color": "#e93147",
+      "showInMenu": true
+    },
+    {
+      "tag": "functional",
+      "name": "Functional",
+      "color": "#ec7500",
+      "showInMenu": true
+    },
+    {
+      "tag": "term",
+      "name": "Term",
+      "color": "#e0ac00",
+      "showInMenu": true
+    },
+    {
+      "tag": "goal",
+      "name": "Goal",
+      "color": "#08b94e",
+      "showInMenu": true
+    },
+    {
+      "tag": "data",
+      "name": "Data",
+      "color": "#00bfbc",
+      "showInMenu": true
+    },
+    {
+      "tag": "rule",
+      "name": "Rule",
+      "color": "#086ddd",
+      "showInMenu": true
+    },
+    {
+      "tag": "question",
+      "name": "Question",
+      "color": "#7852ee",
+      "showInMenu": true
+    },
+    {
+      "tag": "view",
+      "name": "View",
+      "color": "#d53984",
+      "showInMenu": true
+    }
+  ],
+  "showDefaultSpanTag": true,
+  "showRemoveSpanTag": true,
+  "predefinedSpanTag": [
+    {
+      "name": "",
+      "tag": "",
+      "showInMenu": true
+    }
+  ],
+  "showDefaultDivTag": true,
+  "showRemoveDivTag": true,
+  "predefinedDivTag": [
+    {
+      "name": "",
+      "tag": "",
+      "showInMenu": true
+    }
+  ],
+  "editorEscape": false,
+  "decoratePDF": true
+}
