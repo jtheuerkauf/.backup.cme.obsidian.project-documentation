@@ -1,4 +1,4 @@
-/* Code Linker 1.6.0 — bundled from src/ by esbuild. Do not edit directly; edit src/ and run "npm run build". */
+/* Code Linker 1.7.0 — bundled from src/ by esbuild. Do not edit directly; edit src/ and run "npm run build". */
 "use strict";
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __commonJS = (cb, mod) => function __require() {
@@ -515,7 +515,7 @@ var require_binding = __commonJS({
       return claimed.length === 1 ? claimed[0] : null;
     }
     var bindingOwner2 = (title) => ownerOf(parseBinding2(title));
-    var ownsBinding = (title, owner) => bindingOwner2(title) === owner;
+    var ownsBinding2 = (title, owner) => bindingOwner2(title) === owner;
     var LINE_RE2 = /:(\d+)(?=\D*$)/;
     var PAGE_RE = /#page=(\d+)/i;
     var encodeValue = (v) => String(v).replace(/[%"()\s]/g, (c) => "%" + c.charCodeAt(0).toString(16).toUpperCase().padStart(2, "0"));
@@ -561,7 +561,7 @@ var require_binding = __commonJS({
       const line = hits.reduce((a, n) => Math.abs(n - stored) < Math.abs(a - stored) ? n : a);
       return { state: "stale", line };
     }
-    module2.exports = { LINE_RE: LINE_RE2, PAGE_RE, ANCHORS: ANCHORS2, OWNERS, hashLine: hashLine2, parseBinding: parseBinding2, formatBinding: formatBinding2, bindStateFrom: bindStateFrom2, ownerOf, bindingOwner: bindingOwner2, ownsBinding };
+    module2.exports = { LINE_RE: LINE_RE2, PAGE_RE, ANCHORS: ANCHORS2, OWNERS, hashLine: hashLine2, parseBinding: parseBinding2, formatBinding: formatBinding2, bindStateFrom: bindStateFrom2, ownerOf, bindingOwner: bindingOwner2, ownsBinding: ownsBinding2 };
   }
 });
 
@@ -572,7 +572,7 @@ var require_root_token = __commonJS({
     var OWNER_TOKENS = { code: "code-root", reference: "ref-root" };
     var LEGACY_TOKEN = "root";
     var tokenRe = (name) => new RegExp("\\{" + name + "\\}|%7B" + name + "%7D", "gi");
-    function rootTokenIn(url) {
+    function rootTokenIn2(url) {
       const s = String(url == null ? "" : url);
       for (const owner of Object.keys(OWNER_TOKENS)) {
         if (tokenRe(OWNER_TOKENS[owner]).test(s))
@@ -581,7 +581,7 @@ var require_root_token = __commonJS({
       return tokenRe(LEGACY_TOKEN).test(s) ? "legacy" : null;
     }
     function ownsRootToken2(url, owner, claimLegacy) {
-      const found = rootTokenIn(url);
+      const found = rootTokenIn2(url);
       if (found === owner)
         return true;
       return found === "legacy" && !!claimLegacy;
@@ -599,11 +599,11 @@ var require_root_token = __commonJS({
       const s = String(url == null ? "" : url);
       if (!owner || !OWNER_TOKENS[owner])
         return s;
-      if (rootTokenIn(s) !== "legacy")
+      if (rootTokenIn2(s) !== "legacy")
         return s;
       return s.replace(tokenRe(LEGACY_TOKEN), "{" + OWNER_TOKENS[owner] + "}");
     }
-    module2.exports = { OWNER_TOKENS, LEGACY_TOKEN, rootTokenIn, ownsRootToken: ownsRootToken2, fillRoot, namespaceRoot: namespaceRoot2 };
+    module2.exports = { OWNER_TOKENS, LEGACY_TOKEN, rootTokenIn: rootTokenIn2, ownsRootToken: ownsRootToken2, fillRoot, namespaceRoot: namespaceRoot2 };
   }
 });
 
@@ -766,6 +766,16 @@ var require_discover = __commonJS({
         return matches;
       return matches.filter((m) => !overlaps(foreign, m.start, m.end));
     }
+    function spanMeanings(m) {
+      const out = [{ label: m.label || m.target || "", target: m.target }];
+      if (!Array.isArray(m.alts))
+        return out;
+      for (const a of m.alts) {
+        if (a && a.target !== void 0 && a.target !== null)
+          out.push({ label: a.label || a.target, target: a.target });
+      }
+      return out;
+    }
     function yieldedCandidates(app, self, text, where) {
       const out = [];
       for (const peer of discoverLinkers(app)) {
@@ -782,35 +792,38 @@ var require_discover = __commonJS({
         for (const m of matches) {
           if (!m || typeof m.start !== "number" || typeof m.end !== "number")
             continue;
-          out.push({
-            start: m.start,
-            end: m.end,
-            label: m.label || m.target || "",
-            target: m.target,
-            // The id survives a round trip through a DOM attribute; the opener is looked up
-            // again at click time.
-            id: peer.id,
-            source: peer.displayName || peer.id,
-            // How this row reads in an ambiguity list, asked of its owner and only when a list is
-            // actually drawn — every span on screen produces candidates, few are ever looked at.
-            describe: (display) => {
-              if (typeof peer.describe !== "function")
-                return null;
-              try {
-                return peer.describe(m.target, display);
-              } catch (e) {
-                return null;
+          for (const meta of spanMeanings(m)) {
+            out.push({
+              start: m.start,
+              end: m.end,
+              label: meta.label,
+              target: meta.target,
+              // The id survives a round trip through a DOM attribute; the opener is looked up
+              // again at click time.
+              id: peer.id,
+              source: peer.displayName || peer.id,
+              // How this row reads in an ambiguity list, asked of its owner and only when a list
+              // is actually drawn — every span on screen produces candidates, few are ever
+              // looked at.
+              describe: (display) => {
+                if (typeof peer.describe !== "function")
+                  return null;
+                try {
+                  return peer.describe(meta.target, display);
+                } catch (e) {
+                  return null;
+                }
+              },
+              open: (sourcePath, newTab) => {
+                if (typeof peer.open === "function")
+                  peer.open(meta.target, sourcePath, newTab);
+              },
+              hover: (event, targetEl, sourcePath, hoverParent) => {
+                if (typeof peer.hover === "function")
+                  peer.hover(meta.target, event, targetEl, sourcePath, hoverParent);
               }
-            },
-            open: (sourcePath, newTab) => {
-              if (typeof peer.open === "function")
-                peer.open(m.target, sourcePath, newTab);
-            },
-            hover: (event, targetEl, sourcePath, hoverParent) => {
-              if (typeof peer.hover === "function")
-                peer.hover(m.target, event, targetEl, sourcePath, hoverParent);
-            }
-          });
+            });
+          }
         }
       }
       return out;
@@ -986,8 +999,10 @@ var require_prose = __commonJS({
       // The shared submenu the exclusion items collect into, and their wording inside it, where
       // the parent already names the word.
       "exclude.group": "Exclude \u201C{value}\u201D",
-      "exclude.addShort": "Add to {noun}",
-      "exclude.removeShort": "Remove from {noun}",
+      "silence.group": "Stop linking \u201C{value}\u201D",
+      // The group already carries the verb, so an item only says how far it reaches.
+      "exclude.shortForm": "this spelling",
+      "exclude.shortStem": "every form of it",
       "label.selection": "Selection",
       "modal.leftAsText": "(left as text)",
       "modal.skipOption": "skip",
@@ -1017,6 +1032,11 @@ var require_prose = __commonJS({
       "set.statusBarIncludeLinks.name": "Count existing links too",
       "set.folderList.add": "Add path\u2026",
       "set.folderList.addAria": "Add",
+      "set.exclusionList.add": "Add\u2026",
+      "set.exclusionList.addAria": "Add",
+      "set.exclusionList.remove": "Remove",
+      "set.exclusionList.show": "Show the list",
+      "set.exclusionList.hide": "Hide the list",
       "plural.alias": { one: "{n} alias", other: "{n} aliases" }
     };
     var ru = {
@@ -1051,8 +1071,9 @@ var require_prose = __commonJS({
       "set.suggestPlainText.desc": "\u041F\u043E\u0434\u0441\u043A\u0430\u0437\u043A\u0430 \u0434\u043E\u043F\u0438\u0441\u044B\u0432\u0430\u0435\u0442 \u0441\u043B\u043E\u0432\u043E, \u043D\u0435 \u043F\u0440\u0435\u0432\u0440\u0430\u0449\u0430\u044F \u0435\u0433\u043E \u0432 \u0441\u0441\u044B\u043B\u043A\u0443.",
       "set.heading.contextMenu": "\u041A\u043E\u043D\u0442\u0435\u043A\u0441\u0442\u043D\u043E\u0435 \u043C\u0435\u043D\u044E",
       "exclude.group": "\u0418\u0441\u043A\u043B\u044E\u0447\u0438\u0442\u044C \xAB{value}\xBB",
-      "exclude.addShort": "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0432 {noun}",
-      "exclude.removeShort": "\u0423\u0431\u0440\u0430\u0442\u044C \u0438\u0437 {noun}",
+      "silence.group": "\u041D\u0435 \u0441\u0432\u044F\u0437\u044B\u0432\u0430\u0442\u044C \xAB{value}\xBB",
+      "exclude.shortForm": "\u044D\u0442\u043E \u043D\u0430\u043F\u0438\u0441\u0430\u043D\u0438\u0435",
+      "exclude.shortStem": "\u043B\u044E\u0431\u0443\u044E \u0435\u0433\u043E \u0444\u043E\u0440\u043C\u0443",
       "label.selection": "\u0412\u044B\u0434\u0435\u043B\u0435\u043D\u0438\u0435",
       "modal.leftAsText": "(\u043E\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u043E \u0442\u0435\u043A\u0441\u0442\u043E\u043C)",
       "modal.skipOption": "\u043F\u0440\u043E\u043F\u0443\u0441\u0442\u0438\u0442\u044C",
@@ -1082,6 +1103,11 @@ var require_prose = __commonJS({
       "set.statusBarIncludeLinks.name": "\u0421\u0447\u0438\u0442\u0430\u0442\u044C \u0438 \u0443\u0436\u0435 \u0441\u0432\u044F\u0437\u0430\u043D\u043D\u044B\u0435",
       "set.folderList.add": "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043F\u0443\u0442\u044C\u2026",
       "set.folderList.addAria": "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C",
+      "set.exclusionList.add": "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C\u2026",
+      "set.exclusionList.addAria": "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C",
+      "set.exclusionList.remove": "\u0423\u0431\u0440\u0430\u0442\u044C",
+      "set.exclusionList.show": "\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u0441\u043F\u0438\u0441\u043E\u043A",
+      "set.exclusionList.hide": "\u0421\u043A\u0440\u044B\u0442\u044C \u0441\u043F\u0438\u0441\u043E\u043A",
       "plural.alias": { one: "{n} \u043F\u0441\u0435\u0432\u0434\u043E\u043D\u0438\u043C", few: "{n} \u043F\u0441\u0435\u0432\u0434\u043E\u043D\u0438\u043C\u0430", many: "{n} \u043F\u0441\u0435\u0432\u0434\u043E\u043D\u0438\u043C\u043E\u0432", other: "{n} \u043F\u0441\u0435\u0432\u0434\u043E\u043D\u0438\u043C\u043E\u0432" }
     };
     var de = {
@@ -1478,8 +1504,12 @@ var require_menu_verbs = __commonJS({
     var VERBS = {
       convert: { label: "menu.convert.group", icon: "link" },
       open: { label: "menu.open.group", icon: "file-search" },
-      exclude: { label: "exclude.group", icon: "ban" }
+      // Two verbs, because stopping a word and dropping the term it reached are different acts:
+      // one leaves the term in the index, the other takes it out.
+      silence: { label: "silence.group", icon: "ban" },
+      exclude: { label: "exclude.group", icon: "trash-2" }
     };
+    var verbKey = (verb, value) => verb + " " + (value == null ? "" : String(value));
     var MenuBuilder = class {
       constructor(plugin, menu) {
         this.plugin = plugin;
@@ -1521,23 +1551,25 @@ var require_menu_verbs = __commonJS({
         };
         return child;
       }
-      // Verb -> the object it acts on, for those that earned a submenu. All items of one verb in
-      // one menu act on the same object, so the first one's value names the group.
+      // Which (verb, object) pairs earned a submenu. Counted per object, not per verb: a group
+      // is named after the object it acts on, so items reaching for different ones — excluding
+      // this spelling, dropping that heading — stay apart and keep their full wording.
       groupedVerbs() {
         const counts = /* @__PURE__ */ new Map();
         for (const e of this.entries) {
           if (!e.verb)
             continue;
-          const seen = counts.get(e.verb) || { count: 0, value: e.value };
+          const key = verbKey(e.verb, e.value);
+          const seen = counts.get(key) || { count: 0, verb: e.verb, value: e.value };
           seen.count++;
-          counts.set(e.verb, seen);
+          counts.set(key, seen);
         }
         const provider = this.plugin.api && this.plugin.api.linker;
-        const grouped = /* @__PURE__ */ new Map();
-        for (const [verb, { count, value }] of counts) {
+        const grouped = /* @__PURE__ */ new Set();
+        for (const [key, { count, verb, value }] of counts) {
           const peers = provider ? peersOffering(this.plugin.app, provider, verb, value).length : 0;
           if (count + peers > 1)
-            grouped.set(verb, value);
+            grouped.add(key);
         }
         return grouped;
       }
@@ -1554,10 +1586,12 @@ var require_menu_verbs = __commonJS({
             sub.addItem((item) => child.cb(item, true));
         }
       }
+      // The key carries the object too, so two plugins excluding the same word still land in one
+      // submenu while two acting on different ones do not.
       sectionFor(verb, value) {
         const spec = VERBS[verb];
         const label = t2(spec.label, value == null ? void 0 : { value });
-        return sharedSection(this.menu, "linker:" + verb, label, spec.icon);
+        return sharedSection(this.menu, "linker:" + verbKey(verb, value), label, spec.icon);
       }
       // Replayed in declaration order, so a verb's submenu appears where its first item would
       // have. Anything else keeps its place.
@@ -1573,13 +1607,14 @@ var require_menu_verbs = __commonJS({
             this.writeSection(e);
             continue;
           }
-          if (!e.verb || !grouped.has(e.verb)) {
+          const key = e.verb ? verbKey(e.verb, e.value) : null;
+          if (!key || !grouped.has(key)) {
             this.menu.addItem((item) => e.cb(item, false));
             continue;
           }
-          if (!sections.has(e.verb))
-            sections.set(e.verb, this.sectionFor(e.verb, grouped.get(e.verb)));
-          sections.get(e.verb).addItem((item) => e.cb(item, true));
+          if (!sections.has(key))
+            sections.set(key, this.sectionFor(e.verb, e.value));
+          sections.get(key).addItem((item) => e.cb(item, true));
         }
       }
     };
@@ -1589,6 +1624,137 @@ var require_menu_verbs = __commonJS({
       builder.flush();
     }
     module2.exports = { VERBS, MenuBuilder, buildMenu: buildMenu2 };
+  }
+});
+
+// src/shared/actions.js
+var require_actions = __commonJS({
+  "src/shared/actions.js"(exports2, module2) {
+    "use strict";
+    var { t: t2 } = require_i18n();
+    var drawn = (plugin, a) => typeof a.inMenu !== "function" || !!a.inMenu(plugin);
+    function check(a) {
+      if (!a.id || !a.name || !a.title || !a.run || !a.resolve) {
+        throw new Error("menu action needs id, name, title, resolve and run: " + (a.id || "(no id)"));
+      }
+      return a;
+    }
+    function registerActions2(plugin, actions) {
+      for (const a of actions.map(check)) {
+        const act = (checking, target) => {
+          if (!target)
+            return false;
+          const ctx = a.resolve(plugin, target);
+          if (!ctx)
+            return false;
+          if (!checking)
+            a.run(plugin, ctx);
+          return true;
+        };
+        if (a.surface === "editor") {
+          plugin.addCommand({ id: a.id, name: t2(a.name), editorCheckCallback: (checking, editor) => act(checking, editor) });
+        } else {
+          plugin.addCommand({ id: a.id, name: t2(a.name), checkCallback: (checking) => act(checking, plugin.app.workspace.getActiveFile()) });
+        }
+      }
+    }
+    function menuActions2(plugin, menu, actions, surface, target) {
+      const sections = /* @__PURE__ */ new Map();
+      for (const a of actions.map(check)) {
+        if (a.surface !== surface || !drawn(plugin, a))
+          continue;
+        const ctx = a.resolve(plugin, target);
+        if (!ctx)
+          continue;
+        const write = (i, grouped) => i.setTitle(a.title(ctx, grouped)).setIcon(grouped && a.verb ? null : a.icon || null).onClick(() => a.run(plugin, ctx));
+        if (a.section && menu.section) {
+          const label = typeof a.section === "function" ? a.section(ctx) : t2(a.section);
+          if (!sections.has(label))
+            sections.set(label, menu.section(label, a.icon));
+          sections.get(label).addItem((i) => write(i, true));
+        } else if (a.verb) {
+          menu.tagged(a.verb, { value: a.value ? a.value(ctx) : void 0 }, write);
+        } else {
+          menu.addItem((i) => write(i, false));
+        }
+      }
+    }
+    function cursorReader(compute, stamp = (plugin) => plugin.indexVersion) {
+      let last = { editor: null, key: null, value: null };
+      return (plugin, editor) => {
+        if (!editor)
+          return null;
+        const head = editor.getCursor("head");
+        const sel = editor.getSelection ? editor.getSelection() : "";
+        const key = `${head.line}:${head.ch}:${editor.getLine(head.line)}:${sel}:${stamp(plugin)}`;
+        if (last.editor !== editor || last.key !== key)
+          last = { editor, key, value: compute(plugin, editor) };
+        return last.value;
+      };
+    }
+    module2.exports = { registerActions: registerActions2, menuActions: menuActions2, cursorReader };
+  }
+});
+
+// src/link-actions.js
+var require_link_actions = __commonJS({
+  "src/link-actions.js"(exports2, module2) {
+    "use strict";
+    var { t: t2 } = require_i18n();
+    var linkAt = (plugin, editor) => {
+      const link = editor && plugin.codeLinkAtCursor(editor);
+      return link && plugin.ownsLinkAtCursor(link) ? { editor, link } : null;
+    };
+    var linkAction = ({ id, name, can, run, icon }) => ({
+      id,
+      name,
+      surface: "editor",
+      icon,
+      title: () => t2(name),
+      resolve: (plugin, editor) => {
+        const ctx = linkAt(plugin, editor);
+        return ctx && (!can || can(plugin, ctx.link)) ? ctx : null;
+      },
+      run
+    });
+    var pinAction = (anchor) => ({
+      id: "pin-code-link-" + anchor,
+      name: "cmd.pin." + anchor,
+      surface: "editor",
+      icon: "pin",
+      section: "menu.pin",
+      title: (ctx) => t2("menu.pin." + anchor, { value: ctx.option.value }),
+      resolve: (plugin, editor) => {
+        const ctx = linkAt(plugin, editor);
+        const option = ctx && plugin.linkPinOption(ctx.link, anchor);
+        return option ? Object.assign(ctx, { option }) : null;
+      },
+      run: (plugin, ctx) => plugin.pinLink(ctx.editor, ctx.link, anchor)
+    });
+    var LINK_ACTIONS2 = [
+      linkAction({
+        id: "copy-code-link-at-cursor",
+        name: "menu.copyLink",
+        icon: "copy",
+        run: (plugin, ctx) => plugin.copyLinkAtCursor(ctx.link)
+      }),
+      linkAction({
+        id: "fix-code-link",
+        name: "menu.fixLink",
+        icon: "wrench",
+        can: (plugin, link) => plugin.isLinkStale(link.target),
+        run: (plugin, ctx) => plugin.fixLinkAtCursor(ctx.editor, ctx.link)
+      }),
+      ...["sym", "kind", "line"].map(pinAction),
+      linkAction({
+        id: "unpin-code-link",
+        name: "menu.unpin",
+        icon: "pin-off",
+        can: (plugin, link) => plugin.linkAtCursorBound(link),
+        run: (plugin, ctx) => plugin.unbindLink(ctx.editor, ctx.link)
+      })
+    ];
+    module2.exports = { LINK_ACTIONS: LINK_ACTIONS2 };
   }
 });
 
@@ -2960,29 +3126,29 @@ var require_actualize = __commonJS({
     }
     function staleLinksExtension(plugin, classes) {
       const marks = {
-        stale: Decoration.mark({ class: classes.stale }),
-        broken: Decoration.mark({ class: classes.broken })
+        "": Decoration.mark({ class: classes.link }),
+        stale: Decoration.mark({ class: classes.link + " " + classes.stale }),
+        broken: Decoration.mark({ class: classes.link + " " + classes.broken })
       };
       const build = (view) => {
         const builder = new RangeSetBuilder();
-        if (plugin.settings.markStaleLinks) {
-          const tree = syntaxTree(view.state);
-          for (const { from, to } of view.visibleRanges) {
-            const text = view.state.doc.sliceString(from, to);
-            const re = linkRegex2();
-            let m;
-            while (m = re.exec(text)) {
-              const start = from + m.index;
-              const end = start + m[0].length;
-              let inCodeNode = false;
-              tree.iterate({ from: start, to: end, enter: (n) => {
-                if (SKIP_NODE.test(n.type.name))
-                  inCodeNode = true;
-              } });
-              const state = inCodeNode ? null : plugin.linkState(m[2]);
-              if (state)
-                builder.add(start, end, marks[state]);
-            }
+        const tree = syntaxTree(view.state);
+        for (const { from, to } of view.visibleRanges) {
+          const text = view.state.doc.sliceString(from, to);
+          const re = linkRegex2();
+          let m;
+          while (m = re.exec(text)) {
+            const start = from + m.index;
+            const end = start + m[0].length;
+            let inCodeNode = false;
+            tree.iterate({ from: start, to: end, enter: (n) => {
+              if (SKIP_NODE.test(n.type.name))
+                inCodeNode = true;
+            } });
+            if (inCodeNode || !plugin.ownsLink(m[2]))
+              continue;
+            const state = plugin.settings.markStaleLinks ? plugin.linkState(m[2]) : null;
+            builder.add(start, end, marks[state || ""]);
           }
         }
         return builder.finish();
@@ -3225,7 +3391,7 @@ var require_actualize2 = __commonJS({
   "src/actualize.js"(exports2, module2) {
     "use strict";
     var { splitTarget: splitTarget2, withTitle: withTitle2, rewriteLinks, rewriteFences } = require_markdown();
-    var { LINE_RE: LINE_RE2, parseBinding: parseBinding2, ownsBinding } = require_binding();
+    var { LINE_RE: LINE_RE2, parseBinding: parseBinding2, ownsBinding: ownsBinding2 } = require_binding();
     var shared = require_actualize();
     var OWNER2 = "code";
     var { parseSpec: parseSpec2 } = require_embed();
@@ -3301,11 +3467,11 @@ var require_actualize2 = __commonJS({
       return { text: embeds.text, count: links.count + embeds.count };
     };
     var { refreshStaleLinks } = shared;
-    var staleLinksExtension = (plugin) => shared.staleLinksExtension(plugin, { stale: "code-linker-stale", broken: "code-linker-broken" });
+    var staleLinksExtension = (plugin) => shared.staleLinksExtension(plugin, { link: "code-linker-link", stale: "code-linker-stale", broken: "code-linker-broken" });
     function bindStateOf(plugin, target) {
       const { url, title } = splitTarget2(target);
       const m = url && LINE_RE2.exec(url);
-      const b = ownsBinding(title, OWNER2) ? parseBinding2(title) : null;
+      const b = ownsBinding2(title, OWNER2) ? parseBinding2(title) : null;
       return m && b ? plugin.urlBindState(url, b, parseInt(m[1], 10)) : null;
     }
     var methods = {
@@ -3778,14 +3944,25 @@ var require_disk_suggest = __commonJS({
 var require_folder_list = __commonJS({
   "src/shared/folder-list.js"(exports2, module2) {
     "use strict";
-    var { Setting, setIcon } = require("obsidian");
+    var openLists = /* @__PURE__ */ new WeakMap();
     function renderFolderList(containerEl, opts) {
+      const { Setting, setIcon } = require("obsidian");
       const cls = opts.cls;
       const norm = opts.normalize || ((x) => x.trim());
       const read = () => (opts.get() || "").split("\n").map((x) => x.trim()).filter(Boolean);
-      new Setting(containerEl).setName(opts.name).setDesc(opts.desc);
-      const rowsEl = containerEl.createDiv({ cls: `${cls}-folder-rows` });
-      const addEl = containerEl.createDiv({ cls: `${cls}-folder-add` });
+      const fold = opts.fold;
+      const maxRows = opts.maxRows || 10;
+      const opened = () => {
+        let set = openLists.get(fold.owner);
+        if (!set) {
+          set = /* @__PURE__ */ new Set();
+          openLists.set(fold.owner, set);
+        }
+        return set;
+      };
+      const isOpen = () => !fold || opened().has(fold.key);
+      const host = containerEl.createDiv({ cls: `${cls}-list` });
+      let refocus = false;
       const commit = async (next) => {
         const seen = /* @__PURE__ */ new Set();
         const clean = [];
@@ -3799,36 +3976,81 @@ var require_folder_list = __commonJS({
         await opts.set(clean.join("\n"));
         draw();
       };
-      const draw = () => {
-        rowsEl.empty();
-        read().forEach((path, i) => {
-          const row = new Setting(rowsEl).setName(path);
-          row.settingEl.addClass(`${cls}-folder-row`);
-          row.addExtraButton((b) => b.setIcon("x").setTooltip(opts.removeLabel || "").onClick(() => {
+      const drawRow = (rowsEl, entry, i) => {
+        if (!opts.editable) {
+          const row2 = new Setting(rowsEl).setName(entry);
+          row2.settingEl.addClass(`${cls}-folder-row`);
+          row2.addExtraButton((b) => b.setIcon("x").setTooltip(opts.removeLabel || "").onClick(() => {
             const next = read();
             next.splice(i, 1);
             commit(next);
           }));
+          return;
+        }
+        const row = rowsEl.createDiv({ cls: `${cls}-folder-row ${cls}-list-row` });
+        const box = row.createEl("input", { type: "text", cls: `${cls}-list-input` });
+        box.value = entry;
+        box.addEventListener("change", () => {
+          const next = read();
+          next[i] = box.value;
+          commit(next);
+        });
+        const del = row.createEl("button", { cls: `${cls}-list-del`, attr: { "aria-label": opts.removeLabel || "" } });
+        setIcon(del, "x");
+        del.addEventListener("click", () => {
+          const next = read();
+          next.splice(i, 1);
+          commit(next);
         });
       };
-      const input = addEl.createEl("input", { type: "text", cls: `${cls}-folder-input`, attr: { placeholder: opts.placeholder || "" } });
-      const addBtn = addEl.createEl("button", { cls: `${cls}-folder-addbtn`, attr: { "aria-label": opts.addLabel || "" } });
-      setIcon(addBtn, "plus");
-      const add = (raw) => {
-        if (norm(raw))
-          commit([...read(), raw]);
-        input.value = "";
-        input.focus();
-      };
-      if (opts.attachSuggest)
-        opts.attachSuggest(input, add);
-      addBtn.addEventListener("click", () => add(input.value));
-      input.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          add(input.value);
+      const draw = () => {
+        host.empty();
+        const entries = read();
+        const open = isOpen();
+        const head = new Setting(host).setName(entries.length ? `${opts.name} (${entries.length})` : opts.name).setDesc(opts.desc);
+        if (fold) {
+          head.addExtraButton((b) => b.setIcon(open ? "chevron-up" : "chevron-down").setTooltip((open ? opts.hideLabel : opts.showLabel) || "").onClick(() => {
+            const s = opened();
+            if (open)
+              s.delete(fold.key);
+            else
+              s.add(fold.key);
+            draw();
+          }));
+          if (!open)
+            return;
         }
-      });
+        const rowsEl = host.createDiv({ cls: `${cls}-folder-rows` });
+        if (entries.length > maxRows)
+          rowsEl.addClass(`${cls}-list-scroll`);
+        entries.forEach((entry, i) => drawRow(rowsEl, entry, i));
+        const addEl = host.createDiv({ cls: `${cls}-folder-add` });
+        const input = addEl.createEl("input", { type: "text", cls: `${cls}-folder-input`, attr: { placeholder: opts.placeholder || "" } });
+        const addBtn = addEl.createEl("button", { cls: `${cls}-folder-addbtn`, attr: { "aria-label": opts.addLabel || "" } });
+        setIcon(addBtn, "plus");
+        const add = (raw) => {
+          input.value = "";
+          if (!norm(raw)) {
+            input.focus();
+            return;
+          }
+          refocus = true;
+          commit([...read(), raw]);
+        };
+        if (opts.attachSuggest)
+          opts.attachSuggest(input, add);
+        addBtn.addEventListener("click", () => add(input.value));
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            add(input.value);
+          }
+        });
+        if (refocus) {
+          refocus = false;
+          input.focus();
+        }
+      };
       draw();
     }
     module2.exports = { renderFolderList };
@@ -4354,13 +4576,88 @@ var require_settings_tab = __commonJS({
   }
 });
 
+// src/shared/style-settings.js
+var require_style_settings = __commonJS({
+  "src/shared/style-settings.js"(exports2, module2) {
+    "use strict";
+    function announceStyleSettings2(plugin) {
+      plugin.app.workspace.onLayoutReady(() => plugin.app.workspace.trigger("parse-style-settings"));
+    }
+    module2.exports = { announceStyleSettings: announceStyleSettings2 };
+  }
+});
+
+// src/shared/theme-colors.js
+var require_theme_colors = __commonJS({
+  "src/shared/theme-colors.js"(exports2, module2) {
+    "use strict";
+    var PROSE_COLORS = {
+      "link-color": "var(--link-color, var(--text-accent))",
+      "link-color-hover": "var(--link-color-hover, var(--text-accent-hover, var(--link-color, var(--text-accent))))"
+    };
+    var SIGIL_COLORS2 = {
+      "link-color": "var(--link-external-color, var(--link-color, var(--text-accent)))",
+      "stale-color": "var(--text-warning, var(--color-orange))",
+      "broken-color": "var(--text-error, var(--color-red))"
+    };
+    function capAlpha(value, max) {
+      const m = /^rgba?\(([^)]*)\)$/.exec(value);
+      if (!m)
+        return value;
+      const parts = m[1].split(",").map((s) => s.trim());
+      if (parts.length < 3)
+        return value;
+      const alpha = parts.length > 3 ? parseFloat(parts[3]) : 1;
+      if (!(alpha > max))
+        return value;
+      return `rgba(${parts[0]}, ${parts[1]}, ${parts[2]}, ${max})`;
+    }
+    function themeColorSheet(prefix, colors, resolve) {
+      const rows = [];
+      for (const name of Object.keys(colors)) {
+        const spec = colors[name];
+        const from = typeof spec === "string" ? spec : spec.from;
+        let value = resolve(from);
+        if (value && typeof spec !== "string" && spec.maxAlpha != null)
+          value = capAlpha(value, spec.maxAlpha);
+        if (value)
+          rows.push(`--${prefix}-${name}: ${value};`);
+      }
+      return rows.length ? `body { ${rows.join(" ")} }` : "";
+    }
+    function trackThemeColors2(plugin, prefix, colors) {
+      if (typeof document === "undefined" || !document.head || !document.body)
+        return;
+      const sheet = document.createElement("style");
+      document.head.appendChild(sheet);
+      plugin.register(() => sheet.remove());
+      const paint = () => {
+        const probe = document.createElement("span");
+        probe.style.position = "absolute";
+        probe.style.visibility = "hidden";
+        document.body.appendChild(probe);
+        const resolve = (expr) => {
+          probe.style.color = "";
+          probe.style.color = expr;
+          return getComputedStyle(probe).color;
+        };
+        sheet.textContent = themeColorSheet(prefix, colors, resolve);
+        probe.remove();
+      };
+      plugin.app.workspace.onLayoutReady(paint);
+      plugin.registerEvent(plugin.app.workspace.on("css-change", paint));
+    }
+    module2.exports = { trackThemeColors: trackThemeColors2, themeColorSheet, capAlpha, PROSE_COLORS, SIGIL_COLORS: SIGIL_COLORS2 };
+  }
+});
+
 // src/api.js
 var require_api = __commonJS({
   "src/api.js"(exports2, module2) {
     "use strict";
     var { LINKER_API } = require_discover();
     var { splitTarget: splitTarget2 } = require_markdown();
-    var { bindingOwner: bindingOwner2, ownsBinding } = require_binding();
+    var { bindingOwner: bindingOwner2, ownsBinding: ownsBinding2 } = require_binding();
     var OWNER2 = "code";
     var pick = (e) => ({ name: e.name, kind: e.kind, lang: e.lang, path: e.path, line: e.line });
     module2.exports = {
@@ -4397,7 +4694,7 @@ var require_api = __commonJS({
             claim: (target, title) => {
               const split = splitTarget2(String(target || ""));
               const ttl = title ? String(title) : split.title;
-              if (ownsBinding(ttl, OWNER2))
+              if (ownsBinding2(ttl, OWNER2))
                 return "binding";
               if (bindingOwner2(ttl))
                 return null;
@@ -4843,10 +5140,12 @@ var { PRESETS, PRISM_LANG, JETBRAINS_PRODUCTS, DEFAULT_SETTINGS, LANGUAGES_TEMPL
 var { compileGitignore, isIgnored } = require_gitignore();
 var { watchTree } = require_fs_watch();
 var { splitLines, inTableCell, inCode, inLink, linkRegex, splitTarget, withTitle } = require_markdown();
-var { LINE_RE, ANCHORS, hashLine, parseBinding, formatBinding, bindStateFrom, bindingOwner } = require_binding();
-var { fillRoot: fillRootToken, ownsRootToken, namespaceRoot } = require_root_token();
+var { LINE_RE, ANCHORS, hashLine, parseBinding, formatBinding, bindStateFrom, bindingOwner, ownsBinding } = require_binding();
+var { fillRoot: fillRootToken, ownsRootToken, rootTokenIn, namespaceRoot } = require_root_token();
 var { menuSection } = require_menu();
 var { buildMenu } = require_menu_verbs();
+var { registerActions, menuActions } = require_actions();
+var { LINK_ACTIONS } = require_link_actions();
 var { ownsLink } = require_link_owner();
 var { resolveGit, resolveGitDir } = require_git();
 var OWNER = "code";
@@ -4866,6 +5165,8 @@ var { CodeLinkModal, PresetPickerModal, LinePromptModal, PinAnchorModal } = requ
 var { CodeIndexView, INDEX_VIEW_TYPE } = require_index_view();
 var { CodeLinkerSettingTab } = require_settings_tab();
 var { initI18n, withFamily, t, plural } = require_i18n();
+var { announceStyleSettings } = require_style_settings();
+var { trackThemeColors, SIGIL_COLORS } = require_theme_colors();
 var api = require_api();
 var indexEvents = require_index_events();
 var CodeLinkerPlugin = class extends Plugin {
@@ -4917,6 +5218,12 @@ var CodeLinkerPlugin = class extends Plugin {
         this.hover.hide();
     });
     this.addSettingTab(new CodeLinkerSettingTab(this.app, this));
+    announceStyleSettings(this);
+    trackThemeColors(this, "code-linker", Object.assign({
+      // The band is drawn behind the snippet, so the theme's selection colour is taken down
+      // to where the code on top of it stays readable.
+      "highlight-color": { from: "var(--text-selection, var(--text-highlight-bg))", maxAlpha: 0.35 }
+    }, SIGIL_COLORS));
     this.statusEl = this.addStatusBarItem();
     this.editorStatusEl = this.addStatusBarItem();
     this.editorStatusEl.addClass("mod-clickable");
@@ -4935,17 +5242,7 @@ var CodeLinkerPlugin = class extends Plugin {
     this.addCommand({ id: "convert-selection-to-link", name: t("cmd.convertSelection"), editorCallback: (editor) => this.convertSelection(editor) });
     this.addCommand({ id: "open-selected-code", name: t("cmd.openSelection"), editorCallback: (editor) => this.openSelection(editor) });
     this.addCommand({ id: "insert-code-link-line", name: t("cmd.insertLineLink"), editorCallback: (editor) => this.withFormat(this.settings.askOnInsert, (tpl) => this.insertLineLink(editor, tpl)) });
-    this.addLinkCommand("copy-code-link-at-cursor", t("menu.copyLink"), () => true, (editor, link) => this.copyLinkAtCursor(link));
-    this.addLinkCommand("fix-code-link", t("menu.fixLink"), (link) => this.isLinkStale(link.target), (editor, link) => this.fixLinkAtCursor(editor, link));
-    for (const anchor of ["sym", "kind", "line"]) {
-      this.addLinkCommand(
-        "pin-code-link-" + anchor,
-        t("cmd.pin." + anchor),
-        (link) => !!this.linkPinOption(link, anchor),
-        (editor, link) => this.pinLink(editor, link, anchor)
-      );
-    }
-    this.addLinkCommand("unpin-code-link", t("menu.unpin"), (link) => this.linkAtCursorBound(link), (editor, link) => this.unbindLink(editor, link));
+    registerActions(this, LINK_ACTIONS);
     this.addCommand({ id: "pin-links-note", name: t("cmd.pinLinksNote"), callback: () => this.pickPinAnchors((a) => this.pinLinksInActiveNote(a)) });
     this.addCommand({ id: "pin-links-vault", name: t("cmd.pinLinksVault"), callback: () => this.pickPinAnchors((a) => this.pinLinksInVault(a)) });
     this.addCommand({ id: "insert-code-embed", name: t("cmd.insertEmbed"), editorCallback: (editor) => this.pickEntry((e) => this.insertEmbed(editor, e)) });
@@ -4961,17 +5258,7 @@ var CodeLinkerPlugin = class extends Plugin {
         if (this.selectionTarget(editor, false)) {
           this.selectionItem(menu, "open", "file-search", () => this.openSelection(editor));
         }
-        const link = this.codeLinkAtCursor(editor);
-        if (link && this.ownsLinkAtCursor(link)) {
-          menu.addItem((item) => item.setTitle(t("menu.copyLink")).setIcon("copy").onClick(() => this.copyLinkAtCursor(link)));
-          if (this.isLinkStale(link.target)) {
-            menu.addItem((item) => item.setTitle(t("menu.fixLink")).setIcon("wrench").onClick(() => this.fixLinkAtCursor(editor, link)));
-          }
-          this.addPinItems(menu, (a) => this.linkPinOption(link, a), (a) => this.pinLink(editor, link, a));
-          if (this.linkAtCursorBound(link)) {
-            menu.addItem((item) => item.setTitle(t("menu.unpin")).setIcon("pin-off").onClick(() => this.unbindLink(editor, link)));
-          }
-        }
+        menuActions(this, menu, LINK_ACTIONS, "editor", editor);
       }))
     );
     this.registerEvent(
@@ -5034,18 +5321,37 @@ var CodeLinkerPlugin = class extends Plugin {
       return true;
     return !!this.targetIndexedFile(this.decodeTarget(url));
   }
+  // Whether a raw link target is one of ours. linkState() can't answer this — it returns
+  // null both for another plugin's link and for ours with no line to judge. A binding of ours
+  // settles it on its own, which is what a link written against a template without the root
+  // token has to go on. The legacy verdict is asked for last, since it can reach the index and
+  // every ordinary link in the note goes past here.
+  ownsLink(target) {
+    const { url, title } = splitTarget(target);
+    if (ownsBinding(title, OWNER))
+      return true;
+    const owner = rootTokenIn(url);
+    if (owner === OWNER)
+      return true;
+    return owner === "legacy" && this.legacyRootIsOurs(url, title);
+  }
   resolveRootLinks(el) {
     const links = el.querySelectorAll ? el.querySelectorAll("a") : [];
     for (const a of links) {
       const title = a.getAttribute("title") || "";
+      let ours = false;
       for (const attr of ["href", "data-href"]) {
         const v = a.getAttribute(attr);
         if (!v)
           continue;
         const out = this.fillRoot(v, this.legacyRootIsOurs(v, title));
-        if (out !== v)
+        if (out !== v) {
           a.setAttribute(attr, out);
+          ours = true;
+        }
       }
+      if (ours || ownsBinding(title, OWNER))
+        a.classList.add("code-linker-link");
     }
     this.markStaleAnchors(el);
   }
@@ -6336,22 +6642,6 @@ var CodeLinkerPlugin = class extends Plugin {
     for (const [a, o] of opts) {
       group.addItem((i) => i.setTitle(t("menu.pin." + a, { value: o.value })).setIcon("pin").onClick(() => run(a)));
     }
-  }
-  // A right-click item on the code link under the cursor, mirrored into the palette so
-  // every one of them is reachable without the mouse. `can` gates both.
-  addLinkCommand(id, name, can, run) {
-    this.addCommand({
-      id,
-      name,
-      editorCheckCallback: (checking, editor) => {
-        const link = this.codeLinkAtCursor(editor);
-        if (!link || !this.ownsLinkAtCursor(link) || !can(link))
-          return false;
-        if (!checking)
-          run(editor, link);
-        return true;
-      }
-    });
   }
   // Insert a link to a chosen line of a chosen file — for pointing at something the index
   // has no name for. Like any insert it leaves the link unbound; pin it to track it.
