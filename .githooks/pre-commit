@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# ggshield-hook-version: 1
+
+_ggshield_local_hook=$(git rev-parse --git-common-dir)/hooks/pre-commit
+if [ -f "$_ggshield_local_hook" ]; then
+    if ! "$_ggshield_local_hook" "$@"; then
+        echo 'Local pre-commit hook failed, please see output above'
+        exit 1
+    fi
+fi
+
+ggshield secret scan pre-commit "$@"

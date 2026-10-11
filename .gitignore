@@ -7,6 +7,8 @@
 
 !.git-crypt/
 !.git-crypt/**
+!.githooks/
+!.githooks/**
 !.obsidian/
 !.obsidian/**
 
