@@ -6,5 +6,7 @@
   "gitlab-embeds",
   "style-manager",
   "callout-menu",
-  "obsidian-git"
+  "obsidian-git",
+  "highlightr-plugin",
+  "obsidian-list-callouts"
 ]

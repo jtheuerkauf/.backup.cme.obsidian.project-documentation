@@ -11,13 +11,52 @@
             "id": "fc0b21bf5c786bff",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Meeting Questions.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "Meeting Questions"
+            }
+          },
+          {
+            "id": "a85c28dc2b217814",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Sean's Toolset Notes.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "Sean's Toolset Notes"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -76,7 +115,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 310.5
+    "width": 548.5
   },
   "right": {
     "id": "bc30929d0bbcdc6c",
@@ -162,13 +201,23 @@
               "icon": "lucide-list",
               "title": "Outline of HCA Tracker Collection"
             }
+          },
+          {
+            "id": "f162901f64b79902",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
           }
-        ]
+        ],
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 561.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -183,42 +232,44 @@
       "obsidian-gitlab-issues:Gitlab Issues": false
     }
   },
-  "active": "fc0b21bf5c786bff",
+  "active": "a85c28dc2b217814",
   "lastOpenFiles": [
-    "Gitlab Issues/Configuration Overhaul.md",
-    "Gitlab Issues/git-switch - Add -composer dump-autoload-.md",
-    "Gitlab Issues/Add -cruise artisan optimizeclear- after branch switch.md",
-    "Gitlab Issues/Email search Access Control.md",
-    "Gitlab Issues/Add listed packages to base installation.md",
-    "Gitlab Issues/Downgrade PHP -- 8.2.md",
-    "Gitlab Issues/Fixes for ports, composer.json, vite, etc..md",
-    "Gitlab Issues/Consolidate Dockerfiles.md",
-    "Gitlab Issues/Fill .env.example with all needed variables.md",
-    "Gitlab Issues/Consolidate compose.-.yml.md",
-    "Gitlab Issues/Replace -sail- user with -cruise-.md",
-    "Gitlab Issues/Add Migration-Seeding procedure for table and data maintenance.md",
-    "Gitlab Issues/Refactor Build Central Toolset.md",
-    "Gitlab Issues/Email Search MVP Feedback.md",
-    "Gitlab Issues/BuildCentral Project - Salesforce Account link.md",
-    "Gitlab Issues/Defect - Email Dashboard - -Subject- Body- search field is not filtering as expected.md",
-    "Gitlab Issues/Evaluate moving application routes to DB.md",
-    "Gitlab Issues/Master Project – Master Project Management.md",
-    "Gitlab Issues/Reorganize .env.example file to simplify config.md",
-    "Gitlab Issues/Normalize PM Hub Namespaces Across the Application.md",
+    "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Meetings/2026-08-27 BCD Contact Visibility in Project Object.md",
+    "Epics/30 - Build Central/nr-449-part-2 (ticket ID tbd)/UI Concerns/UI will require overhaul.md",
+    "Epics/30 - Build Central/nr-449-part-2 (ticket ID tbd)/UI Concerns",
+    "Epics/30 - Build Central/nr-449-part-2 (ticket ID tbd)/BuildCentral + Salesforce Toolset Phase 1.5.md",
+    "Epics/30 - Build Central/nr-449-part-2 (ticket ID tbd)",
+    "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Meetings/20260819 Toolset Roadmap.md",
+    "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Meetings/20260827 BCD Contact Visibility in Project Object.md",
+    "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Meetings/20260819-transcript.md",
+    "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Meetings",
+    "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Sean's Toolset Notes.md",
+    "Epics/30 - Build Central/449 Build Central + Salesforce/Docs/Meeting Questions.md",
     "Gitlab Issues/In-team demo feedback.md",
-    "Gitlab Issues",
+    "Gitlab Issues/Replace -sail- user with -cruise-.md",
+    "Gitlab Issues/Refactor Build Central Toolset.md",
+    "Gitlab Issues/Create migration data structure for build_central_projects.md",
+    "Gitlab Issues/Create API for build central.md",
+    "Gitlab Issues/Create sync that creates-updates-deletes the projects from BuildCentral.md",
+    "Gitlab Issues/Email Search MVP Feedback.md",
+    "Gitlab Issues/Defect - Email Dashboard - -Subject- Body- search field is not filtering as expected.md",
+    "Gitlab Issues/Master Project – Master Project Management.md",
+    "Gitlab Issues/Normalize PM Hub Namespaces Across the Application.md",
+    "Gitlab Issues/Done/In-team demo feedback 1.md",
+    "Gitlab Issues/BuildCentral Project - Salesforce Account link.md",
+    "Gitlab Issues/Fix memory limit exceeded during historical pull.md",
+    "Gitlab Issues/Reduce unnecessary storage.md",
+    "Gitlab Issues/Done/Create API for build central.md",
+    "Gitlab Issues/Done/Add listed packages to base installation.md",
+    "Gitlab Issues/Add Migration-Seeding procedure for table and data maintenance.md",
+    "Gitlab Issues/Untitled/desktop.ini",
+    "Gitlab Issues/Done",
     "Epics/30 - Build Central/Project Issues.md",
+    "Epics/30 - Build Central/449 Build Central + Salesforce/Docs",
+    "Epics/30 - Build Central/449 Build Central + Salesforce/Issues",
+    "Gitlab Issues",
     "epic-28-webtools-in-newrivers/webtools-iframe-20260602-screen-share-call.mp4~RFd22cf16.TMP",
     "nr-268-email-search-dashboard/ChatGPT Image Jul 13, 2026, 01_29_52 PM.png~RFd22c216.TMP",
-    "nr-268-email-search-dashboard/Search UI base (AP Doc Review).png~RFd22c1c8.TMP",
-    "NewRivers Setup/images/prompt-6-wsl-ready.png~RFd22c18a.TMP",
-    "nr-268-email-search-dashboard/Search UI base (AP Doc Review).pdn~RFd22c14b.TMP",
-    "NewRivers Setup/images/prompt-3-subnet.png~RFd22c013.TMP",
-    "NewRivers Setup/images/prompt-4-host-networking.png~RFd22bff3.TMP",
-    "NewRivers Setup/images/prompt-2-wsl-hosts.png~RFd22bfb5.TMP",
-    "NewRivers Setup/images/prompt-1-wsl-engine.png~RFd22bf86.TMP",
-    "nr-449-build-central/nr-449-part-2 (ticket ID tbd)/BuildCentral + Salesforce Toolset Phase 1.5.md",
-    "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits.md",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-11-9e8450d4.png",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-10-ac58843a.png",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-9-cbadf77f.png",
@@ -228,8 +279,6 @@
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-5-1e83ba76.png",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-4-7752b4ae.png",
     "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-3-570a3ed7.png",
-    "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-2-f047c80d.png",
-    "nr-449-build-central/20260819-transcript.md",
-    "nr-449-build-central/nr-449-part-2 (ticket ID tbd)/UI Concerns/UI will require overhaul.md"
+    "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-2-f047c80d.png"
   ]
 }
