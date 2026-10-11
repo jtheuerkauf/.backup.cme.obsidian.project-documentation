@@ -1,0 +1,235 @@
+{
+  "main": {
+    "id": "7ba38cbf7b33c7ab",
+    "type": "split",
+    "children": [
+      {
+        "id": "278a1f8b97d711c7",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "fc0b21bf5c786bff",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "fd6ae4feec34adf0",
+    "type": "split",
+    "children": [
+      {
+        "id": "0a166820e107c9e1",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "69bef66036e116dd",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "50bc7827df50b1eb",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "6e55b715e30b9728",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 310.5
+  },
+  "right": {
+    "id": "bc30929d0bbcdc6c",
+    "type": "split",
+    "children": [
+      {
+        "id": "a104b8d8c391b634",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "90b71b35ff469e84",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "9969d8463576c942",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "HCA Tracker Collection.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from HCA Tracker Collection"
+            }
+          },
+          {
+            "id": "dd38cdf2cc78420c",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "30670936445b30c8",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "71e0a6edd553f974",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "HCA Tracker Collection.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of HCA Tracker Collection"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "obsidian-git:Open Git source control": false,
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false,
+      "obsidian-gitlab-issues:Gitlab Issues": false
+    }
+  },
+  "active": "fc0b21bf5c786bff",
+  "lastOpenFiles": [
+    "Gitlab Issues/Configuration Overhaul.md",
+    "Gitlab Issues/git-switch - Add -composer dump-autoload-.md",
+    "Gitlab Issues/Add -cruise artisan optimizeclear- after branch switch.md",
+    "Gitlab Issues/Email search Access Control.md",
+    "Gitlab Issues/Add listed packages to base installation.md",
+    "Gitlab Issues/Downgrade PHP -- 8.2.md",
+    "Gitlab Issues/Fixes for ports, composer.json, vite, etc..md",
+    "Gitlab Issues/Consolidate Dockerfiles.md",
+    "Gitlab Issues/Fill .env.example with all needed variables.md",
+    "Gitlab Issues/Consolidate compose.-.yml.md",
+    "Gitlab Issues/Replace -sail- user with -cruise-.md",
+    "Gitlab Issues/Add Migration-Seeding procedure for table and data maintenance.md",
+    "Gitlab Issues/Refactor Build Central Toolset.md",
+    "Gitlab Issues/Email Search MVP Feedback.md",
+    "Gitlab Issues/BuildCentral Project - Salesforce Account link.md",
+    "Gitlab Issues/Defect - Email Dashboard - -Subject- Body- search field is not filtering as expected.md",
+    "Gitlab Issues/Evaluate moving application routes to DB.md",
+    "Gitlab Issues/Master Project – Master Project Management.md",
+    "Gitlab Issues/Reorganize .env.example file to simplify config.md",
+    "Gitlab Issues/Normalize PM Hub Namespaces Across the Application.md",
+    "Gitlab Issues/In-team demo feedback.md",
+    "Gitlab Issues",
+    "Epics/30 - Build Central/Project Issues.md",
+    "epic-28-webtools-in-newrivers/webtools-iframe-20260602-screen-share-call.mp4~RFd22cf16.TMP",
+    "nr-268-email-search-dashboard/ChatGPT Image Jul 13, 2026, 01_29_52 PM.png~RFd22c216.TMP",
+    "nr-268-email-search-dashboard/Search UI base (AP Doc Review).png~RFd22c1c8.TMP",
+    "NewRivers Setup/images/prompt-6-wsl-ready.png~RFd22c18a.TMP",
+    "nr-268-email-search-dashboard/Search UI base (AP Doc Review).pdn~RFd22c14b.TMP",
+    "NewRivers Setup/images/prompt-3-subnet.png~RFd22c013.TMP",
+    "NewRivers Setup/images/prompt-4-host-networking.png~RFd22bff3.TMP",
+    "NewRivers Setup/images/prompt-2-wsl-hosts.png~RFd22bfb5.TMP",
+    "NewRivers Setup/images/prompt-1-wsl-engine.png~RFd22bf86.TMP",
+    "nr-449-build-central/nr-449-part-2 (ticket ID tbd)/BuildCentral + Salesforce Toolset Phase 1.5.md",
+    "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits.md",
+    "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-11-9e8450d4.png",
+    "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-10-ac58843a.png",
+    "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-9-cbadf77f.png",
+    "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-8-dc1d564e.png",
+    "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-7-5d6485bc.png",
+    "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-6-027ff654.png",
+    "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-5-1e83ba76.png",
+    "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-4-7752b4ae.png",
+    "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-3-570a3ed7.png",
+    "nr-449-build-central/CD Project Filtering and Process_Updated 8.21.26 BC Edits attachments/image-2-f047c80d.png",
+    "nr-449-build-central/20260819-transcript.md",
+    "nr-449-build-central/nr-449-part-2 (ticket ID tbd)/UI Concerns/UI will require overhaul.md"
+  ]
+}
